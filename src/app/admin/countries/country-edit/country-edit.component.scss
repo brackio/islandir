@@ -1,0 +1,13 @@
+@import '../../../../media-breakpoints';
+@import '../../../../colors';
+
+:host {
+  display: flex;
+  flex-direction: row;
+  place-content: flex-start center;
+  align-items: flex-start;
+
+  @media (min-width: $gt-sm) {
+    margin: 16px 16px 24px 16px;
+  }
+}

@@ -1,0 +1,117 @@
+@import '../../../colors';
+@import '../../../media-breakpoints';
+
+:host {
+
+  a.app-logo {
+    display: block;
+
+    mat-icon {
+      height: 108px;
+      width: 108px;
+    }
+  }
+
+  .app-info {
+
+    mat-card {
+      background-color: $accent-color;
+      padding: 2.5rem;
+
+      mat-icon {
+        height: 224px;
+        width: 224px;
+      }
+    }
+  }
+
+  .app-signup {
+
+    @media(min-width: $gt-sm) {
+      margin-left: -20px;
+    }
+
+    mat-card {
+
+      @media(min-width: $gt-sm) {
+        padding-left: 36px;
+      }
+
+      .form-group {
+        mat-hint {
+          color: grey;
+        }
+      }
+
+      .social-box {
+        margin-bottom: 1rem;
+
+        button {
+          border: 2px solid #bdbdbd;
+
+          mat-icon {
+            color: #9E9E9E;
+          }
+
+          &:hover {
+            background-color: #f2f2f2;
+          }
+
+          &.btn-facebook:hover {
+            mat-icon {
+              color: $facebook-theme;
+            }
+          }
+
+          &.btn-twitter:hover {
+            mat-icon {
+              color: $twitter-theme;
+            }
+          }
+        }
+      }
+
+      .footer {
+        text-align: center;
+        border-top: 1px solid $divider-color;
+
+        a {
+          text-decoration: none;
+        }
+      }
+
+      p.accept-terms {
+        padding: 1rem 0 .5rem 0;
+        color: $text-muted;
+        a {
+          color: $text-muted;
+        }
+      }
+    }
+  }
+
+  .terms-list  {
+
+    a {
+      color: $text-muted;
+      font-size: 14px;
+    }
+
+    .copyright {
+      color: $text-gray;
+    }
+  }
+
+
+  .app-signedUp {
+    text-align: center;
+    max-width: 35rem;
+
+    mat-icon {
+      font-size: 96px;
+      height: 96px;
+      width: 96px;
+      color: $primary-color;
+    }
+  }
+}

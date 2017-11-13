@@ -1,0 +1,254 @@
+@import '../../media-breakpoints';
+@import '../../colors';
+
+:host {
+  .hero {
+    position: relative;
+    margin: 0;
+    height: 350px;
+    //background-image: url('../../assets/img/hero-beach.jpg');
+    background-color: $primary-color;
+    background-size: cover;
+    //background-position: center center;
+    background-repeat: no-repeat;
+
+    @media(max-width: $xs) {
+      max-height: 300px;
+    }
+
+    .hero-header {
+      min-height: 64px;
+      width: 100%;
+      padding: 0 16px;
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      white-space: nowrap;
+      color: #fff;
+
+      @media(max-width: $xs) {
+        min-height: 56px;
+      }
+    }
+
+    .hero-caption {
+      color: #fff;
+      text-align: center;
+      padding: 4.0rem 0 3.0rem;
+
+      @media(max-width: $xs) {
+        padding-bottom: 2.0rem;
+      }
+
+      h1 {
+        text-shadow: 0 1px 2px rgba(6, 24, 63, .6);
+        margin-bottom: 16px;
+
+        @media(max-width: $xs) {
+          font-size: 1.8rem;
+        }
+
+        @media(min-width: $gt-xs) and (max-width: $sm) {
+          font-size: 2.0rem;
+        }
+      }
+
+      mat-form-field.app-country, h3 {
+        font-size: 18px;
+      }
+
+      mat-form-field {
+
+        &.app-country {
+
+          /deep/ .mat-form-field-underline {
+            background-color: #fff;
+          }
+
+          /deep/ .mat-select-value, /deep/ .mat-select-arrow {
+            color: #fff;
+          }
+
+          /deep/ .mat-select-value {
+            font-weight: 500;
+          }
+        }
+
+      }
+    }
+
+    .hero-logo {
+      height: auto;
+      width: 164px;
+    }
+
+    .hero-search {
+
+      @media(max-width: $xs) {
+        padding: 0 10px;
+      }
+
+      @media(min-width: $gt-xs) and (max-width: $sm) {
+        padding: 0 20px;
+      }
+    }
+
+    .heading {
+      text-shadow: 0 1px 2px rgba(6, 24, 63, .6);
+      color: #fff;
+
+      @media(max-width: $xs) {
+        font-size: 1.8rem;
+        margin: 0 0 24px;
+      }
+
+      @media(min-width: $gt-xs) and (max-width: $sm) {
+        font-size: 2.0rem;
+      }
+    }
+
+    /*.sub-heading {
+      color: #b2ebf2;
+    }
+
+    .top-services {
+      margin-top: 2rem;
+
+      mat-chip {
+        margin-bottom: 8px;
+        margin-left: 4px;
+        margin-right: 4px;
+        background-color: #fff;
+        color: $primary-color-dark;
+        min-width: 80px;
+      }
+    }*/
+  }
+
+  .section {
+    //margin-bottom: 2.4rem;
+    //
+    //@media(max-width: $sm) {
+    //  margin-bottom: 1.25rem;
+    //}
+
+    .topics {
+      mat-card {
+        padding: 2rem 0;
+
+        .card-icon {
+          width: 48px;
+          height: 48px;
+        }
+      }
+    }
+
+    .instructions {
+      padding: 1.8rem 0 1rem;
+      background-color: $primary-color;
+
+      mat-icon {
+        height: 128px;
+        width: 128px;
+      }
+
+      .instructions-summary {
+        color: #fff;
+        text-align: center;
+      }
+    }
+
+    .options {
+      padding: 1rem 2rem;
+      margin-left: 12px;
+      margin-right: 12px;
+
+      @media(min-width: $gt-xs) and (max-width: $sm){
+        height: 150px;
+      }
+
+      @media (min-width: $gt-sm) {
+        max-width: 25rem;
+      }
+
+      &.list-business {
+        background-color: $accent-color;
+        text-align: center;
+
+        @media(max-width: $xs) {
+          margin-bottom: 12px;
+        }
+
+        @media(min-width: $gt-xs) {
+          text-align: right;
+        }
+      }
+
+      &.claim-business {
+        background-color: $primary-color;
+        text-align: center;
+
+        @media(min-width: $gt-xs) {
+          text-align: left;
+        }
+      }
+
+      .options-icon {
+
+        mat-icon {
+          height: 40px;
+          width: 40px;
+        }
+      }
+
+      .options-content {
+        color: #fff;
+
+        .options-title {
+          text-transform: capitalize;
+          text-shadow: 0 1px 2px rgba(6, 24, 63, .6);
+        }
+      }
+    }
+  }
+
+  .section-sign-up {
+    padding: 4rem 0 3rem;
+
+    @media (max-width: $sm) {
+      padding: 3.0rem 0.6rem;
+    }
+    text-align: center;
+
+    .mat-headline {
+      font-size: 28px;
+      font-weight: 500;
+
+      @media (max-width: $xs) {
+        font-size: 20px;
+      }
+
+    }
+
+    .mat-headline, .mat-subheading-2 {
+      color: #363636;
+    }
+
+    .btn-sign-up {
+      padding: 8px;
+      height: 48px;
+      font-size: 16px;
+      width: 350px;
+
+      @media (max-width: $xs) {
+        padding: 4px;
+        width: 75%;
+        font-size: 14px;
+        height:auto;
+      }
+    }
+
+  }
+
+}

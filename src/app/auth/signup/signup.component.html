@@ -1,0 +1,98 @@
+<div fxLayout="row" fxLayoutAlign="center start">
+  <div fxLayout="column" fxLayoutAlign="start stretch">
+
+    <a routerLink="/" fxHide fxShow.gt-sm class="text-center app-logo">
+      <mat-icon svgIcon="islandir-dark"></mat-icon>
+    </a>
+
+    <div fxLayout="row" fxLayoutAlign="center center">
+
+      <div fxFlex="100" fxFlex.gt-sm="32rem" fxFlexOrder="2" class="app-signup">
+        <mat-card [ngClass.lt-md]="'mat-elevation-z0'">
+          <form novalidate autocomplete="off" #signupForm="ngForm" (ngSubmit)="signup(signupForm.value)">
+
+            <a routerLink="/" fxHide fxShow.lt-md class="text-center app-logo"><mat-icon svgIcon="islandir-dark"></mat-icon></a>
+
+            <div fxLayout="column" fxLayoutAlign="start stretch">
+
+              <div class="form-group" fxLayout="column" fxLayout.gt-xs="row"  fxLayoutGap.gt-xs="1rem">
+                <mat-form-field fxFlex class="full-width">
+                  <input matInput [ngModel]="firstname" placeholder="First name" type="text" name="firstname" required>
+                  <mat-error>First name is required.</mat-error>
+                </mat-form-field>
+                <mat-form-field fxFlex class="full-width">
+                  <input matInput [ngModel]="lastname" placeholder="Last name" type="text" name="lastname" required>
+                  <mat-error>Last name is required.</mat-error>
+                </mat-form-field>
+              </div>
+
+
+              <mat-form-field class="full-width" style="margin-bottom: 1rem;">
+                <input matInput [ngModel]="email" placeholder="Email" type="text" name="email" pattern="[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$" required>
+                <mat-error>Please enter a valid email address.</mat-error>
+                <mat-hint>Your email is used for account verification and will never to shared with anyone.</mat-hint>
+              </mat-form-field>
+
+              <mat-form-field class="full-width">
+                <input matInput [ngModel]="password" placeholder="Password" type="password" name="password" pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d$@$!%*?&.]{6,}" required>
+                <mat-error>Use at least 6 characters. Include both an uppercase letter and a number.</mat-error>
+                <mat-hint>Use at least 6 characters. Include both an uppercase letter and a number.</mat-hint>
+              </mat-form-field>
+
+              <p class="mat-caption accept-terms">By clicking on "Create an account" below you are agreeing to the <a routerLink="/terms-of-service">Terms of Service</a> and the <a routerLink="/privacy-policy">Privacy Policy.</a> </p>
+
+              <button class="text-upper oval-corners full-width" mat-raised-button color="primary"[disabled]="signupForm.invalid" type="submit">Create an account</button>
+
+              <h5 class="text-center mat-body-2" style="color: #999;">Or use your social network</h5>
+
+              <div fxLayout="row" fxLayoutAlign="center center" class="social-box" fxLayoutGap="14px">
+                <button type="button" mat-button class="oval-corners btn-facebook">
+                  <mat-icon svgIcon="facebook"></mat-icon>
+                </button>
+                <button type="button" mat-button class="oval-corners btn-twitter">
+                  <mat-icon svgIcon="twitter"></mat-icon>
+                </button>
+              </div>
+
+            </div>
+
+          </form>
+          <div class="footer">
+            <p class="mat-body-1">Already have an account? <a routerLink="/login">Sign in</a></p>
+          </div>
+
+        </mat-card>
+      </div>
+
+      <div fxFlex="100" fxFlex.gt-sm="26rem" fxFlexOrder="1" fxHide.lt-md class="app-info">
+        <mat-card class="mat-elevation-z4">
+          <div fxLayout="column" fxLayoutAlign="center center" class="mat-typography">
+
+            <mat-icon svgIcon="make-money"></mat-icon>
+
+            <h2>lkasdf;lskdjf;adlsjf</h2>
+
+            <h3>lkasdf;lskdjf;adlsjf</h3>
+
+            <h3>lkasdf;lskdjf;adlsjf</h3>
+
+            <h3>lkasdf;lskdjf;adlsjf</h3>
+          </div>
+        </mat-card>
+      </div>
+
+    </div>
+
+
+    <mat-nav-list class="terms-list" fxLayout="row" fxLayoutAlign="center center" fxLayoutWrap>
+      <a mat-list-item routerLink="/terms-of-service">Terms of Service</a>
+      <a mat-list-item routerLink="/privacy-policy">Privacy Policy</a>
+      <a mat-list-item routerLink="/help">Help</a>
+    </mat-nav-list>
+
+    <p class="text-center mat-caption copyright">© Copyright {{currentYear}}. All rights reserved.</p>
+
+  </div>
+
+
+</div>

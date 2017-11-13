@@ -1,0 +1,41 @@
+<ilr-navbar-business></ilr-navbar-business>
+
+<div class="cover">
+
+</div>
+
+<div class="details" fxLayout="row" fxLayoutAlign.gt-xs="center center">
+  <div fxFlex.gt-md="68rem" fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap.gt-xs="1rem">
+
+    <div class="info-details" fxFlex.gt-xs="35">
+      <mat-card class="mat-typography">
+        <h2>{{business.name}}</h2>
+        <mat-card-content>
+          <span *ngFor="let service of business.services; let last=last;">
+            {{service.name}}{{ last ? '' : ', ' }}
+          </span>
+        </mat-card-content>
+      </mat-card>
+
+
+    </div>
+
+    <div class="content-details" fxFlex.gt-xs="65">
+      <mat-tab-group class="details-tab">
+        <mat-tab label="Review">
+          <h1>Some tab content</h1>
+          <p>...</p>
+        </mat-tab>
+        <mat-tab label="Photos">
+          <h1>Some more tab content</h1>
+          <p>...</p>
+        </mat-tab>
+      </mat-tab-group>
+
+    </div>
+  </div>
+
+</div>
+
+
+<a mat-raised-button routerLink="edit">Edit</a>

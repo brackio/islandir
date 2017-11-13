@@ -1,0 +1,43 @@
+<div fxFlex="100" fxFlex.gt-sm="80rem" class="mat-elevation-z1 mat-typography">
+  <mat-table class="table-hover" #table [dataSource]="dataSource"
+            matSort matSortActive="name" matSortDisableClear matSortDirection="asc">
+
+    <ng-container cdkColumnDef="name">
+      <mat-header-cell *cdkHeaderCellDef mat-sort-header disableClear="true"> Name </mat-header-cell>
+      <mat-cell *cdkCellDef="let row" class="cell-name">
+        <i class="cell-icon flag flag-{{row.code}}"></i>
+        {{row.name}} </mat-cell>
+    </ng-container>
+
+    <ng-container cdkColumnDef="code">
+      <mat-header-cell *cdkHeaderCellDef mat-sort-header disableClear="true"> Code </mat-header-cell>
+      <mat-cell *cdkCellDef="let row" class="cell-hits"> {{row.code}} </mat-cell>
+    </ng-container>
+
+    <ng-container cdkColumnDef="territories">
+      <mat-header-cell *cdkHeaderCellDef mat-sort-header disableClear="true"> Territories </mat-header-cell>
+      <mat-cell *cdkCellDef="let row" class="cell-synonyms"> {{row.territories }} </mat-cell>
+    </ng-container>
+
+    <ng-container cdkColumnDef="zip">
+      <mat-header-cell *cdkHeaderCellDef  mat-sort-header disableClear="true"> Zip </mat-header-cell>
+      <mat-cell *cdkCellDef="let row" class="cell-approved"> {{row.zip}} </mat-cell>
+    </ng-container>
+
+    <mat-header-row *cdkHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *cdkRowDef="let row; columns: displayedColumns;"
+            (click)="onCountrySelected(row)">
+    </mat-row>
+  </mat-table>
+
+  <mat-paginator #paginator
+                 [length]="dataSource.totalItems"
+                 [pageIndex]="pageIndex"
+                 [pageSize]="pageSize"
+                 [pageSizeOptions]="pageLimitOptions"
+                 (page)="onPageChange($event)">
+  </mat-paginator>
+
+</div>
+
+<a routerLink="new" mat-fab class="page-fab md-24" color="accent"><mat-icon>add</mat-icon></a>

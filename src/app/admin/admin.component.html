@@ -1,0 +1,40 @@
+<!--<mat-toolbar class="mat-elevation-z1" color="primary">-->
+  <!--<button fxHide.gt-sm mat-icon-button (click)="sidenav.toggle()">-->
+    <!--<mat-icon>menu</mat-icon>-->
+  <!--</button>-->
+  <!--<span fxFlex></span>-->
+  <!--<ilr-account-login></ilr-account-login>-->
+  <!--&lt;!&ndash;<mat-select class="nav-country" (ngModelChange)="countryChanged($event)" [(ngModel)]="selectedCountry">&ndash;&gt;-->
+  <!--&lt;!&ndash;<mat-option *ngFor="let country of countries" [value]="country.code">{{country.code.toUpperCase()}}</mat-option>&ndash;&gt;-->
+  <!--&lt;!&ndash;</mat-select>&ndash;&gt;-->
+<!--</mat-toolbar>-->
+
+<ilr-navbar-admin></ilr-navbar-admin>
+
+<mat-sidenav-container>
+  <mat-sidenav #sidenav
+    class="sidenav"
+    fixedInViewport="true"
+    fixedTopGap="{{isMobileView? 0 : 64}}"
+    mode="{{isMobileView?'over':'side'}}"
+    opened="{{!isMobileView}}"
+    disableClose="{{!isMobileView}}">
+
+
+    <mat-nav-list *ngFor="let nav of navLinks">
+      <a mat-list-item routerLinkActive="active" class="list-item"
+         [routerLinkActiveOptions]="{ exact: nav.options.exactLink }"
+         [routerLink]="nav.link">
+        <mat-icon mat-list-icon>{{nav.icon}}</mat-icon>
+        {{nav.name}}
+      </a>
+    </mat-nav-list>
+
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+
+    <router-outlet></router-outlet>
+  </mat-sidenav-content>
+
+</mat-sidenav-container>

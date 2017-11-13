@@ -1,0 +1,75 @@
+@import '../../../colors';
+
+:host {
+
+  a.app-logo {
+    display: block;
+
+    mat-icon {
+      height: 108px;
+      width: 108px;
+    }
+  }
+
+  mat-card {
+
+    .social-box {
+      margin-bottom: 1rem;
+
+      button {
+        border: 2px solid #bdbdbd;
+
+        mat-icon {
+          color: #9E9E9E;
+        }
+
+        &.btn-facebook:hover {
+          mat-icon {
+            color: $facebook-theme;
+          }
+        }
+
+        &.btn-twitter:hover {
+          mat-icon {
+            color: $twitter-theme;
+          }
+        }
+      }
+    }
+
+    .forgot-password {
+      text-decoration: none;
+      color: rgba(0,0,0,.87);
+      text-align: right;
+      margin-bottom: 8px;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+
+    .footer {
+      text-align: center;
+      border-top: 1px solid $divider-color;
+
+      a {
+        text-decoration: none;
+      }
+    }
+  }
+
+  .terms-list  {
+
+    a {
+      color: $text-muted;
+      font-size: 14px;
+    }
+
+    .copyright {
+      color: $text-gray;
+    }
+  }
+}
+
+
+

@@ -1,0 +1,53 @@
+<form novalidate [formGroup]="form" (ngSubmit)="onSubmit(form.value)"
+        fxFlex="100" fxFlex.gt-sm="80rem">
+
+  <mat-card>
+    <div *ngIf="editMode" class="pull-right">
+      <button type="button" mat-icon-button [matMenuTriggerFor]="menu">
+        <mat-icon>more_vert</mat-icon>
+      </button>
+      <mat-menu #menu="matMenu">
+        <button type="button" (click)="delete()" mat-menu-item>
+          <mat-icon>delete</mat-icon>
+          <span>Delete</span>
+        </button>
+      </mat-menu>
+    </div>
+
+    <h2 class="mat-h2">Edit Country</h2>
+
+    <mat-card-content>
+      <div fxLayout="column" fxLayoutAlign="start stretch" class="form-content">
+
+        <mat-form-field class="full-width">
+          <input matInput placeholder="Name" formControlName="name" type="text">
+          <mat-error>Name is required.</mat-error>
+        </mat-form-field>
+
+        <mat-form-field>
+          <input matInput placeholder="Code" formControlName="code" type="text">
+          <mat-error>Code is required.</mat-error>
+        </mat-form-field>
+
+        <mat-checkbox
+          color="primary"
+          formControlName="zip">
+          Has Zip Code
+        </mat-checkbox>
+
+        <mat-checkbox
+          color="primary"
+          formControlName="active">
+          Active
+        </mat-checkbox>
+      </div>
+    </mat-card-content>
+
+    <mat-card-footer class="form-card-footer">
+
+      <button type="button" mat-button class="text-upper" (click)="cancel()">Cancel</button>
+      <button type="submit" mat-button [disabled]="!form.valid || form.pristine" class="text-upper" color="primary">Save</button>
+
+    </mat-card-footer>
+  </mat-card>
+</form>

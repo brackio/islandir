@@ -1,0 +1,16 @@
+<form autocomplete="off" novalidate (ngSubmit)="onSubmit(searchInput.value)" #searchForm="ngForm" fxLayout="row" fxLayoutAlign="center center">
+  <div class="search" fxFlex="100" fxFlex.gt-sm="872px">
+    <div class="search-wrapper mat-elevation-z1">
+      <input class="search full-width" type="text" #searchInput  aria-label="Business Search"
+         (keyup)="search(searchInput.value)"
+         [matAutocomplete]="auto"
+         placeholder="Search businesses or services">
+    </div>
+
+    <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onOptionSelected($event)" [displayWith]="displayFn">
+      <mat-option *ngFor="let option of keywords | async | searchOptions" [value]="option">
+        <mat-icon class="align-middle autocomplete-icon">{{option.icon}}</mat-icon> {{ option.text }}
+      </mat-option>
+    </mat-autocomplete>
+  </div>
+</form>

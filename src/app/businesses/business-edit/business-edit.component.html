@@ -1,0 +1,99 @@
+<!--
+<div class="app-container" fxLayout="column" fxLayoutAlign="start stretch">
+  <ilr-navbar-home></ilr-navbar-home>
+
+  <mat-sidenav-container fxFlex>
+    <mat-sidenav class="" #sidenav mode="side" align="start" opened="true">
+      <div class="info">
+        <div class="mat-title"><mat-icon>business</mat-icon> {{business.name}}</div>
+        <span class="mat-body-1">Last updated: {{business.updatedAt | date }}</span>
+      </div>
+
+      <mat-nav-list>
+        <a mat-list-item class="list-item" routerLinkActive="active"
+           [routerLinkActiveOptions]="{ exact: true }" routerLink=".">
+          <mat-icon mat-list-icon>store</mat-icon>
+          <h4 matLine>Info</h4>
+        </a>
+
+        <a mat-list-item class="list-item" routerLinkActive="active"
+           [routerLinkActiveOptions]="{ exact: true }" routerLink="photos">
+          <mat-icon mat-list-icon>photos_library</mat-icon>
+          <h4 matLine>Photos</h4>
+        </a>
+
+        <a mat-list-item class="list-item" routerLinkActive="active"
+           [routerLinkActiveOptions]="{ exact: true }" routerLink="reviews">
+          <mat-icon mat-list-icon>rate_review</mat-icon>
+          <h4 matLine>Reviews</h4>
+        </a>
+      </mat-nav-list>
+    </mat-sidenav>
+    <div class="mat-content">
+      <router-outlet></router-outlet>
+    </div>
+
+  </mat-sidenav-container>
+</div>
+-->
+
+<ilr-navbar-business></ilr-navbar-business>
+
+<mat-sidenav-container>
+  <mat-sidenav #sidenav
+    class=""
+    fixedInViewport="true"
+    fixedTopGap="{{isMobileView? 0 : 64}}"
+    mode="{{isMobileView?'over':'side'}}"
+    opened="{{!isMobileView}}"
+    disableClose="{{!isMobileView}}">
+    <div class="info">
+        <div class="mat-title title"><mat-icon class="icon">business</mat-icon>{{business.name}}</div>
+        <div class="mat-body-2">{{business.address?.street}}</div>
+        <div class="mat-body-2">{{business.address?.country.name}}</div>
+        <div class="mat-body-1 text-muted">Last updated: {{business.updatedAt | date }}</div>
+    </div>
+
+    <mat-nav-list>
+      <!--<a mat-list-item class="list-item" routerLinkActive="active"-->
+         <!--[routerLinkActiveOptions]="{ exact: true }" routerLink=".">-->
+        <!--<mat-icon mat-list-icon>dashboard</mat-icon>-->
+        <!--<h4 matLine>Home</h4>-->
+      <!--</a>-->
+
+      <a mat-list-item class="list-item" routerLinkActive="active"
+         [routerLinkActiveOptions]="{ exact: true }" routerLink=".">
+        <mat-icon mat-list-icon>info</mat-icon>
+        <h4 matLine>Info</h4>
+      </a>
+
+      <a mat-list-item class="list-item" routerLinkActive="active"
+         [routerLinkActiveOptions]="{ exact: true }" routerLink="photos">
+        <mat-icon mat-list-icon>photos_library</mat-icon>
+        <h4 matLine>Photos</h4>
+      </a>
+
+      <a mat-list-item class="list-item" routerLinkActive="active"
+         [routerLinkActiveOptions]="{ exact: true }" routerLink="reviews">
+        <mat-icon mat-list-icon>rate_review</mat-icon>
+        <h4 matLine>Reviews</h4>
+      </a>
+
+      <mat-divider></mat-divider>
+
+      <a mat-list-item class="list-item" routerLinkActive="active"
+         [routerLinkActiveOptions]="{ exact: true }" routerLink="reviews">
+        <mat-icon mat-list-icon>add_location</mat-icon>
+        <h4 matLine>Add new location</h4>
+      </a>
+
+
+      <mat-divider></mat-divider>
+
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <router-outlet></router-outlet>
+  </mat-sidenav-content>
+
+</mat-sidenav-container>

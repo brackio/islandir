@@ -1,0 +1,17 @@
+<a *ngIf="!auth.isAuthenticated()" mat-button class="text-upper" routerLink="/login">sign in</a>
+<a *ngIf="!auth.isAuthenticated()" mat-raised-button color="accent" class="text-upper" routerLink="/signup">sign up</a>
+
+<button class="avatar" mat-button [matMenuTriggerFor]="mdUserMenu" *ngIf="auth.isAuthenticated()">
+  <img class="avatar-icon" [src]="user.picture" alt="profile_image">
+  <span class="user-name mat-subheading-2">{{user.firstname}}</span>
+  <mat-icon fxHide.lt-sm>arrow_drop_down</mat-icon>
+</button>
+
+<mat-menu #mdUserMenu="matMenu" [overlapTrigger]="true">
+  <a *ngIf="auth.isAdmin()" mat-menu-item routerLink="/admin">Admin</a>
+  <a mat-menu-item routerLink="/user/profile">Profile</a>
+  <a mat-menu-item routerLink="/user/account">Account Settings</a>
+  <mat-divider></mat-divider>
+  <button mat-menu-item (click)="auth.logout()">Signout</button>
+</mat-menu>
+

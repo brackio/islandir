@@ -1,0 +1,323 @@
+<form fxFlex="100" fxFlex.gt-sm="60rem" class="profile" novalidate [formGroup]="form" (ngSubmit)="save(form.value)">
+  <mat-accordion>
+
+    <mat-expansion-panel #panelProfile>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <mat-icon color="primary">business</mat-icon>
+          <div class="title" fxHide.xs>Business Information</div>
+        </mat-panel-title>
+
+        <mat-panel-description>
+          {{!panelProfile.expanded ? business.name : 'Type the name of your business'}}
+        </mat-panel-description>
+
+      </mat-expansion-panel-header>
+
+      <div fxLayout="row" fxLayoutAlign="space-between start">
+
+        <!--<div class="col-icon img-uploader" fxFlex="64px">-->
+          <!--<mat-icon>store</mat-icon>-->
+        <!--</div>-->
+
+        <div class="col-fields" fxFlex>
+          <mat-form-field class="full-width">
+            <input matInput type="text" maxlength="100" placeholder="Business Name" id="name" formControlName="name">
+            <mat-error *ngIf="name.errors?.required">
+              Name is <strong>required</strong>
+            </mat-error>
+            <mat-error *ngIf="name.errors?.minlength">
+              Name must be at least 2 characters long.
+            </mat-error>
+            <mat-error *ngIf="name.errors?.maxlength">
+              Name must not exceed 100 characters.
+            </mat-error>
+            <button mat-button *ngIf="name.value" matSuffix mat-icon-button aria-label="Clear" (click)="name=''">
+              <mat-icon>close</mat-icon>
+            </button>
+          </mat-form-field>
+
+          <mat-form-field class="full-width">
+            <input matInput placeholder="Slug" id="slug" formControlName="slug">
+          </mat-form-field>
+
+          <mat-form-field class="full-width">
+            <textarea matInput maxlength="300" placeholder="Description" matTextareaAutosize matAutosizeMinRows="2"
+              matAutosizeMaxRows="5" id="description" formControlName="description"></textarea>
+            <mat-hint align="end">{{description.value.length}} / 300</mat-hint>
+            <mat-error *ngIf="description.errors?.maxlength">
+              Description must not exceed 300 characters.
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <p class="item-description mat-caption" fxFlex="40" fxHide.lt-md>
+          Enter your business name as it appears to customers.
+        </p>
+
+      </div>
+
+      <mat-action-row>
+        <button type="button" mat-button class="text-upper">Cancel</button>
+        <button type="submit" mat-button color="primary" class="text-upper">Save</button>
+      </mat-action-row>
+    </mat-expansion-panel>
+
+    <mat-expansion-panel #panelLocation>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <mat-icon color="primary">location_on</mat-icon>
+          <div class="title" fxHide.xs>Location</div>
+        </mat-panel-title>
+
+        <mat-panel-description>
+          {{!panelLocation.expanded ? business.address.country.name : 'Enter the location details of your business'}}
+        </mat-panel-description>
+
+      </mat-expansion-panel-header>
+
+      <div fxLayout="row" fxLayoutAlign="space-between start">
+
+        <div class="col-fields" fxFlex formGroupName="address">
+
+          <div formGroupName="country">
+            <mat-form-field floatPlaceholder="never" class="full-width">
+              <mat-select formControlName="code" aria-label="Select Country" placeholder="Select Country" (change)="onCountrySelected($event)" >
+                <mat-option *ngFor="let country of countries" [value]="country.code" >{{ country.name }}</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+
+          <mat-form-field floatPlaceholder="never" *ngIf="!!territories && !!territories?.length" class="full-width">
+            <mat-select formControlName="territory" aria-label="Select Territory" placeholder="Select Country">
+              <mat-option *ngFor="let territory of territories" [value]="territory" >{{ territory }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field floatPlaceholder="never" class="full-width">
+            <input type="text" matInput placeholder="Street Address" formControlName="street">
+          </mat-form-field>
+
+          <mat-form-field floatPlaceholder="never" class="full-width">
+            <input type="text" matInput placeholder="City" formControlName="city">
+          </mat-form-field>
+
+          <mat-form-field floatPlaceholder="never" *ngIf="hasZipCode">
+            <input type="text" matInput maxlength="5" placeholder="Zip Code" formControlName="zip">
+          </mat-form-field>
+
+        </div>
+
+        <agm-map [latitude]="lat" [longitude]="lng"  class="location-map" fxFlex="40" fxHide.lt-md>
+          <agm-marker [latitude]="lat" [longitude]="lng"></agm-marker>
+        </agm-map>
+      </div>
+
+      <mat-action-row>
+        <button type="button" mat-button class="text-upper">Cancel</button>
+        <button type="submit" mat-button color="primary" class="text-upper">Save</button>
+      </mat-action-row>
+    </mat-expansion-panel>
+
+    <mat-expansion-panel #panelContact>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <mat-icon color="primary">contact_phone</mat-icon>
+          <div class="title" fxHide.xs>Contact</div>
+        </mat-panel-title>
+
+        <mat-panel-description>
+          {{!panelContact.expanded ? business.address.country : 'Enter the location details of your business'}}
+        </mat-panel-description>
+
+      </mat-expansion-panel-header>
+
+
+      <mat-action-row>
+        <button type="button" mat-button class="text-upper">Cancel</button>
+        <button type="submit" mat-button color="primary" class="text-upper">Save</button>
+      </mat-action-row>
+    </mat-expansion-panel>
+
+    <mat-expansion-panel #panelSocial>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <mat-icon color="primary">share</mat-icon>
+          <div class="title" fxHide.xs>Social</div>
+        </mat-panel-title>
+
+        <mat-panel-description>
+          {{!panelSocial.expanded ? business.address.country : 'Enter the location details of your business'}}
+        </mat-panel-description>
+
+      </mat-expansion-panel-header>
+
+
+      <mat-action-row>
+        <button type="button" mat-button class="text-upper">Cancel</button>
+        <button type="submit" mat-button color="primary" class="text-upper">Save</button>
+      </mat-action-row>
+    </mat-expansion-panel>
+
+    <mat-expansion-panel #panelServices>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <mat-icon color="primary">work</mat-icon>
+          <div class="title" fxHide.xs>Services</div>
+        </mat-panel-title>
+
+        <mat-panel-description>
+          {{!panelServices.expanded ? business.address.country : 'Enter the location details of your business'}}
+        </mat-panel-description>
+
+      </mat-expansion-panel-header>
+
+
+      <mat-action-row>
+        <button type="button" mat-button class="text-upper">Cancel</button>
+        <button type="submit" mat-button color="primary" class="text-upper">Save</button>
+      </mat-action-row>
+    </mat-expansion-panel>
+
+  </mat-accordion>
+</form>
+
+
+<!--
+<div fxLayout.gt-xs="row" fxLayoutAlign.gt-xs="center start">
+  <div fxFlex="100" fxFlex.gt-xs="40rem">
+      <div fxLayout="column">
+
+        <mat-card>
+          <mat-card-content>
+            <mat-nav-list>
+              <mat-list-item class="list-item" (click)="openDialog(business.name, 'name')">
+                <a matLine class="item-field">
+                  <div class="list-item-content">
+                    <div fxFlex="33" class="item-field">Name</div>
+                    <div fxFlex class="item-value">{{business.name}}</div>
+                  </div>
+                </a>
+                <button mat-icon-button class="item-icon-edit">
+                  <mat-icon>edit</mat-icon>
+                </button>
+              </mat-list-item>
+
+               <mat-list-item class="list-item ilr-multi-line" (click)="openDialog(business.address, 'address')">
+                  <a matLine class="item-field" >
+                    <div class="list-item-content">
+                      <div fxFlex="33" class="item-field">Address</div>
+                      <div fxFlex fxLayout="column">
+                        <div class="item-value"><i class="flag flag-{{business.address.country}}" style="vertical-align: middle;"></i> {{business.address.country | countryFullName | async }} </div>
+                        <div class="item-value" style="margin-left: 36px;">{{business.address?.territory}}</div>
+                        <div class="item-value" style="margin-left: 36px;">{{business.address.street}}</div>
+                        <div class="item-value" style="margin-left: 36px;">{{business.address.city}}</div>
+                        <div class="item-value" style="margin-left: 36px;">{{business.address?.zip}}</div>
+                      </div>
+                    </div>
+                    </a>
+                  <button mat-icon-button class="item-icon-edit">
+                    <mat-icon>edit</mat-icon>
+                  </button>
+                </mat-list-item>
+
+                <mat-list-item class="list-item" (click)="openDialog(business.phone, 'phone')">
+                  <a matLine class="item-field">
+                    <div class="list-item-content">
+                      <div fxFlex="33" class="item-field">Phone</div>
+                      <div fxFlex class="item-value" [class.no-value]="!(!!business.phone)">{{business.phone || 'Add phone'}} </div>
+                    </div>
+                  </a>
+                  <button mat-icon-button class="item-icon-edit">
+                    <mat-icon>edit</mat-icon>
+                  </button>
+                </mat-list-item>
+
+                <mat-list-item class="list-item" (click)="openDialog(business.email, 'email')">
+                  <a matLine class="item-field">
+                    <div class="list-item-content">
+                      <div fxFlex="33" class="item-field">Email</div>
+                      <div fxFlex class="item-value" [class.no-value]="!(!!business.email)">{{business.email || 'Add Email'}} </div>
+                    </div>
+                  </a>
+                  <button mat-icon-button class="item-icon-edit">
+                    <mat-icon>edit</mat-icon>
+                  </button>
+                </mat-list-item>
+
+               <mat-list-item class="list-item"  (click)="openDialog(business.website, 'website')">
+                  <a matLine class="item-field">
+                    <div class="list-item-content">
+                      <div fxFlex="33" class="item-field">Website</div>
+                      <div fxFlex class="item-value" [class.no-value]="!(!!business.website)">{{business.website || 'Add website'}} </div>
+                    </div>
+                  </a>
+                  <button mat-icon-button class="item-icon-edit">
+                    <mat-icon>edit</mat-icon>
+                  </button>
+                </mat-list-item>
+
+                <mat-list-item class="list-item ilr-multi-line" (click)="openDialog(business.social, 'social')">
+                  <a matLine class="item-field">
+                    <div class="list-item-content">
+                      <div fxFlex="33" class="item-field">Social</div>
+                      <div fxFlex fxLayout="column">
+                        <div class="item-value" *ngFor="let social of business.social">{{social}}</div>
+                        <div class="item-value no-value" *ngIf="!business.social?.length">Add social</div>
+                      </div>
+                    </div>
+                  </a>
+                  <button mat-icon-button class="item-icon-edit">
+                    <mat-icon>edit</mat-icon>
+                  </button>
+                </mat-list-item>
+
+                <mat-list-item class="list-item ilr-multi-line" (click)="openDialog(business.services, 'services')">
+                  <a matLine class="item-field">
+                    <div class="list-item-content">
+                      <div fxFlex="33" class="item-field">Services</div>
+                      <div fxFlex fxLayout="column">
+                        <div class="item-value" *ngFor="let service of business.services">{{service.name}}</div>
+                        <div class="item-value no-value" *ngIf="!business.services?.length">Add social</div>
+                      </div>
+                    </div>
+                  </a>
+                  <button mat-icon-button class="item-icon-edit">
+                    <mat-icon>edit</mat-icon>
+                  </button>
+                </mat-list-item>
+
+                <mat-list-item class="list-item ilr-multi-line" (click)="openDialog(business.amenities, 'amenities')">
+                  <a matLine class="item-field">
+                    <div class="list-item-content">
+                      <div fxFlex="33" class="item-field">Amenities</div>
+                      <div fxFlex fxLayout="column">
+                        <div class="item-value" *ngFor="let amenity of business.amenities">{{amenity}}</div>
+                        <div class="item-value no-value" *ngIf="!business.amenities?.length">Add amenities</div>
+                      </div>
+                    </div>
+                  </a>
+                  <button mat-icon-button class="item-icon-edit">
+                    <mat-icon>edit</mat-icon>
+                  </button>
+                </mat-list-item>
+
+                <mat-list-item class="list-item ilr-multi-line" (click)="openDialog(business.descriptiion, 'description')">
+                  <a matLine class="item-field">
+                    <div class="list-item-content">
+                      <div fxFlex="33" class="item-field">Description</div>
+                      <div fxFlex class="item-value" [class.no-value]="!(!!business.description)">{{business.description || 'Add description'}} </div>
+                    </div>
+                  </a>
+                  <button mat-icon-button class="item-icon-edit">
+                    <mat-icon>edit</mat-icon>
+                  </button>
+                </mat-list-item>
+            </mat-nav-list>
+
+          </mat-card-content>
+        </mat-card>
+      </div>
+  </div>
+</div>
+-->

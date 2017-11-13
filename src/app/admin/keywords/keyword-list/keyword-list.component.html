@@ -1,0 +1,40 @@
+<div fxFlex="100" fxFlex.gt-sm="80rem" class="mat-elevation-z1 mat-typography">
+  <mat-table class="table-hover" #table [dataSource]="dataSource"
+            matSort matSortActive="name" matSortDisableClear matSortDirection="asc">
+
+    <ng-container cdkColumnDef="name">
+      <mat-header-cell *cdkHeaderCellDef mat-sort-header disableClear="true"> Name </mat-header-cell>
+      <mat-cell *cdkCellDef="let row" class="cell-name"> {{row.name}} </mat-cell>
+    </ng-container>
+
+    <ng-container cdkColumnDef="weight">
+      <mat-header-cell *cdkHeaderCellDef mat-sort-header disableClear="true"> Weight </mat-header-cell>
+      <mat-cell *cdkCellDef="let row" class="cell-weight"> {{row.weight}} </mat-cell>
+    </ng-container>
+
+    <!--<ng-container cdkColumnDef="synonyms">-->
+      <!--<mat-header-cell *cdkHeaderCellDef mat-sort-header disableClear="true"> Synonyms </mat-header-cell>-->
+      <!--<mat-cell *cdkCellDef="let row" class="cell-synonyms"> {{row.synonyms}} </mat-cell>-->
+    <!--</ng-container>-->
+
+    <!--<ng-container cdkColumnDef="approved">-->
+      <!--<mat-header-cell *cdkHeaderCellDef  mat-sort-header disableClear="true"> Approved </mat-header-cell>-->
+      <!--<mat-cell *cdkCellDef="let row" class="cell-approved"> {{row.approved}} </mat-cell>-->
+    <!--</ng-container>-->
+
+    <mat-header-row *cdkHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *cdkRowDef="let row; columns: displayedColumns;"
+            (click)="onKeywordSelected(row)">
+    </mat-row>
+  </mat-table>
+
+  <mat-paginator #paginator
+                [length]="dataSource.totalItems"
+                [pageIndex]="pageIndex"
+                [pageSize]="pageSize"
+                [pageSizeOptions]="pageLimitOptions"
+                (page)="onPageChange($event)">
+  </mat-paginator>
+
+</div>
+<a routerLink="new" mat-fab class="page-fab md-24" color="accent"><mat-icon>add</mat-icon></a>

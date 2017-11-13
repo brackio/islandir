@@ -1,0 +1,28 @@
+@import '../../../colors';
+
+:host {
+
+  mat-toolbar {
+    position: relative;
+    z-index: 1;
+    //flex: 0;
+
+    //position: fixed;
+    //top: 0;
+    //left: 0;
+    //right: 0;
+
+    .nav-country {
+      ::ng-deep .mat-select-underline {
+        height: 0;
+      }
+    }
+
+    .nav-divider {
+      margin: 0 16px;
+      border-left: 1px solid #ccc;
+      border-right: 1px solid whitesmoke;
+      height: 100%;
+    }
+  }
+}

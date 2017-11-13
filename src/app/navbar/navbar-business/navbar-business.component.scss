@@ -1,0 +1,16 @@
+@import '../../../colors';
+
+:host {
+
+  mat-toolbar {
+    position: relative;
+    z-index: 1;
+
+    .app-logo {
+      mat-icon {
+        width: 64px;
+        height: auto;
+      }
+    }
+  }
+}

@@ -1,0 +1,65 @@
+<div fxLayout="row" fxLayoutAlign="center start">
+  <div fxLayout="column" fxLayoutAlign="start stretch" fxFlex="100" fxFlex.gt-sm="30rem">
+
+
+    <a routerLink="/" fxHide fxShow.gt-sm class="text-center app-logo">
+      <mat-icon svgIcon="islandir-dark"></mat-icon>
+    </a>
+
+    <mat-card [ngClass.lt-md]="'mat-elevation-z0'" >
+
+      <a routerLink="/" fxHide fxShow.lt-md class="text-center app-logo"><mat-icon svgIcon="islandir-dark"></mat-icon></a>
+
+
+      <div *ngIf="!!reason" class="ilr-alert alert-{{ ref===1 ? 'success' : 'danger'}} text-center" role="alert">
+        {{reason}}
+      </div>
+      <form novalidate #loginForm="ngForm" (ngSubmit)="login(loginForm.value)">
+
+        <div fxLayout="column" fxLayoutAlign="start stretch">
+
+          <mat-form-field class="full-width">
+            <input matInput [ngModel]="email" placeholder="Email" type="text" name="email" required>
+            <mat-error>Email is required.</mat-error>
+          </mat-form-field>
+
+          <mat-form-field class="full-width">
+            <input matInput [ngModel]="password" placeholder="Password" type="password" name="password" required>
+            <mat-error>Password is required.</mat-error>
+          </mat-form-field>
+
+          <a class="forgot-password mat-body-1" routerLink="/password-reset">Forgot password?</a>
+
+          <button class="text-upper oval-corners full-width" mat-raised-button color="primary" [disabled]="loginForm.invalid" type="submit">Sign In</button>
+
+          <h5 class="text-center mat-body-2" style="color: #999;">Or use your social network</h5>
+
+          <div fxLayout="row" fxLayoutAlign="center center" class="social-box" fxLayoutGap="14px">
+            <button type="button" mat-button class="oval-corners btn-facebook">
+              <mat-icon svgIcon="facebook"></mat-icon>
+            </button>
+            <button type="button" mat-button class="oval-corners btn-twitter">
+              <mat-icon svgIcon="twitter"></mat-icon>
+            </button>
+          </div>
+
+        </div>
+
+      </form>
+
+      <div class="footer">
+        <p class="mat-body-1">Don't have an account? <a routerLink="/signup">Create an account.</a></p>
+      </div>
+    </mat-card>
+
+    <mat-nav-list class="terms-list" fxLayout="row" fxLayoutAlign="center center" fxLayoutWrap>
+      <a mat-list-item routerLink="/terms-of-service">Terms of Service</a>
+      <a mat-list-item routerLink="/privacy-policy">Privacy Policy</a>
+      <a mat-list-item routerLink="/help">Help</a>
+    </mat-nav-list>
+
+    <p class="text-center mat-caption copyright">© Copyright {{currentYear}}. All rights reserved.</p>
+
+
+  </div>
+</div>

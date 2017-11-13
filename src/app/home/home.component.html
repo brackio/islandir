@@ -1,0 +1,118 @@
+<ilr-message
+  *ngIf="auth.isAuthenticated() && !user.verified"
+  [message]="'An email containing verification instructions was sent to ' + user.email + '.'"
+  [messageType]="'warning'"
+  [icon]="'info'">
+</ilr-message>
+
+<div class="hero">
+  <div class="hero-header" fxLayout="row" fxLayoutAlign="space-between center">
+    <div fxHide.xs>
+      <i class="align-middle flag flag-{{country.code}}"></i>
+      <a mat-button class="text-caps" routerLink="/">business owners</a>
+    </div>
+    <!--<a routerLink="/"><mat-icon class="hero-logo" svgIcon="islandir-light"></mat-icon></a>-->
+    <ilr-account-login></ilr-account-login>
+  </div>
+
+  <div class="hero-caption">
+    <!--<h1 fxHide.lt-md class="mat-display-2">Explore your <span class="text-highlight">island</span> 'mon</h1>
+    <h3 class="mat-subheading-2">Find a local doctor, carpenter or mechanic in
+
+      <mat-form-field class="app-country" color="accent">
+        <mat-select [(ngModel)]="country.code" (change)="changeCountry(country)" aria-label="Select Country">
+          <mat-option *ngFor="let country of countries" [value]="country.code" >{{ country.name }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+    </h3>-->
+    <a routerLink="/"><mat-icon class="hero-logo" svgIcon="islandir-light"></mat-icon></a>
+  </div>
+
+  <div class="hero-search">
+    <ilr-search></ilr-search>
+  </div>
+</div>
+
+<!--<div class="section" fxHide fxShow.gt-sm="true">-->
+  <!--<div fxLayout="row" fxLayoutAlign.gt-xs="center center">-->
+    <!--<div class="instructions rounded-corners"-->
+         <!--fxFlex.gt-md="67rem"-->
+         <!--fxLayout="row"-->
+         <!--fxLayoutAlign="space-around center">-->
+      <!--<div fxLayout.gt-sm="column" fxFlex.gt-sm="16rem" fxLayoutAlign.gt-sm="space-between center">-->
+        <!--<mat-icon svgIcon="list-business"></mat-icon>-->
+        <!--<p class="instructions-summary mat-body-1">-->
+          <!--Add your business to our catalog - add pictures, your company’s hours, contact info, and more...-->
+        <!--</p>-->
+      <!--</div>-->
+      <!--<div fxLayout.gt-sm="column" fxFlex.gt-sm="16rem" fxLayoutAlign.gt-sm="space-between center">-->
+        <!--<mat-icon svgIcon="chat"></mat-icon>-->
+        <!--<p class="instructions-summary mat-body-1">-->
+          <!--Be the first to know when people are talking about your business, respond to them as the business owner.-->
+        <!--</p>-->
+      <!--</div>-->
+      <!--<div fxLayout.gt-sm="column" fxFlex.gt-sm="16rem" fxLayoutAlign.gt-sm="space-between center">-->
+        <!--<mat-icon svgIcon="analytics"></mat-icon>-->
+        <!--<p class="instructions-summary mat-body-1">-->
+           <!--See how many times customers visit your business' page, and watch your business grow.-->
+        <!--</p>-->
+      <!--</div>-->
+    <!--</div>-->
+  <!--</div>-->
+<!--</div>-->
+
+<!--
+<div class="section">
+  <div fxLayout="row" fxLayoutAlign.gt-xs="center center">
+    <div class="topics" fxFlex.gt-md="68rem" fxLayout="row" fxLayoutAlign="space-between center" fxLayoutWrap>
+      <mat-card *ngFor="let topic of theme?.topics" class="text-center" fxFlex.xs="45%" fxFlex.gt-xs="22%">
+      </mat-card>
+
+      <mat-card *ngFor="let category of theme?.categories" class="text-center" fxFlex.xs="45%" fxFlex.gt-xs="22%">
+        <mat-icon class="fill-{{category.color}} card-icon" svgIcon="assets:{{category.icon}}"></mat-icon>
+        <mat-card-title class="mat-title text-truncate">{{category.name}}</mat-card-title>
+      </mat-card>
+
+      <mat-card class="text-center" fxFlex.xs="45%" fxFlex.gt-xs="22%">
+        &lt;!&ndash;<mat-icon class="fill-amber-700 card-icon" svgIcon="assets:more-dots"></mat-icon>&ndash;&gt;
+        More Categories
+      </mat-card>
+    </div>
+  </div>
+</div>
+-->
+
+<div class="section-sign-up">
+  <h1 class="mat-headline">Your business, in a good place.</h1>
+  <h3 class="mat-subheading-2">Grow your business today! Bring more customers to your door and turn them into regulars.</h3>
+
+  <a routerLink="/" mat-raised-button color="primary" class="oval-corners text-caps btn-sign-up">
+    learn more and sign up
+  </a>
+
+    <!--<div class="options list-business rounded-corners">-->
+        <!--<div class="options-content">-->
+          <!--<h1 class="mat-title options-title">List your business</h1>-->
+          <!--<p class="mat-body-1">Grow your business today! Bring more customers to your door and turn them into regulars. Update your business details including opening hours, payments options and more.</p>-->
+        <!--</div>-->
+      <!--</div>-->
+
+      <!--<div class="options claim-business rounded-corners">-->
+        <!--<div class="options-content">-->
+          <!--<h1 class="mat-title options-title">Claim your business</h1>-->
+          <!--<p class="mat-body-1">With thousands of local businesses in our catalog your business may already be listed. Claim ownership of your business and receive live updates on customer's reviews and more.</p>-->
+        <!--</div>-->
+      <!--</div>-->
+    <!--</div>-->
+</div>
+
+<hr class="faded">
+
+<div class="section-featured" fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="1rem">
+  <div *ngFor="let category of featuredCategories">
+    <button mat-icon-button >
+      <mat-icon aria-label="featured" svgIcon="{{category.icon}}"></mat-icon>
+    </button>
+  </div>
+</div>

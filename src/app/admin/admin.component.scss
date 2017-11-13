@@ -1,0 +1,78 @@
+@import '../../colors';
+@import '../../media-breakpoints';
+
+:host {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+
+  mat-toolbar {
+    position: relative;
+    z-index: 2;
+
+    .nav-country {
+      ::ng-deep .mat-select-underline {
+        height: 0;
+      }
+    }
+
+    .nav-divider {
+      margin: 0 16px;
+      border-left: 1px solid #ccc;
+      border-right: 1px solid whitesmoke;
+      height: 100%;
+    }
+  }
+
+  mat-sidenav-container{
+    flex: 1;
+
+    .sidenav {
+      width: 260px;
+      background-color: $body-background;
+
+      @media (min-width: $sm) {
+        padding-right: 18px;
+      }
+
+      @media(max-width: $sm) {
+        width: 300px;
+        background-color: #fff;
+      }
+
+      mat-nav-list {
+
+        .list-item {
+          color: #616161;
+          font-size: 15px;
+
+          &:hover {
+            background: rgba(0, 0, 0, 0.04);
+          }
+
+          mat-icon {
+            margin-right: 16px;
+          }
+
+          &.active {
+            color: rgba(0, 0, 0, 0.87);
+            background: rgba(0, 0, 0, 0.06);
+            border-left: 2px solid $primary-color;
+            border-bottom-right-radius: 2px;
+            font-weight: 500;
+
+            mat-icon{
+              color: $primary-color;
+            }
+
+          }
+        }
+      }
+    }
+  }
+
+}

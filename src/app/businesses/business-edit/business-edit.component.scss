@@ -1,0 +1,72 @@
+@import '../../../colors';
+@import '../../../media-breakpoints';
+:host {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+
+  mat-sidenav-container {
+    flex: 1;
+
+    .info, .md-content {
+      padding: 16px;
+    }
+
+    mat-sidenav {
+      background-color: $body-background;
+      width: 280px;
+
+      @media(max-width: $xs) {
+        width: 300px;
+      }
+
+      .info {
+        margin: 4px 0;
+
+        .title {
+          margin-bottom: 0;
+        }
+
+        .icon {
+          vertical-align: text-bottom;
+          margin-right: 8px;
+        }
+      }
+
+      mat-nav-list {
+
+        .list-item {
+          color: #616161;
+          font-size: 15px;
+          margin: 8px 0;
+
+          &:hover {
+            background: rgba(0, 0, 0, 0.04);
+          }
+
+          mat-icon {
+            margin-right: 16px;
+          }
+
+          &.active {
+            color: rgba(0, 0, 0, 0.87);
+            background: rgba(0, 0, 0, 0.06);
+            //border-left: 2px solid $accent-color;
+            border-bottom-right-radius: 2px;
+            font-weight: 500;
+
+            mat-icon {
+              color: $accent-color;
+            }
+          }
+        }
+      }
+    }
+
+  }
+}
+
