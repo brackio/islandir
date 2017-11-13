@@ -116,7 +116,7 @@ export class ServiceEditComponent implements OnInit {
   }
 
   private deleteService(id: string): void {
-    this.serviceService.delete(id).then(
+    this.serviceService.remove(id).then(
       () => {
         this.alertService.deleteAction();
         this.form.markAsPristine();

@@ -87,7 +87,7 @@ export class CategoryService extends DataAccess<Category> {
       .toPromise();
   }
 
-  public remove(id: string): Promise<Category> {
+  public remove(id: string): Promise<any> {
     return this.http.delete<Category>(`${this.baseUrl}/${id}`)
       .toPromise();
   }

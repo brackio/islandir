@@ -1,11 +1,10 @@
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
 
 import { SharedModule } from '../shared/shared.module';
 import { HomeRoutingModule } from './home-routing.module';
 import { SearchModule } from '../search/search.module';
 import { MessageModule } from '../message/message.module';
-import { AccountLoginModule } from '../account-login/account-login.module';
+import { NavbarModule } from '../navbar/navbar.module';
 
 import { HomeComponent } from './home.component';
 import { HomeRedirectComponent } from './home-redirect.component';
@@ -14,11 +13,10 @@ import { HomeResolverService } from './home-resolver.service';
 
 @NgModule({
   imports: [
-    FormsModule,
     SharedModule,
     SearchModule,
     MessageModule,
-    AccountLoginModule,
+    NavbarModule,
     HomeRoutingModule
   ],
   declarations: [

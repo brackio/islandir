@@ -3,18 +3,21 @@ import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/toPromise';
 
-import { IPaging, PagingService } from '../../core/paging.service';
+import { DataAccess } from '../data-access';
+import { PagingService } from '../../core/paging.service';
 import { Service } from './service';
 import { CONFIG } from '../../core/config';
-const servicesUrl: string = CONFIG.baseUrls.services;
 
 @Injectable()
-export class ServiceService{
+export class ServiceService extends DataAccess<Service> {
 
   constructor(
     public http: HttpClient,
     private pagingService: PagingService
-  ) { }
+  ) {
+    super();
+    this.baseUrl = CONFIG.baseUrls.services;
+  }
 
   // public get(limit?: number): Observable<Service[]> {
   //   return this.http.get<Service[]>(`${servicesUrl}`);
@@ -26,43 +29,43 @@ export class ServiceService{
              sortOrder?: string,
              fields?: string[]): Observable<HttpResponse<Service[]>>  {
 
-    const IPaging = this.pagingService.paginate(page, limit);
-    return this.http.get<Service[]>(`${servicesUrl}`,
+    const paging = this.pagingService.paginate(page, limit);
+    return this.http.get<Service[]>(`${this.baseUrl}`,
       {
         observe: 'response',
         params: new HttpParams()
-          .set('page', `${IPaging.page}`)
-          .set('skip', `${IPaging.skip}`)
-          .set('limit', `${IPaging.limit}`)
+          .set('page', `${paging.page}`)
+          .set('skip', `${paging.skip}`)
+          .set('limit', `${paging.limit}`)
           .set('sort', (sortOrder === 'asc' ? '' : '-')  + `${sort}`)
           .set('fields', fields.join())
       });
   }
 
   public getPopular(country: string, limit: number): Observable<Service[]> {
-    return this.http.get<Service[]>(`${servicesUrl}/popular/${country}?limit=${limit}`);
+    return this.http.get<Service[]>(`${this.baseUrl}/popular/${country}?limit=${limit}`);
   }
 
   public findOne(id: string): Promise<Service> {
     return this.http
-      .get<Service>(`${servicesUrl}/${id}`)
+      .get<Service>(`${this.baseUrl}/${id}`)
       .toPromise();
   }
 
   public update(service: Service): Promise<Service> {
     const bodyString = JSON.stringify(service);
-    return this.http.put<Service>(`${servicesUrl}/${service.id}`, bodyString)
+    return this.http.put<Service>(`${this.baseUrl}/${service.id}`, bodyString)
       .toPromise();
   }
 
   public create(service: Service): Promise<Service> {
     const bodyString = JSON.stringify(service);
-    return this.http.post<Service>(`${servicesUrl}`, bodyString)
+    return this.http.post<Service>(`${this.baseUrl}`, bodyString)
       .toPromise();
   }
 
-  public delete(id: string): Promise<any> {
-    return this.http.delete(`${servicesUrl}/${id}`)
+  public remove(id: string): Promise<any> {
+    return this.http.delete(`${this.baseUrl}/${id}`)
       .toPromise();
   }
 

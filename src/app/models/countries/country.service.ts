@@ -3,14 +3,14 @@ import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/toPromise';
 
-import { IPaging, PagingService } from '../../core/paging.service';
+import { DataAccess } from '../data-access';
+import { PagingService } from '../../core/paging.service';
 import { CacheManagerService as Cache } from '../../core/cache-manager.service';
 import { Country } from './country';
 import { CONFIG } from '../../core/config';
-const countriesUrl: string = CONFIG.baseUrls.countries;
 
 @Injectable()
-export class CountryService {
+export class CountryService extends DataAccess<Country> {
   private countries: Country[];
   private currentCountry: Country;
 
@@ -18,7 +18,10 @@ export class CountryService {
     private http: HttpClient,
     private pagingService: PagingService,
     private cache: Cache
-  ) { }
+  ) {
+    super();
+    this.baseUrl = CONFIG.baseUrls.countries;
+  }
 
   get country(): Country {
     return this.currentCountry || this.default();
@@ -43,14 +46,14 @@ export class CountryService {
              sortOrder?: string,
              fields?: string[]): Observable<HttpResponse<Country[]>>  {
 
-    const IPaging = this.pagingService.paginate(page, limit);
-    return this.http.get<Country[]>(`${countriesUrl}`,
+    const paging = this.pagingService.paginate(page, limit);
+    return this.http.get<Country[]>(`${this.baseUrl}`,
       {
         observe: 'response',
         params: new HttpParams()
-          .set('page', `${IPaging.page}`)
-          .set('skip', `${IPaging.skip}`)
-          .set('limit', `${IPaging.limit}`)
+          .set('page', `${paging.page}`)
+          .set('skip', `${paging.skip}`)
+          .set('limit', `${paging.limit}`)
           .set('sort', (sortOrder === 'asc' ? '' : '-')  + `${sort}`)
           .set('fields', fields.join())
       });
@@ -60,7 +63,7 @@ export class CountryService {
     if (this.countries) {
       return Observable.of(this.countries);
     } else {
-      return this.http.get<Country[]>(`${countriesUrl}/active?sort=name`);
+      return this.http.get<Country[]>(`${this.baseUrl}/active?sort=name`);
     }
   }
 
@@ -70,7 +73,7 @@ export class CountryService {
 
   public findOne(code: string): Promise<Country> {
     return this.http
-      .get<Country>(`${countriesUrl}/${code}`)
+      .get<Country>(`${this.baseUrl}/${code}`)
       .toPromise();
   }
 
@@ -82,18 +85,18 @@ export class CountryService {
 
   public update(country: Country): Promise<Country> {
     const bodyString = JSON.stringify(country);
-    return this.http.put<Country>(`${countriesUrl}/${country.id}`, bodyString)
+    return this.http.put<Country>(`${this.baseUrl}/${country.id}`, bodyString)
       .toPromise();
   }
 
   public create(country: Country): Promise<Country> {
     const bodyString = JSON.stringify(country);
-    return this.http.post<Country>(`${countriesUrl}`, bodyString)
+    return this.http.post<Country>(`${this.baseUrl}`, bodyString)
       .toPromise();
   }
 
-  public delete(id: string): Promise<any> {
-    return this.http.delete(`${countriesUrl}/${id}`)
+  public remove(id: string): Promise<any> {
+    return this.http.delete(`${this.baseUrl}/${id}`)
       .toPromise();
   }
 }

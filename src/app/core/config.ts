@@ -3,25 +3,20 @@
  */
 import { environment } from '../../environments/environment';
 
-const serverUrl: string = environment.production ? 'https://api.islandir.com' : 'http://localhost:9000';
-const clientUrl: string = environment.production ? 'https://islandir.com' : 'http://localhost:4200';
-
 export let CONFIG = {
-  appUrl: clientUrl,
   baseUrls: {
-    auth: `${serverUrl}/auth`,
-    users: `${serverUrl}/users`,
-    passwordreset: `${serverUrl}/password-reset`,
-    businesses: `${serverUrl}/businesses`,
-    countries: `${serverUrl}/countries`,
-    categories: `${serverUrl}/categories`,
-    themes: `${serverUrl}/themes`,
-    topics: `${serverUrl}/topics`,
-    services: `${serverUrl}/services`,
-    keywords: `${serverUrl}/keywords`,
-    logs: `${serverUrl}/logs`,
-    notifications: `${serverUrl}/notifications`,
-    businessLogo: `${clientUrl}/assets/uploads/store-0.png`
+    auth: `${environment.apiUrl}/auth`,
+    users: `${environment.apiUrl}/users`,
+    passwordreset: `${environment.apiUrl}/password-reset`,
+    businesses: `${environment.apiUrl}/businesses`,
+    countries: `${environment.apiUrl}/countries`,
+    categories: `${environment.apiUrl}/categories`,
+    themes: `${environment.apiUrl}/themes`,
+    topics: `${environment.apiUrl}/topics`,
+    services: `${environment.apiUrl}/services`,
+    keywords: `${environment.apiUrl}/keywords`,
+    logs: `${environment.apiUrl}/logs`,
+    notifications: `${environment.apiUrl}/notifications`,
   },
   paging: {
     limit: 20,
@@ -48,15 +43,5 @@ export let CONFIG = {
       width: '448px',
       hasBackdrop: false
     }
-  },
-  cloudinary: {
-    cloud_name: 'brackio',
-    upload_preset: 'y76dn5uy'
-  },
-  google_maps: {
-    apiKey: 'AIzaSyArni8aOHxdjWg7Ats5rbQAU9XR56X2gZg'
-  },
-  loggly: {
-    customer_Token: '51410798-0ec0-4c89-8cab-5ecf6fe5be35'
   }
 };

@@ -1,30 +1,51 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/toPromise';
-import * as _ from 'lodash';
 
+import { DataAccess } from '../data-access';
 import { Theme } from './theme';
 import { CONFIG } from '../../core/config';
 import { CategoryService } from '../categories/category.service';
 import { Category } from '../categories/category';
 
 const themesUrl: string = CONFIG.baseUrls.themes;
-const categoriesUrl: string = CONFIG.baseUrls.categories;
 
 @Injectable()
-export class ThemeService {
-
+export class ThemeService extends DataAccess<Theme> {
   constructor(
     private http: HttpClient,
     private categoryService: CategoryService,
-  ) { }
+  ) {
+    super();
+    this.baseUrl = CONFIG.baseUrls.categories;
+  }
 
   // public currentTheme(country: string): Observable<Theme> {
   //   return this.http.get(`${themesUrl}/now/${country}`)
   //     .map(res => this.extractDataService.extractData<Theme>(res))
   //     .catch(this.exceptionService.catchBadResponse);
   // }
+
+  get(page: number, limit: number, sort: string, sortOrder?: string, fields?: string[]): Observable<HttpResponse<Theme[]>> {
+    return undefined;
+  }
+
+  create(item: Theme): Promise<Theme> {
+    return undefined;
+  }
+
+  remove(id: string): Promise<Theme> {
+    return undefined;
+  }
+
+  update(item: Theme): Promise<Theme> {
+    return undefined;
+  }
+
+  findOne(id: string): Promise<Theme> {
+    return undefined;
+  }
 
   public current(country: string, maxCards?: number): Observable<Theme> {
     const cardsToGet: number = maxCards || 7;

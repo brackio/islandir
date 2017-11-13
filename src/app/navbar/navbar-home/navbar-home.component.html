@@ -1,7 +1,8 @@
-<!--<mat-toolbar color="primary" class="mat-elevation-z1">
-  <a routerLink="/"><mat-icon class="toolbar-app-logo" svgIcon="islandir-white-full"></mat-icon></a>
+<mat-toolbar color="primary">
+  <div fxHide.xs>
+    <i class="align-middle flag flag-{{country.code}}"></i>
+    <a mat-button class="text-caps" routerLink="/">business owners</a>
+  </div>
   <span fxFlex></span>
   <ilr-user-nav></ilr-user-nav>
-</mat-toolbar>-->
-
-<ilr-user-nav></ilr-user-nav>
+</mat-toolbar>
