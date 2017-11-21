@@ -4,7 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/toPromise';
 
 import { DataAccess } from '../data-access';
-import { PagingService } from '../../core/paging.service';
+import { Paging } from '../../core/paging';
 import { Keyword } from './keyword';
 import { CONFIG } from '../../core/config';
 
@@ -12,8 +12,7 @@ import { CONFIG } from '../../core/config';
 export class KeywordService extends DataAccess<Keyword> {
 
   constructor(
-    private http: HttpClient,
-    private pagingService: PagingService
+    private http: HttpClient
   ) {
     super();
     this.baseUrl = CONFIG.baseUrls.keywords;
@@ -25,7 +24,7 @@ export class KeywordService extends DataAccess<Keyword> {
              sortOrder?: string,
              fields?: string[]): Observable<HttpResponse<Keyword[]>>  {
 
-    const paging = this.pagingService.paginate(page, limit);
+    const paging = Paging.paginate(page, limit);
     return this.http.get<Keyword[]>(`${this.baseUrl}`,
       {
         observe: 'response',

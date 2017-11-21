@@ -26,9 +26,7 @@ export class KeywordEditComponent implements OnInit {
     private errorHandler: ErrorHandler,
     private dialogsService: DialogsService,
     private fb: FormBuilder
-  ) {
-    this.createForm();
-  }
+  ) { }
 
   ngOnInit() {
     const param = this.route.snapshot.paramMap.get('id');
@@ -39,7 +37,7 @@ export class KeywordEditComponent implements OnInit {
     this.route.data
       .subscribe((data: { keyword: Keyword }) => {
         this.keyword = data.keyword;
-        this.init(this.keyword);
+        this.createForm(this.keyword);
       });
   }
 
@@ -104,25 +102,12 @@ export class KeywordEditComponent implements OnInit {
   //   console.log(this.keyword.synonyms);
   // }
 
-  private createForm(): void {
+  private createForm(keyword: Keyword): void {
     this.form = this.fb.group({
-      id: '',
-      name: ['', [Validators.required]],
-      hits: ['', [Validators.required]],
-      approved: ['', [Validators.required]],
-      synonyms: this.fb.array([])
-    });
-  }
+      id: keyword.id,
+      name: [keyword.name, [Validators.required]],
+      weight: [this.keyword.weight, [Validators.required]],
 
-  private init(keyword: Keyword): void {
-    // this.form.setControl('synonyms', this.fb.array(keyword.synonyms));
-
-    this.form.setValue({
-      id: keyword.id || '',
-      name: keyword.name || '',
-      weight: keyword.weight || 0,
-      // approved: keyword.approved || false,
-      // synonyms: keyword.synonyms || []
     });
   }
 

@@ -4,7 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/toPromise';
 
 import { DataAccess } from '../data-access';
-import { PagingService } from '../../core/paging.service';
+import { Paging } from '../../core/paging';
 import { CacheManagerService as Cache } from '../../core/cache-manager.service';
 import { Country } from './country';
 import { CONFIG } from '../../core/config';
@@ -16,7 +16,6 @@ export class CountryService extends DataAccess<Country> {
 
   constructor(
     private http: HttpClient,
-    private pagingService: PagingService,
     private cache: Cache
   ) {
     super();
@@ -46,7 +45,7 @@ export class CountryService extends DataAccess<Country> {
              sortOrder?: string,
              fields?: string[]): Observable<HttpResponse<Country[]>>  {
 
-    const paging = this.pagingService.paginate(page, limit);
+    const paging = Paging.paginate(page, limit);
     return this.http.get<Country[]>(`${this.baseUrl}`,
       {
         observe: 'response',

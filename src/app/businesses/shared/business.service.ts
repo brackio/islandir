@@ -4,7 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/toPromise';
 
 import { DataAccess } from '../../models/data-access';
-import { PagingService } from '../../core/paging.service';
+import { Paging } from '../../core/paging';
 import { Business } from './business';
 import { CONFIG } from '../../core/config';
 
@@ -13,8 +13,7 @@ const pageLimit: number = CONFIG.paging.limit;
 @Injectable()
 export class BusinessService extends DataAccess<Business> {
   constructor(
-    private http: HttpClient,
-    private pagingService: PagingService
+    private http: HttpClient
   ) {
     super();
     this.baseUrl = CONFIG.baseUrls.businesses;
@@ -26,7 +25,7 @@ export class BusinessService extends DataAccess<Business> {
              sortOrder?: string,
              fields?: string[]): Observable<HttpResponse<Business[]>> {
 
-    const paging = this.pagingService.paginate(page, limit);
+    const paging = Paging.paginate(page, limit);
     return this.http.get<Business[]>(`${this.baseUrl}`,
     {
         observe: 'response',

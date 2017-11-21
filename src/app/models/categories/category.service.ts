@@ -4,7 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/toPromise';
 
 import { DataAccess } from '../data-access';
-import { PagingService } from '../../core/paging.service';
+import { Paging } from '../../core/paging';
 import { Category } from './category';
 import { CONFIG } from '../../core/config';
 
@@ -12,8 +12,7 @@ import { CONFIG } from '../../core/config';
 export class CategoryService extends DataAccess<Category> {
 
   constructor(
-    private http: HttpClient,
-    private pagingService: PagingService
+    private http: HttpClient
   ) {
     super();
     this.baseUrl = CONFIG.baseUrls.categories;
@@ -25,7 +24,7 @@ export class CategoryService extends DataAccess<Category> {
              sortOrder?: string,
              fields?: string[]): Observable<HttpResponse<Category[]>>  {
 
-    const paging = this.pagingService.paginate(page, limit);
+    const paging = Paging.paginate(page, limit);
     return this.http.get<Category[]>(`${this.baseUrl}`,
       {
         observe: 'response',

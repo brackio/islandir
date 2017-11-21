@@ -8,6 +8,8 @@ import { DialogsModule } from '../../dialogs/dialogs.module';
 import { CategoriesRoutingModule } from './categories-routing.module';
 import { CategoryListComponent } from './category-list/category-list.component';
 import { CategoryEditComponent } from './category-edit/category-edit.component';
+
+import { CategoryService } from '../../models/categories/category.service';
 import { CategoryResolverService} from './shared/category-resolver.service';
 
 @NgModule({
@@ -23,6 +25,7 @@ import { CategoryResolverService} from './shared/category-resolver.service';
     CategoryEditComponent
   ],
   providers: [
+    CategoryService,
     CategoryResolverService
   ]
 })

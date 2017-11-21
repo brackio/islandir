@@ -1,99 +1,160 @@
-<!--
-<div class="app-container" fxLayout="column" fxLayoutAlign="start stretch">
-  <ilr-navbar-home></ilr-navbar-home>
+<div class="cover"></div>
 
-  <mat-sidenav-container fxFlex>
-    <mat-sidenav class="" #sidenav mode="side" align="start" opened="true">
-      <div class="info">
-        <div class="mat-title"><mat-icon>business</mat-icon> {{business.name}}</div>
-        <span class="mat-body-1">Last updated: {{business.updatedAt | date }}</span>
-      </div>
+<div class="card-wrapper">
 
-      <mat-nav-list>
-        <a mat-list-item class="list-item" routerLinkActive="active"
-           [routerLinkActiveOptions]="{ exact: true }" routerLink=".">
-          <mat-icon mat-list-icon>store</mat-icon>
-          <h4 matLine>Info</h4>
-        </a>
+  <div fxLayout="row" fxLayoutAlign="center start">
 
-        <a mat-list-item class="list-item" routerLinkActive="active"
-           [routerLinkActiveOptions]="{ exact: true }" routerLink="photos">
-          <mat-icon mat-list-icon>photos_library</mat-icon>
-          <h4 matLine>Photos</h4>
-        </a>
+    <form novalidate fxFlex="100" fxFlex.gt-sm="40rem" [formGroup]="form">
 
-        <a mat-list-item class="list-item" routerLinkActive="active"
-           [routerLinkActiveOptions]="{ exact: true }" routerLink="reviews">
-          <mat-icon mat-list-icon>rate_review</mat-icon>
-          <h4 matLine>Reviews</h4>
-        </a>
-      </mat-nav-list>
-    </mat-sidenav>
-    <div class="mat-content">
-      <router-outlet></router-outlet>
-    </div>
+      <mat-card>
 
-  </mat-sidenav-container>
+        <div fxLayout="column" fxLayoutAlign="start stretch">
+
+          <div fxLayout="row" fxLayoutGap="1rem">
+            <div fxHide.lt.md>
+              <div class="biz-avatar-wrapper">
+                <div class="biz-avatar-overlay" ilrImageUpload>
+                  <mat-icon>photo_camera</mat-icon>
+                </div>
+              </div>
+
+            </div>
+            <div fxFlex>
+              <mat-form-field class="full-width">
+                <input matInput type="text" id="name" formControlName="name" placeholder="Business Name">
+              </mat-form-field>
+
+              <mat-form-field class="full-width">
+                <input matInput type="text" id="slug" formControlName="slug" placeholder="Slug">
+              </mat-form-field>
+            </div>
+          </div>
+
+          <div class="field-row" fxLayout="row" fxLayoutGap="1rem">
+            <mat-icon class="field-icon">location_on</mat-icon>
+
+            <div formGroupName="address" fxFlex fxLayout="column">
+
+              <div formGroupName="country">
+                <mat-form-field class="full-width">
+                  <mat-select id="country" placeholder="Country" formControlName="code" (change)="countryChanged($event)">
+                    <mat-option *ngFor="let country of countries" [value]="country.code">{{ country.name }}</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+
+              <mat-form-field class="full-width" *ngIf="territories.length">
+                <mat-select id="territory" placeholder="Territory" formControlName="territory">
+                  <mat-option *ngFor="let territory of territories" [value]="territory">{{ territory }}</mat-option>
+                </mat-select>
+              </mat-form-field>
+
+              <mat-form-field class="full-width">
+                <input matInput type="text" id="street" formControlName="street" placeholder="Street Address">
+              </mat-form-field>
+
+              <div class="full-width" fxLayout="column" fxLayout.gt-xs="row" fxLayoutAlign.gt-xs="space-between center" fxLayoutGap.gt-xs="1rem">
+                <mat-form-field fxFlex>
+                  <input matInput type="text" id="city" formControlName="city" placeholder="City">
+                </mat-form-field>
+
+                <mat-form-field *ngIf="hasZip">
+                  <input matInput type="text" id="zip" formControlName="zip" placeholder="Zip Code">
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+
+          <div class="field-row align-center" fxLayout="row" fxLayoutGap="1rem">
+            <mat-icon class="field-icon">phone</mat-icon>
+
+            <mat-form-field fxFlex>
+              <input matInput type="tel" id="phone" formControlName="phone" placeholder="Phone">
+            </mat-form-field>
+          </div>
+
+          <div class="field-row align-center" fxLayout="row" fxLayoutGap="1rem">
+            <mat-icon class="field-icon">email</mat-icon>
+
+            <mat-form-field fxFlex>
+              <input matInput type="email" id="email" formControlName="email" placeholder="Email">
+            </mat-form-field>
+          </div>
+
+          <div class="field-row" fxLayout="row" fxLayoutGap="1rem">
+            <mat-icon class="field-icon">work</mat-icon>
+
+            <mat-form-field class="full-width">
+              <mat-chip-list #chipList>
+                <mat-chip *ngFor="let service of business.services" [selectable]="selectable"
+                        [removable]="removable" (remove)="removeService(service)">
+                  {{service.name}}
+                  <mat-icon class="align-middle" matChipRemove *ngIf="removable">cancel</mat-icon>
+                </mat-chip>
+                <input placeholder="Services" #serviceAutocompleteInput
+                       (keyup)="searchServices(serviceAutocompleteInput.value)"
+                       [matAutocomplete]="servicesAutocomplete"
+                       [matChipInputFor]="chipList"
+                       [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                       [matChipInputAddOnBlur]="addOnBlur"
+                       (matChipInputTokenEnd)="addService($event)" />
+              </mat-chip-list>
+              <mat-autocomplete #servicesAutocomplete="matAutocomplete">
+                <mat-option *ngFor="let service of searchedServices | async" [value]="service.name">
+                  {{ service.name }}
+                </mat-option>
+              </mat-autocomplete>
+            </mat-form-field>
+          </div>
+
+          <!--<a class="mat-caption more-info-trigger text-caps" *ngIf="showMoreInfo" (click)="showMoreInfo = !showMoreInfo">Additional Information +</a>-->
+
+        </div>
+        <div class="more-info" fxLayout="column" fxLayoutAlign="start stretch">
+
+          <div class="field-row" [class.align-center]="business.social.length === 0" fxLayout="row" fxLayoutGap="1rem">
+            <mat-icon class="field-icon">public</mat-icon>
+
+            <div fxFlex fxLayout="column">
+              <mat-form-field class="full-width">
+                <input matInput type="url" id="website" formControlName="website" placeholder="Website">
+              </mat-form-field>
+
+              <div formArrayName="social">
+                <mat-form-field class="full-width" *ngFor="let url of social.controls; let i=index;">
+                  <input matInput type="url" pattern="https?://.+" id="social{{i}}" [formControlName]="i" placeholder="">
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+
+          <div class="field-row align-center" fxLayout="row" fxLayoutGap="1rem">
+            <mat-icon class="field-icon">description</mat-icon>
+
+            <mat-form-field fxFlex>
+              <textarea matInput maxlength="300" placeholder="Description" matTextareaAutosize matAutosizeMinRows="2"
+                      matAutosizeMaxRows="5" id="description" formControlName="description"></textarea>
+              <mat-hint align="end">{{description.value.length}} / 300</mat-hint>
+              <mat-error *ngIf="description.errors?.maxlength">
+                Description must not exceed 300 characters.
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+        </div>
+
+
+        <mat-card-actions align="end">
+          <button type="button" mat-button class="text-upper" (click)="cancel()">Cancel</button>
+          <button type="submit" mat-button [disabled]="!form.valid || form.pristine" class="text-upper" color="primary">Save</button>
+        </mat-card-actions>
+
+      </mat-card>
+
+    </form>
+
+  </div>
+
+
+
 </div>
--->
-
-<ilr-navbar-business></ilr-navbar-business>
-
-<mat-sidenav-container>
-  <mat-sidenav #sidenav
-    class=""
-    fixedInViewport="true"
-    fixedTopGap="{{isMobileView? 0 : 64}}"
-    mode="{{isMobileView?'over':'side'}}"
-    opened="{{!isMobileView}}"
-    disableClose="{{!isMobileView}}">
-    <div class="info">
-        <div class="mat-title title"><mat-icon class="icon">business</mat-icon>{{business.name}}</div>
-        <div class="mat-body-2">{{business.address?.street}}</div>
-        <div class="mat-body-2">{{business.address?.country.name}}</div>
-        <div class="mat-body-1 text-muted">Last updated: {{business.updatedAt | date }}</div>
-    </div>
-
-    <mat-nav-list>
-      <!--<a mat-list-item class="list-item" routerLinkActive="active"-->
-         <!--[routerLinkActiveOptions]="{ exact: true }" routerLink=".">-->
-        <!--<mat-icon mat-list-icon>dashboard</mat-icon>-->
-        <!--<h4 matLine>Home</h4>-->
-      <!--</a>-->
-
-      <a mat-list-item class="list-item" routerLinkActive="active"
-         [routerLinkActiveOptions]="{ exact: true }" routerLink=".">
-        <mat-icon mat-list-icon>info</mat-icon>
-        <h4 matLine>Info</h4>
-      </a>
-
-      <a mat-list-item class="list-item" routerLinkActive="active"
-         [routerLinkActiveOptions]="{ exact: true }" routerLink="photos">
-        <mat-icon mat-list-icon>photos_library</mat-icon>
-        <h4 matLine>Photos</h4>
-      </a>
-
-      <a mat-list-item class="list-item" routerLinkActive="active"
-         [routerLinkActiveOptions]="{ exact: true }" routerLink="reviews">
-        <mat-icon mat-list-icon>rate_review</mat-icon>
-        <h4 matLine>Reviews</h4>
-      </a>
-
-      <mat-divider></mat-divider>
-
-      <a mat-list-item class="list-item" routerLinkActive="active"
-         [routerLinkActiveOptions]="{ exact: true }" routerLink="reviews">
-        <mat-icon mat-list-icon>add_location</mat-icon>
-        <h4 matLine>Add new location</h4>
-      </a>
-
-
-      <mat-divider></mat-divider>
-
-    </mat-nav-list>
-  </mat-sidenav>
-  <mat-sidenav-content>
-    <router-outlet></router-outlet>
-  </mat-sidenav-content>
-
-</mat-sidenav-container>

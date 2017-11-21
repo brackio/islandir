@@ -1,7 +1,4 @@
-/**
- * Created by TBaker on 3/20/2017.
- */
-import { Injectable } from '@angular/core';
+
 import { CONFIG } from './config';
 
 export interface IPaging {
@@ -10,11 +7,10 @@ export interface IPaging {
   limit: number;
 }
 
-@Injectable()
-export class PagingService {
+export class Paging {
   constructor() { }
 
-  public paginate(currentPage: number, itemsPerPage?: number): IPaging {
+  static paginate(currentPage: number, itemsPerPage?: number): IPaging {
     if (currentPage < 0 ) { currentPage = 0; }
     const page: number = currentPage + 1;
     const perPage: number = itemsPerPage || CONFIG.paging.limit;

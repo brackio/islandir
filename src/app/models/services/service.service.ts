@@ -4,7 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/toPromise';
 
 import { DataAccess } from '../data-access';
-import { PagingService } from '../../core/paging.service';
+import { Paging } from '../../core/paging';
 import { Service } from './service';
 import { CONFIG } from '../../core/config';
 
@@ -12,8 +12,7 @@ import { CONFIG } from '../../core/config';
 export class ServiceService extends DataAccess<Service> {
 
   constructor(
-    public http: HttpClient,
-    private pagingService: PagingService
+    public http: HttpClient
   ) {
     super();
     this.baseUrl = CONFIG.baseUrls.services;
@@ -29,7 +28,7 @@ export class ServiceService extends DataAccess<Service> {
              sortOrder?: string,
              fields?: string[]): Observable<HttpResponse<Service[]>>  {
 
-    const paging = this.pagingService.paginate(page, limit);
+    const paging = Paging.paginate(page, limit);
     return this.http.get<Service[]>(`${this.baseUrl}`,
       {
         observe: 'response',
@@ -38,6 +37,23 @@ export class ServiceService extends DataAccess<Service> {
           .set('skip', `${paging.skip}`)
           .set('limit', `${paging.limit}`)
           .set('sort', (sortOrder === 'asc' ? '' : '-')  + `${sort}`)
+          .set('fields', fields.join())
+      });
+  }
+
+  public search(query: string,
+                limit?: number,
+                sort?: string,
+                sortOrder?: string,
+                fields?: string[]): Observable<Service[]> {
+    if (query === '') {
+      return Observable.of([]);
+    }
+    return this.http.get<Service[]>(`${this.baseUrl}/search?q=${query}`,
+      {
+        params: new HttpParams()
+          .set('limit', `${limit}`)
+          .set('sort', (sortOrder === 'asc' ? '' : '-') + `${sort}`)
           .set('fields', fields.join())
       });
   }

@@ -26,9 +26,7 @@ export class CategoryEditComponent implements OnInit {
     private alertService: AlertService,
     private dialogsService: DialogsService,
     private fb: FormBuilder
-  ) {
-    this.createForm();
-  }
+  ) { }
 
   ngOnInit(): void {
     const param = this.route.snapshot.paramMap.get('id');
@@ -39,7 +37,7 @@ export class CategoryEditComponent implements OnInit {
     this.route.data
       .subscribe((data: { category: Category }) => {
         this.category = data.category;
-        this.init(this.category);
+        this.createForm(this.category);
       });
   }
 
@@ -86,12 +84,12 @@ export class CategoryEditComponent implements OnInit {
       });
   }
 
-  private createForm(): void  {
+  private createForm(category: Category): void  {
     this.form = this.fb.group({
-      id: '',
-      name: ['', [Validators.required]],
-      icon: ['', [Validators.required]],
-      color: ['', [Validators.required]]
+      id: category.id,
+      name: [category.name, [Validators.required]],
+      icon: [category.icon, [Validators.required]],
+      color: [category.color, [Validators.required]]
     });
   }
 

@@ -1,16 +1,15 @@
-@import '../../colors';
-
 :host {
 
   .ilr-message {
-    padding: 0.4rem 1rem;
+    padding: 0.5rem 1rem;
+    align-self:center;
 
     .message-icon {
       margin-right: 12px;
     }
 
     &.message-warning {
-      background-color: $accent-color-light;
+      background-color: #00838F;
 
       .message-content, .message-icon {
         color: #fff;

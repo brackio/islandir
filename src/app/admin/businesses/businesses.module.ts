@@ -9,6 +9,7 @@ import { BusinessesRoutingModule } from './businesses-routing.module';
 import { BusinessListComponent } from './business-list/business-list.component';
 import { BusinessEditComponent } from './business-edit/business-edit.component';
 
+import { BusinessService } from '../../businesses/shared/business.service';
 import { BusinessResolverService } from '../../businesses/shared/business-resolver.service';
 
 @NgModule({
@@ -24,6 +25,7 @@ import { BusinessResolverService } from '../../businesses/shared/business-resolv
     BusinessEditComponent
   ],
   providers: [
+    BusinessService,
     BusinessResolverService
   ]
 })

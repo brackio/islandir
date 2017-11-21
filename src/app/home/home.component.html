@@ -2,18 +2,21 @@
   *ngIf="auth.isAuthenticated() && !user.verified"
   [message]="'An email containing verification instructions was sent to ' + user.email + '.'"
   [messageType]="'warning'"
+  [position]="'center'"
   [icon]="'info'">
 </ilr-message>
 
+<ilr-navbar-home></ilr-navbar-home>
+
 <div class="hero">
-  <div class="hero-header" fxLayout="row" fxLayoutAlign="space-between center">
+  <!--<div class="hero-header" fxLayout="row" fxLayoutAlign="space-between center">-->
     <!--<div fxHide.xs>-->
       <!--<i class="align-middle flag flag-{{country.code}}"></i>-->
       <!--<a mat-button class="text-caps" routerLink="/">business owners</a>-->
     <!--</div>-->
     <!--<a routerLink="/"><mat-icon class="hero-logo" svgIcon="islandir-light"></mat-icon></a>-->
 
-  </div>
+  <!--</div>-->
 
   <div class="hero-caption">
     <!--<h1 fxHide.lt-md class="mat-display-2">Explore your <span class="text-highlight">island</span> 'mon</h1>
@@ -109,10 +112,10 @@
 
 <hr class="faded">
 
-<div class="section-featured" fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="1rem">
-  <div *ngFor="let category of featuredCategories">
-    <button mat-icon-button >
-      <mat-icon aria-label="featured" svgIcon="{{category.icon}}"></mat-icon>
-    </button>
-  </div>
-</div>
+<!--<div class="section-featured" fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="1rem">-->
+  <!--<div *ngFor="let category of featuredCategories">-->
+    <!--<button mat-icon-button >-->
+      <!--<mat-icon aria-label="featured" svgIcon="{{category.icon}}"></mat-icon>-->
+    <!--</button>-->
+  <!--</div>-->
+<!--</div>-->

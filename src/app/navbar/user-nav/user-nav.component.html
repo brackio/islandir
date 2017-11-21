@@ -2,10 +2,15 @@
 <a *ngIf="!auth.isAuthenticated()" mat-raised-button color="accent" class="text-upper" routerLink="/signup">sign up</a>
 
 <button class="avatar" mat-button [matMenuTriggerFor]="mdUserMenu" *ngIf="auth.isAuthenticated()">
-  <img class="avatar-icon" [src]="user.picture" alt="profile_image">
-  <span class="user-name mat-subheading-2">{{user.firstname}}</span>
-  <mat-icon fxHide.lt-sm>arrow_drop_down</mat-icon>
+  <ngx-avatar name="{{user.nickname}}" style="display: inline-block;"
+              size="40" [round]="true">
+  </ngx-avatar>
+  <div fxHide.xs style="display: inline-block;">
+    <span class="user-name mat-subheading-2">{{user.firstname}}</span>
+    <mat-icon class="align-middle" >arrow_drop_down</mat-icon>
+  </div>
 </button>
+
 
 <mat-menu #mdUserMenu="matMenu" [overlapTrigger]="true">
   <a *ngIf="auth.isAdmin()" mat-menu-item routerLink="/admin">Admin</a>

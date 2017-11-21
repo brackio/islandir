@@ -79,9 +79,8 @@ export class BusinessInfoComponent implements OnInit {
   private getTerritories(code: string): void {
     this.getCountry(code).then((country: Country) => {
       this.territories = country.territories;
-      this.hasZipCode = country.zip;
+      this.hasZipCode = country.hasZipCode;
     });
-    // this.territories = country.territories;
   }
 
   private getCountries(): void {

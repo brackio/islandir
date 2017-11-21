@@ -13,10 +13,7 @@ import { DialogsService } from '../../../dialogs/shared/dialog.service';
 @Component({
   selector: 'ilr-service-edit',
   templateUrl: './service-edit.component.html',
-  styleUrls: [
-    './service-edit.component.scss',
-    '../../../../form-card.scss'
-  ]
+  styleUrls: ['./service-edit.component.scss']
 })
 export class ServiceEditComponent implements OnInit {
   public form: FormGroup;
@@ -33,9 +30,7 @@ export class ServiceEditComponent implements OnInit {
     private errorHandler: ErrorHandler,
     private dialogsService: DialogsService,
     private fb: FormBuilder
-  ) {
-    this.createForm();
-  }
+  ) { }
 
   ngOnInit() {
     const param = this.route.snapshot.paramMap.get('id');
@@ -47,7 +42,7 @@ export class ServiceEditComponent implements OnInit {
     this.route.data
       .subscribe((data: { service: Service }) => {
         this.service = data.service;
-        this.init(this.service);
+        this.createForm(this.service);
       });
   }
 
@@ -94,19 +89,11 @@ export class ServiceEditComponent implements OnInit {
       });
   }
 
-  private createForm(): void {
+  private createForm(service: Service): void {
     this.form = this.fb.group({
-      id: '',
-      name: ['', [Validators.required]],
-      category: ['', Validators.required]
-    });
-  }
-
-  private init(service: Service): void {
-    this.form.setValue({
-      id: service.id || '',
-      name: service.name || '',
-      category: (this.service.category) ? this.service.category.id : ''
+      id: service.id,
+      name: [service.name, [Validators.required]],
+      category: [service.category, Validators.required]
     });
   }
 

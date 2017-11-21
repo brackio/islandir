@@ -9,6 +9,7 @@ import { NavbarModule } from '../navbar/navbar.module';
 import { AdminComponent } from './admin.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 
+import { CanDeactivateGuard } from '../core/can-deactivate-guard.service';
 import { SidenavService } from './shared/sidenav.service';
 
 @NgModule({
@@ -22,7 +23,8 @@ import { SidenavService } from './shared/sidenav.service';
     DashboardComponent,
   ],
   providers: [
-    SidenavService
+    SidenavService,
+    CanDeactivateGuard
   ]
 })
 export class AdminModule {}

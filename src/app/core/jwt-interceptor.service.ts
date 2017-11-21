@@ -40,7 +40,6 @@ export class JWTInterceptor  implements HttpInterceptor {
       })
       .catch(err => {
         if (err instanceof HttpErrorResponse) {
-          // console.log('error', err);
           if (err.error.code === 401 && (err.error.type === 'TokenExpiredException' || err.error.type === 'UnauthorizedException')) {
           // JWT expired, go to login
           const extras: NavigationExtras = {
@@ -52,8 +51,6 @@ export class JWTInterceptor  implements HttpInterceptor {
         return Observable.throw(err);
       });
     }
-
-
 }
 
 

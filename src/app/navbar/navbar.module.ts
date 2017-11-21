@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterModule} from '@angular/router';
+import { AvatarModule } from 'ngx-avatar';
 
 import { SharedModule } from '../shared/shared.module';
 import { SearchModule } from '../search/search.module';
@@ -14,6 +15,7 @@ import { NavbarBusinessComponent } from './navbar-business/navbar-business.compo
 @NgModule({
   imports: [
     FormsModule,
+    AvatarModule,
     RouterModule,
     SharedModule,
     SearchModule

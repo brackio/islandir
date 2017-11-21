@@ -8,7 +8,9 @@ import { ServicesRoutingModule } from './services-routing.module';
 import { ServiceListComponent } from './service-list/service-list.component';
 import { ServiceEditComponent } from './service-edit/service-edit.component';
 
+import { ServiceService } from '../../models/services/service.service';
 import { ServiceResolverService } from './shared/service-resolver.service';
+import { CategoryService } from '../../models/categories/category.service';
 
 @NgModule({
   imports: [
@@ -23,6 +25,8 @@ import { ServiceResolverService } from './shared/service-resolver.service';
     ServiceEditComponent
   ],
   providers: [
+    CategoryService,
+    ServiceService,
     ServiceResolverService
   ]
 })

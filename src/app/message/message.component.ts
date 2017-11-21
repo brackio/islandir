@@ -6,12 +6,19 @@ import { Component, OnInit, Input } from '@angular/core';
   styleUrls: ['./message.component.scss']
 })
 export class MessageComponent implements OnInit {
+  private _position: string;
   @Input() messageType: string;
   @Input() action: string;
   @Input() icon: string;
   @Input() title: string;
   @Input() message: string;
   @Input() actionName: string;
+  @Input()
+  set position(position: string) {
+    this._position = position || 'left';
+  }
+
+  get position(): string { return this._position; }
 
   constructor() { }
 

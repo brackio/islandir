@@ -4,6 +4,7 @@
 import { environment } from '../../environments/environment';
 
 export let CONFIG = {
+  appUrl: environment.appUrl,
   baseUrls: {
     auth: `${environment.apiUrl}/auth`,
     users: `${environment.apiUrl}/users`,
@@ -43,5 +44,15 @@ export let CONFIG = {
       width: '448px',
       hasBackdrop: false
     }
+  },
+  cloudinary: {
+    cloud_name: environment.cloudinary.cloud_name,
+    upload_preset: environment.cloudinary.upload_preset
+  },
+  google_maps: {
+    apiKey: environment.google_maps.apiKey
+  },
+  loggly: {
+    customer_Token: environment.loggly.customer_Token
   }
 };

@@ -26,9 +26,7 @@ export class CountryEditComponent implements OnInit {
     private errorHandler: ErrorHandler,
     private dialogsService: DialogsService,
     private fb: FormBuilder
-  ) {
-    this.createForm();
-  }
+  ) { }
 
   ngOnInit() {
     const param = this.route.snapshot.paramMap.get('code');
@@ -39,13 +37,13 @@ export class CountryEditComponent implements OnInit {
     this.route.data
       .subscribe((data: { country: Country }) => {
         this.country = data.country;
-        this.init(this.country);
+        this.createForm(this.country);
       });
   }
 
-  // get territories(): FormArray {
-  //   return this.form.get('territories') as FormArray;
-  // };
+  get territories(): FormArray {
+    return this.form.get('territories') as FormArray;
+  }
 
   public onSubmit(country: Country): void {
     this.alertService.saving();
@@ -90,32 +88,19 @@ export class CountryEditComponent implements OnInit {
       });
   }
 
-  private createForm(): void {
+  private createForm(country: Country): void {
     this.form = this.fb.group({
-      //id: '',
-      name: ['', [Validators.required]],
-      code: ['', [Validators.required]],
-      // territories: this.fb.array([]),
-      zip: ['', [Validators.required]],
-      active: ['', [Validators.required]]
-    });
-  }
-
-  private init(country: Country): void {
-    // this.form.setControl('territories', this.fb.array(country.territories));
-
-    this.form.setValue({
-      // id: country.id || '',
-      name: country.name || '',
-      code: country.code || '',
-      zip: country.zip || false,
-      active: this.country.active || false,
-      // territories: country.territories || []
+      id: [country.id],
+      name: [country.name, [Validators.required]],
+      code: [country.code, [Validators.required, Validators.pattern('[a-z]{2}$/')]],
+      territories: this.fb.array(country.territories || []),
+      hasZipCode: [country.hasZipCode, [Validators.required]],
+      active: [country.active, [Validators.required]]
     });
   }
 
   private deleteCountry(id: string): void {
-    this.countryService.delete(id).then(
+    this.countryService.remove(id).then(
       () => {
         this.alertService.deleteAction();
         this.form.markAsPristine();
@@ -149,7 +134,4 @@ export class CountryEditComponent implements OnInit {
   private goBack(): void {
     this.router.navigate(['../'], { relativeTo: this.route });
   }
-
-
-
 }
