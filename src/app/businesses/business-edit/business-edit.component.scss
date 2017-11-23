@@ -28,11 +28,13 @@
           bottom:0;
           right: 0;
           left: 0;
-          background-color: #ccc;
+          background-color: #e0e0e0;
           display: flex;
           justify-content: center;
           align-items: center;
           opacity: 0;
+          color: rgba(0,0,0,0.87);
+          flex-direction:column;
 
           .mat-icon {
             color: #fff;
@@ -48,6 +50,10 @@
 
         .field-icon {
           opacity: 0.54;
+
+          &.adjust {
+            margin-top: 1rem;
+          }
         }
 
         /deep/ .mat-chip {

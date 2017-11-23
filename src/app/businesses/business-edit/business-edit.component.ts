@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, FormArray, Validators, AbstractControl } from '@angular/forms';
 import { MatAutocompleteSelectedEvent, MatSelectChange, MatChipInputEvent } from '@angular/material';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
@@ -13,12 +13,16 @@ import 'rxjs/add/operator/distinctUntilChanged';
 import 'rxjs/add/operator/startWith';
 import { ENTER } from '@angular/cdk/keycodes';
 
+import { AlertService } from '../../core/alert.service';
+import { GlobalErrorHandler as ErrorHandler } from '../../core/global-error-handler';
 import { Business } from '../shared/business';
 import { Country } from '../../models/countries/country';
 import { Service } from '../../models/services/service';
+import { BusinessService } from '../shared/business.service';
 import { ServiceService } from '../../models/services/service.service';
 import { CountryService } from '../../models/countries/country.service';
 import { CustomValidators } from '../../core/custom-validators';
+import { CONFIG } from '../../core/config';
 const COMMA = 188;
 
 @Component({
@@ -39,12 +43,16 @@ export class BusinessEditComponent implements OnInit {
   public hasZip: boolean = false;
   public showMoreInfo: boolean = false;
   public separatorKeysCodes = [ENTER, COMMA];
+  public descriptionCharLength: number = CONFIG.descriptionLength;
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
+    private businessService: BusinessService,
     private countryService: CountryService,
     private serviceService: ServiceService,
+    private alertService: AlertService,
+    private errorHandler: ErrorHandler,
     private fb: FormBuilder
   ) { }
 
@@ -62,17 +70,29 @@ export class BusinessEditComponent implements OnInit {
       .distinctUntilChanged()
       .startWith(null)
       .switchMap(term => term ?
-        this.serviceService.search(term, 5, 'name', 'asc', ['-category', '-id'])
+        this.serviceService.search(term, 5, 'name', 'asc', ['-category', '-id', '-slug'])
           : Observable.of<Service[]>([]))
       .catch(error => Observable.of<Service[]>([]));
   }
 
   get name() { return this.form.get('name'); }
   get description() { return this.form.get('description'); }
-  get social(): FormArray {
-    return this.form.get('social') as FormArray;
-  }
+  get email() { return this.form.get('email'); }
+  get website() { return this.form.get('website'); }
+  get phone() { return this.form.get('phone'); }
+  get zip() { return this.form.get('address.zip'); }
+  get street() { return this.form.get('address.street'); }
+  get city() { return this.form.get('address.city'); }
+  get services(): FormArray { return this.form.get('services') as FormArray; }
+  get social(): FormArray { return this.form.get('social') as FormArray; }
 
+  set name(val) { this.form.get('name').setValue(val); }
+  set email(val) { this.form.get('email').setValue(val); }
+  set website(val) { this.form.get('website').setValue(val); }
+  set city(val) { this.form.get('address.city').setValue(val); }
+  set zip(val) { this.form.get('address.zip').setValue(val); }
+  set phone(val) { this.form.get('phone').setValue(val); }
+  set street(val) { this.form.get('address.street').setValue(val); }
 
   public getCountries(business: Business): void {
     this.countryService.getActive()
@@ -90,13 +110,36 @@ export class BusinessEditComponent implements OnInit {
     this.hasZip = country.hasZipCode;
   }
 
+  public saveBusiness(business: Business): void {
+    this.businessService.update(business)
+      .then(() => this.alertService.saveComplete(),
+          err => this.errorHandler.handleError(err));
+  }
 
-  public addService(event: MatChipInputEvent): void {
+  public cancel(): void {
 
   }
 
-  public removeService(service: Service): void {
+  public selectedService(event: MatAutocompleteSelectedEvent): void {
+    const control = new FormControl();
+    control.setValue(event.option.value);
+    this.services.push(control);
+    // this.business.services.push(service);
+  }
 
+  public addService(event: MatChipInputEvent): void {
+    const control = new FormControl();
+    control.setValue(event.value);
+    this.services.push(control);
+    // this.business.services.push(event.value);
+  }
+
+  public removeService(index: number): void {
+    this.services.removeAt(index);
+    // const index = this.business.services.indexOf(service);
+    // if (index > -1) {
+    //   this.business.services.splice(index, 1);
+    // }
   }
 
   public searchServices(term: string): void {
@@ -132,11 +175,12 @@ export class BusinessEditComponent implements OnInit {
         city: [business.address.city],
         zip: [business.address.zip, [CustomValidators.zipCodeValidator]]
       }),
-      phone: [business.phone],
-      email: [business.email, [Validators.email, Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$')]],
+      phone: [business.phone, [Validators.pattern('\\(?([0-9]{3})\\)?([ .-]?)([0-9]{3})\\2([0-9]{4})')]],
+      email: [business.email, [Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$')]],
       website: [business.website, [Validators.pattern('https?://.+')]],
-      social:  this.fb.array(business.social || []),
-      description: [this.business.description || '', [Validators.maxLength(300)]]
+      services: this.fb.array(business.services || []),
+      social:  this.fb.array([business.social || []]),
+      description: [this.business.description || '', [Validators.maxLength(this.descriptionCharLength)]]
     });
   }
 

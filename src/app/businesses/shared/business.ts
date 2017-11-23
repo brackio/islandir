@@ -40,11 +40,7 @@ export class Business {
   email: string;
   website: string;
   social: [string];
-  services: [{
-    name: string,
-    slug: string,
-    category: string;
-  }];
+  services: [string];
   amenities: [string];
   owner: User;
   reviews: [IReviews];

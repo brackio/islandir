@@ -15,6 +15,14 @@ const routes: Routes = [
     children: [
       { path: 'search', component: BusinessListComponent },
       {
+        path: 'new',
+        resolve: {
+          business: BusinessResolverService
+        },
+        component: BusinessEditComponent,
+        canActivate: [AuthGuard]
+      },
+      {
         path: ':slug',
         resolve: {
           business: BusinessResolverService

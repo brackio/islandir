@@ -29,6 +29,7 @@ export let CONFIG = {
   },
   tokenExpiration: 7,
   searchHistoryLimit: 5,
+  descriptionLength: 1000,
   vars: {
     currentUser: 'currentUser',
     currentToken: 'currentToken',

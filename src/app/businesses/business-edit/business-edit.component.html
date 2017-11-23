@@ -4,7 +4,7 @@
 
   <div fxLayout="row" fxLayoutAlign="center start">
 
-    <form novalidate fxFlex="100" fxFlex.gt-sm="40rem" [formGroup]="form">
+    <form novalidate fxFlex="100" fxFlex.gt-sm="40rem" [formGroup]="form" (ngSubmit)="saveBusiness(form.value)">
 
       <mat-card>
 
@@ -15,6 +15,7 @@
               <div class="biz-avatar-wrapper">
                 <div class="biz-avatar-overlay" ilrImageUpload>
                   <mat-icon>photo_camera</mat-icon>
+                  <p class="mat-body-1 text-caps">Add logo</p>
                 </div>
               </div>
 
@@ -22,6 +23,18 @@
             <div fxFlex>
               <mat-form-field class="full-width">
                 <input matInput type="text" id="name" formControlName="name" placeholder="Business Name">
+                <mat-error *ngIf="name.errors?.required">
+                  Name is required
+                </mat-error>
+                <mat-error *ngIf="name.errors?.minlength">
+                  Name must be at least 2 characters long.
+                </mat-error>
+                <mat-error *ngIf="name.errors?.maxlength">
+                  Name must not exceed 100 characters.
+                </mat-error>
+                <button mat-button *ngIf="name.value" matSuffix mat-icon-button aria-label="Clear" (click)="name=''">
+                  <mat-icon>close</mat-icon>
+                </button>
               </mat-form-field>
 
               <mat-form-field class="full-width">
@@ -51,15 +64,27 @@
 
               <mat-form-field class="full-width">
                 <input matInput type="text" id="street" formControlName="street" placeholder="Street Address">
+                <button mat-button *ngIf="street.value" matSuffix mat-icon-button aria-label="Clear" (click)="street=''">
+                  <mat-icon>close</mat-icon>
+                </button>
               </mat-form-field>
 
               <div class="full-width" fxLayout="column" fxLayout.gt-xs="row" fxLayoutAlign.gt-xs="space-between center" fxLayoutGap.gt-xs="1rem">
                 <mat-form-field fxFlex>
                   <input matInput type="text" id="city" formControlName="city" placeholder="City">
+                  <button mat-button *ngIf="city.value" matSuffix mat-icon-button aria-label="Clear" (click)="city=''">
+                    <mat-icon>close</mat-icon>
+                  </button>
                 </mat-form-field>
 
                 <mat-form-field *ngIf="hasZip">
                   <input matInput type="text" id="zip" formControlName="zip" placeholder="Zip Code">
+                  <mat-error *ngIf="zip.errors">
+                    Please enter a valid zip code
+                  </mat-error>
+                  <button mat-button *ngIf="zip.value" matSuffix mat-icon-button aria-label="Clear" (click)="zip=''">
+                    <mat-icon>close</mat-icon>
+                  </button>
                 </mat-form-field>
               </div>
             </div>
@@ -70,6 +95,15 @@
 
             <mat-form-field fxFlex>
               <input matInput type="tel" id="phone" formControlName="phone" placeholder="Phone">
+              <mat-error *ngIf="phone.errors">
+                Please enter a valid phone number
+              </mat-error>
+              <mat-hint>
+                Example Phone number: 340 123 4444
+              </mat-hint>
+              <button mat-button *ngIf="phone.value" matSuffix mat-icon-button aria-label="Clear" (click)="phone=''">
+                <mat-icon>close</mat-icon>
+              </button>
             </mat-form-field>
           </div>
 
@@ -78,17 +112,23 @@
 
             <mat-form-field fxFlex>
               <input matInput type="email" id="email" formControlName="email" placeholder="Email">
+              <mat-error *ngIf="email.errors">
+                Please enter a valid email address
+              </mat-error>
+              <button mat-button *ngIf="email.value" matSuffix mat-icon-button aria-label="Clear" (click)="email=''">
+                <mat-icon>close</mat-icon>
+              </button>
             </mat-form-field>
           </div>
 
-          <div class="field-row" fxLayout="row" fxLayoutGap="1rem">
+          <div class="field-row" fxLayout="row" fxLayoutGap="1rem" formArrayName="services">
             <mat-icon class="field-icon">work</mat-icon>
 
             <mat-form-field class="full-width">
               <mat-chip-list #chipList>
-                <mat-chip *ngFor="let service of business.services" [selectable]="selectable"
-                        [removable]="removable" (remove)="removeService(service)">
-                  {{service.name}}
+                <mat-chip *ngFor="let service of services.controls; let i=index;" [selectable]="selectable"
+                        [removable]="removable" (remove)="removeService(i)">
+                  {{service.value}}
                   <mat-icon class="align-middle" matChipRemove *ngIf="removable">cancel</mat-icon>
                 </mat-chip>
                 <input placeholder="Services" #serviceAutocompleteInput
@@ -98,12 +138,12 @@
                        [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
                        [matChipInputAddOnBlur]="addOnBlur"
                        (matChipInputTokenEnd)="addService($event)" />
+                <mat-autocomplete #servicesAutocomplete="matAutocomplete" (optionSelected)="selectedService($event)">
+                  <mat-option *ngFor="let service of searchedServices | async" [value]="service.name">
+                    {{ service.name }}
+                  </mat-option>
+                </mat-autocomplete>
               </mat-chip-list>
-              <mat-autocomplete #servicesAutocomplete="matAutocomplete">
-                <mat-option *ngFor="let service of searchedServices | async" [value]="service.name">
-                  {{ service.name }}
-                </mat-option>
-              </mat-autocomplete>
             </mat-form-field>
           </div>
 
@@ -112,17 +152,32 @@
         </div>
         <div class="more-info" fxLayout="column" fxLayoutAlign="start stretch">
 
-          <div class="field-row" [class.align-center]="business.social.length === 0" fxLayout="row" fxLayoutGap="1rem">
-            <mat-icon class="field-icon">public</mat-icon>
+          <div class="field-row" fxLayout="row" fxLayoutGap="1rem">
+            <mat-icon class="field-icon adjust">public</mat-icon>
 
             <div fxFlex fxLayout="column">
               <mat-form-field class="full-width">
                 <input matInput type="url" id="website" formControlName="website" placeholder="Website">
+                <mat-hint>
+                  http://mycompanywebsite.com
+                </mat-hint>
+                <mat-error *ngIf="website.errors">
+                  Please enter a valid website
+                </mat-error>
+                <button mat-button *ngIf="website.value" matSuffix mat-icon-button aria-label="Clear" (click)="website=''">
+                  <mat-icon>close</mat-icon>
+                </button>
               </mat-form-field>
 
               <div formArrayName="social">
                 <mat-form-field class="full-width" *ngFor="let url of social.controls; let i=index;">
                   <input matInput type="url" pattern="https?://.+" id="social{{i}}" [formControlName]="i" placeholder="">
+                  <mat-hint>
+                    https://facebook.com/mycompany
+                  </mat-hint>
+                  <mat-error *ngIf="url.errors">
+                    Please enter a valid url
+                  </mat-error>
                 </mat-form-field>
               </div>
             </div>
@@ -132,11 +187,11 @@
             <mat-icon class="field-icon">description</mat-icon>
 
             <mat-form-field fxFlex>
-              <textarea matInput maxlength="300" placeholder="Description" matTextareaAutosize matAutosizeMinRows="2"
+              <textarea matInput [maxlength]="descriptionCharLength" placeholder="Description" matTextareaAutosize matAutosizeMinRows="2"
                       matAutosizeMaxRows="5" id="description" formControlName="description"></textarea>
-              <mat-hint align="end">{{description.value.length}} / 300</mat-hint>
+              <mat-hint align="end">{{description.value.length}} / {{descriptionCharLength}}</mat-hint>
               <mat-error *ngIf="description.errors?.maxlength">
-                Description must not exceed 300 characters.
+                Description must not exceed {{descriptionCharLength}} characters.
               </mat-error>
             </mat-form-field>
           </div>
@@ -146,7 +201,7 @@
 
         <mat-card-actions align="end">
           <button type="button" mat-button class="text-upper" (click)="cancel()">Cancel</button>
-          <button type="submit" mat-button [disabled]="!form.valid || form.pristine" class="text-upper" color="primary">Save</button>
+          <button type="submit" mat-button class="text-upper" color="primary">Save</button>
         </mat-card-actions>
 
       </mat-card>

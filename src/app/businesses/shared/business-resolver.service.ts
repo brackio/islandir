@@ -21,15 +21,25 @@ export class BusinessResolverService implements Resolve<Business> {
   ) { }
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Promise<Business> | Business {
-    const slug: string = route.params['slug'];
-    return this.businessService.findOneBySug(slug).then(business => {
-      if (business) {
-        return business;
-      } else {
-        this.router.navigate(['../'], { relativeTo: this.route });
-        this.alertService.error('Could not find business');
+    const slug: string = route.paramMap.get('slug');
+
+    if (slug) {
+      return this.businessService.findOneBySug(slug).then(business => {
+        if (business) {
+          return business;
+        } else {
+          this.goBack();
+          this.alertService.notFound('Business');
+        }
+      }, () => {
+        this.goBack();
         return null;
-      }
-    });
+      });
+    }
+    return new Business();
+  }
+
+  private goBack(): void {
+    this.router.navigate(['../'], { relativeTo: this.route });
   }
 }
