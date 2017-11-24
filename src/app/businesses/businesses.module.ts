@@ -19,6 +19,7 @@ import { BusinessResolverService } from './shared/business-resolver.service';
 import { ImageUploadDirective } from '../shared/directives/image-upload.directive';
 
 import { CONFIG } from '../core/config';
+import { BusinessCreateComponent } from './business-create/business-create.component';
 
 @NgModule({
   imports: [
@@ -40,7 +41,8 @@ import { CONFIG } from '../core/config';
     BusinessDetailComponent,
     BusinessEditComponent,
     BusinessCardComponent,
-    ImageUploadDirective
+    ImageUploadDirective,
+    BusinessCreateComponent
   ],
   providers: [
     ServiceService,

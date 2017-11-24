@@ -5,6 +5,7 @@ import { BusinessListComponent } from './business-list/business-list.component';
 import { BusinessDetailComponent } from './business-detail/business-detail.component';
 import { BusinessEditComponent } from './business-edit/business-edit.component';
 import { BusinessResolverService } from './shared/business-resolver.service';
+import { BusinessCreateComponent } from './business-create/business-create.component';
 
 import { BusinessGuardService as BusinessGuard } from './shared/business-guard.service';
 import { AuthGuardService as AuthGuard } from '../auth/shared/auth-guard.service';
@@ -16,10 +17,7 @@ const routes: Routes = [
       { path: 'search', component: BusinessListComponent },
       {
         path: 'new',
-        resolve: {
-          business: BusinessResolverService
-        },
-        component: BusinessEditComponent,
+        component: BusinessCreateComponent,
         canActivate: [AuthGuard]
       },
       {

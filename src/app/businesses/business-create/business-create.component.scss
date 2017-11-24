@@ -1,0 +1,85 @@
+@import '../../../colors';
+@import '../../../media-breakpoints';
+:host {
+
+  .cover {
+    position: relative;
+    height: 250px;
+    background-color: $primary-color-500;
+  }
+
+  .card-wrapper {
+    margin-top: -125px;
+
+    form {
+
+      .biz-avatar-wrapper {
+        border: 1px dashed $primary-color-500;
+        height: 108px;
+        width: 108px;
+        background-color: #f5f5f5;
+        margin: 0 auto;
+        position: relative;
+        cursor: pointer;
+
+        .biz-avatar-overlay {
+          position: absolute;
+          top: 0;
+          bottom:0;
+          right: 0;
+          left: 0;
+          background-color: #e0e0e0;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          opacity: 0;
+          color: rgba(0,0,0,0.87);
+          flex-direction:column;
+
+          .mat-icon {
+            color: #fff;
+          }
+        }
+      }
+
+      .field-row {
+
+        &.align-center {
+          align-items: center;
+
+          .field-label {
+            display: none;
+          }
+        }
+
+        .field-label {
+          color: rgba(0, 0, 0, 0.54);
+          padding: 1px 0;
+        }
+
+        .field-icon {
+          opacity: 0.54;
+
+          &.adjust {
+            margin-top: 1.1rem;
+          }
+        }
+
+        /deep/ .mat-chip {
+          margin: 0 8px 4px 0;
+        }
+      }
+
+      .more-info {
+        display: none;
+
+        &.show {
+          display: block;
+        }
+      }
+
+    }
+  }
+
+}
+
