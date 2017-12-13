@@ -36,8 +36,11 @@ export class BusinessCreateComponent implements OnInit {
   public searchedServices: Observable<Service[]> ;
   private searchServiceTerms = new Subject<string>();
   public hasZip: boolean = false;
+  public removable: boolean = true;
+  public selectable: boolean = true;
   public showMoreInfo: boolean = false;
   public descriptionCharLength: number = CONFIG.descriptionLength;
+  public maxServices: number = CONFIG.maxServices;
 
   constructor(
     private route: ActivatedRoute,
@@ -54,8 +57,8 @@ export class BusinessCreateComponent implements OnInit {
     // this.route.parent.data
     //   .subscribe((data: { business: Business }) => {
       this.business = new Business();
-      this.getCountries();
       this.createForm();
+      this.getCountries();
       // });
 
     this.searchedServices = this.searchServiceTerms
@@ -86,6 +89,7 @@ export class BusinessCreateComponent implements OnInit {
   set zip(val) { this.form.get('address.zip').setValue(val); }
   set phone(val) { this.form.get('phone').setValue(val); }
   set street(val) { this.form.get('address.street').setValue(val); }
+  set territory(val) { this.form.get('address.territory').setValue(val); }
 
   public getCountries(): void {
     this.countryService.getActive()
@@ -147,6 +151,9 @@ export class BusinessCreateComponent implements OnInit {
 
   private setTerritories(country: Country): void {
     this.territories = country.territories;
+    if (this.territories.length) {
+      this.territory = this.territories[0];
+    }
   }
 
   private createForm(): void {
@@ -171,10 +178,11 @@ export class BusinessCreateComponent implements OnInit {
       phone: ['', [Validators.pattern('\\(?([0-9]{3})\\)?([ .-]?)([0-9]{3})\\2([0-9]{4})')]],
       email: ['', [Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$')]],
       website: ['', [Validators.pattern('https?://.+')]],
-      services: this.fb.array([]),
+      services: this.fb.array([], CustomValidators.rangeValidator(1, this.maxServices)),
       social:  this.fb.array(['']),
       description: ['', [Validators.maxLength(this.descriptionCharLength)]]
     });
   }
 
 }
+

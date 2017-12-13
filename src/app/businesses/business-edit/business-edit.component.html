@@ -1,14 +1,13 @@
-<div class="cover"></div>
+<div class="cover" fxHide.xs></div>
 
 <div class="card-wrapper">
 
-  <div fxLayout="row" fxLayoutAlign="center start">
+  <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutAlign.gt-sm="center start" fxLayoutGap.gt-sm="48px">
+    <div class="card"  fxFlex="100" fxFlex.gt-sm="40rem">
 
-      <div class="card"  fxFlex="100" fxFlex.gt-sm="40rem">
+      <mat-nav-list class="list">
 
-        <mat-nav-list class="list">
-
-          <mat-list-item class="list-item">
+          <mat-list-item class="list-item" (click)="openDialog('name')">
             <div fxLayout="row" class="list-row">
               <mat-icon class="list-icon">business</mat-icon>
               <div class="list-title">Business name</div>
@@ -19,17 +18,21 @@
           </mat-list-item>
           <mat-divider></mat-divider>
 
-          <mat-list-item class="list-item">
+          <mat-list-item class="list-item auto-height" (click)="openDialog('location')">
             <div fxLayout="row" class="list-row">
               <mat-icon class="list-icon">location_on</mat-icon>
               <div class="list-title">Location</div>
-              <div class="list-value">{{business.address.street}}</div>
+              <div class="list-value" fxLayout="column">
+                <div class="list-value-line">{{business.address?.street}}</div>
+                <div class="list-value-line">{{business.address?.territory}}</div>
+                <div class="list-value-line">{{business.address?.country.name}}, {{business.address?.zip}}</div>
+              </div>
             </div>
             <mat-icon class="list-icon-edit" color="primary">edit</mat-icon>
           </mat-list-item>
           <mat-divider></mat-divider>
 
-          <mat-list-item class="list-item">
+          <mat-list-item class="list-item" (click)="openDialog('phone')">
             <div fxLayout="row" class="list-row">
               <mat-icon class="list-icon">phone</mat-icon>
               <div class="list-title">Phone</div>
@@ -39,7 +42,7 @@
           </mat-list-item>
           <mat-divider></mat-divider>
 
-          <mat-list-item class="list-item">
+          <mat-list-item class="list-item" (click)="openDialog('email')">
             <div fxLayout="row" class="list-row">
               <mat-icon class="list-icon">email</mat-icon>
               <div class="list-title">Email</div>
@@ -49,12 +52,12 @@
           </mat-list-item>
           <mat-divider></mat-divider>
 
-          <mat-list-item class="list-item" [class.auto-height]="business.services?.length>1">
+          <mat-list-item class="list-item" [class.auto-height]="business.services?.length>1" (click)="openDialog('services')">
             <div fxLayout="row" class="list-row">
               <mat-icon class="list-icon">work</mat-icon>
-              <div class="list-title">Service</div>
+              <div class="list-title">Services</div>
               <div class="list-value" fxLayout="column">
-                <div *ngFor="let service of business.services" class="text-caps" style="margin-bottom: 4px;">
+                <div *ngFor="let service of business.services" class="text-caps" class="list-value-line">
                   {{service}}
                 </div>
               </div>
@@ -63,13 +66,13 @@
           </mat-list-item>
           <mat-divider></mat-divider>
 
-          <mat-list-item class="list-item" [class.auto-height]="business.social?.length>0">
+          <mat-list-item class="list-item" [class.auto-height]="business.social?.length>0" (click)="openDialog('social')">
             <div fxLayout="row" class="list-row">
               <mat-icon class="list-icon">public</mat-icon>
               <div class="list-title">Website</div>
               <div class="list-value" fxLayout="column">
-                <div style="margin-bottom: 4px;">{{business.website}}</div>
-                <div *ngFor="let social of business.social" style="margin-bottom: 4px;">
+                <div class="list-value-line">{{business.website}}</div>
+                <div *ngFor="let social of business.social" class="list-value-line">
                   {{social}}
                 </div>
               </div>
@@ -78,7 +81,25 @@
           </mat-list-item>
           <mat-divider></mat-divider>
 
-          <mat-list-item class="list-item">
+          <mat-list-item class="list-item" [class.auto-height]="hasOpeningHours()" (click)="openDialog('hours')">
+            <div fxLayout="row" class="list-row">
+              <mat-icon class="list-icon">access_time</mat-icon>
+              <div class="list-title">Opening Hours</div>
+              <div class="list-value" fxLayout="column">
+                <div class="list-value-line" *ngIf="business.openingHours.sunday?.length">Sunday: <span *ngFor="let hour of business.openingHours.sunday; let last=last">{{hour.opens}} - {{hour.closes}}{{last ? '':', '}}</span></div>
+                <div class="list-value-line" *ngIf="business.openingHours.monday?.length">Monday: <span *ngFor="let hour of business.openingHours.monday; let last=last">{{hour.opens}} - {{hour.closes}}{{last ? '':', '}}</span></div>
+                <div class="list-value-line" *ngIf="business.openingHours.tuesday?.length">Tuesday: <span *ngFor="let hour of business.openingHours.tuesday; let last=last">{{hour.opens}} - {{hour.closes}}{{last ? '':', '}}</span></div>
+                <div class="list-value-line" *ngIf="business.openingHours.wednesday?.length">Wednesday: <span *ngFor="let hour of business.openingHours.wednesday; let last=last">{{hour.opens}} - {{hour.closes}} {{last ? '':', '}}</span></div>
+                <div class="list-value-line" *ngIf="business.openingHours.thursday?.length">Thursday: <span *ngFor="let hour of business.openingHours.thursday; let last=last">{{hour.opens}} - {{hour.closes}}{{last ? '':', '}}</span></div>
+                <div class="list-value-line" *ngIf="business.openingHours.friday?.length">Friday: <span *ngFor="let hour of business.openingHours.friday; let last=last">{{hour.opens}} - {{hour.closes}}{{last ? '':', '}}</span></div>
+                <div class="list-value-line" *ngIf="business.openingHours.saturday?.length">Saturday: <span *ngFor="let hour of business.openingHours.saturday; let last=last">{{hour.opens}} - {{hour.closes}}{{last ? '':', '}}</span></div>
+              </div>
+            </div>
+            <mat-icon class="list-icon-edit" color="primary">edit</mat-icon>
+          </mat-list-item>
+          <mat-divider></mat-divider>
+
+          <mat-list-item class="list-item" (click)="openDialog('description')">
             <div fxLayout="row" class="list-row">
               <mat-icon class="list-icon">description</mat-icon>
               <div class="list-title">Description</div>
@@ -90,7 +111,18 @@
 
         </mat-nav-list>
 
-      </div>
+    </div>
+
+    <div fxLayout="column"  fxFlex="100" fxFlex.gt-sm="320px">
+      <mat-card>
+        <mat-card-actions>
+          <button type="button" mat-button color="primary" class="text-upper">claim this business</button>
+        </mat-card-actions>
+      </mat-card>
+      <button type="button" mat-raised-button color="warn">Close this business</button>
+    </div>
+
+
   </div>
 
 </div>

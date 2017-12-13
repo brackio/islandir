@@ -23,10 +23,19 @@ export class CustomValidators extends Validators {
   static zipCodeValidator(control: FormControl) {
     const REGEX: RegExp = /\d{5}(?:[-\s]\d{4})?$/;
     if (control.value && control.value.length > 0) {
-      return !REGEX.test(control.value) ? {'patternInvalid': {REGEX}} : null;
+      return !REGEX.test(control.value) ? {'InvalidZipCode': {REGEX}} : null;
     } else {
       return null;
     }
+  }
+
+  static rangeValidator(min: number, max: number) {
+    return (c: AbstractControl): {[key: string]: any} => {
+      if (c.value.length >= min && c.value.length <= max) {
+        return null;
+      }
+      return { 'rangeValidation': {valid: false }};
+    };
   }
 
   // static urlValidator(control: FormControl) {

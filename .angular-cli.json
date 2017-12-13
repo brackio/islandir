@@ -24,7 +24,7 @@
         "styles.scss"
       ],
       "scripts": [
-        "../node_modules/geolocator/dist/geolocator.min.js"
+
       ],
       "environmentSource": "environments/environment.ts",
       "environments": {

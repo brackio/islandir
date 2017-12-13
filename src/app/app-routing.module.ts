@@ -3,11 +3,12 @@
  */
 import { NgModule } from '@angular/core';
 import { PageNotFoundComponent } from './404/page-not-found.component';
-import { PreloadAllModules, Routes, RouterModule } from '@angular/router';
+import { Routes, RouterModule } from '@angular/router';
 import { AuthGuardService as AuthGuard } from './auth/shared/auth-guard.service';
+import { SelectivePreloadingStrategy } from './core/selective-preload-strategy';
 
 const routes: Routes = [
-  { path: 'business', loadChildren: 'app/businesses/businesses.module#BusinessesModule' },
+  { path: 'business', loadChildren: 'app/businesses/businesses.module#BusinessesModule', data: { preload: true } },
   { path: 'user', loadChildren: 'app/user/user.module#UserModule' },
   { path: 'admin', loadChildren: 'app/admin/admin.module#AdminModule' },
   { path: '', loadChildren: 'app/home/home.module#HomeModule' },
@@ -15,10 +16,15 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(
+    routes,
+    {
+      preloadingStrategy: SelectivePreloadingStrategy
+    })],
   exports: [RouterModule],
   providers: [
-    AuthGuard
+    AuthGuard,
+    SelectivePreloadingStrategy
   ]
 })
 

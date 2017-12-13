@@ -2,77 +2,73 @@
 @import '../../media-breakpoints';
 
 :host {
-  position: fixed;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  display: flex;
-  flex-direction: column;
+  .admin-container {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
 
-  mat-toolbar {
-    position: relative;
-    z-index: 2;
+    .admin-sidenav-container {
+      flex: 1;
 
-    .nav-country {
-      ::ng-deep .mat-select-underline {
-        height: 0;
-      }
-    }
+      .sidenav {
+        width: 260px;
+        background-color: $body-background;
 
-    .nav-divider {
-      margin: 0 16px;
-      border-left: 1px solid #ccc;
-      border-right: 1px solid whitesmoke;
-      height: 100%;
-    }
-  }
+        @media (min-width: $sm) {
+          padding-right: 18px;
+        }
 
-  mat-sidenav-container{
-    flex: 1;
+        @media(max-width: $sm) {
+          width: 300px;
+          background-color: #fff;
+        }
 
-    .sidenav {
-      width: 260px;
-      background-color: $body-background;
+        mat-nav-list {
 
-      @media (min-width: $sm) {
-        padding-right: 18px;
-      }
+          .list-item {
+            color: #616161;
+            font-size: 15px;
 
-      @media(max-width: $sm) {
-        width: 300px;
-        background-color: #fff;
-      }
-
-      mat-nav-list {
-
-        .list-item {
-          color: #616161;
-          font-size: 15px;
-
-          &:hover {
-            background: rgba(0, 0, 0, 0.04);
-          }
-
-          mat-icon {
-            margin-right: 16px;
-          }
-
-          &.active {
-            color: rgba(0, 0, 0, 0.87);
-            background: rgba(0, 0, 0, 0.06);
-            border-left: 2px solid $primary-color;
-            border-bottom-right-radius: 2px;
-            font-weight: 500;
-
-            mat-icon{
-              color: $primary-color;
+            &:hover {
+              background: rgba(0, 0, 0, 0.04);
             }
 
+            mat-icon {
+              margin-right: 16px;
+            }
+
+            &.active {
+              color: rgba(0, 0, 0, 0.87);
+              background: rgba(0, 0, 0, 0.06);
+              border-left: 2px solid $primary-color;
+              border-bottom-right-radius: 2px;
+              font-weight: 500;
+
+              mat-icon {
+                color: $primary-color;
+              }
+
+            }
           }
         }
       }
     }
-  }
 
+    &.is-mobile {
+
+      /deep/ .mat-toolbar {
+        position: fixed;
+        z-index: 2;
+      }
+
+      .admin-sidenav-container {
+        flex: 1 0 auto;
+        margin-top: 56px;
+      }
+    }
+  }
 }

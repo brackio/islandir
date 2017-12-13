@@ -20,6 +20,14 @@ import { ImageUploadDirective } from '../shared/directives/image-upload.directiv
 
 import { CONFIG } from '../core/config';
 import { BusinessCreateComponent } from './business-create/business-create.component';
+import { BusinessNameEditDialogComponent } from './business-edit/business-name-edit-dialog/business-name-edit-dialog.component';
+import { BusinessLocationEditDialogComponent } from './business-edit/business-location-edit-dialog/business-location-edit-dialog.component';
+import { BusinessPhoneEditDialogComponent } from './business-edit/business-phone-edit-dialog/business-phone-edit-dialog.component';
+import { BusinessEmailEditDialogComponent } from './business-edit/business-email-edit-dialog/business-email-edit-dialog.component';
+import { BusinessServicesEditDialogComponent } from './business-edit/business-services-edit-dialog/business-services-edit-dialog.component';
+import { BusinessSocialEditDialogComponent } from './business-edit/business-social-edit-dialog/business-social-edit-dialog.component';
+import { BusinessDescriptionEditDialogComponent } from './business-edit/business-description-edit-dialog/business-description-edit-dialog.component';
+import { BusinessHoursEditDialogComponent } from './business-edit/business-hours-edit-dialog/business-hours-edit-dialog.component';
 
 @NgModule({
   imports: [
@@ -42,7 +50,25 @@ import { BusinessCreateComponent } from './business-create/business-create.compo
     BusinessEditComponent,
     BusinessCardComponent,
     ImageUploadDirective,
-    BusinessCreateComponent
+    BusinessCreateComponent,
+    BusinessNameEditDialogComponent,
+    BusinessLocationEditDialogComponent,
+    BusinessPhoneEditDialogComponent,
+    BusinessEmailEditDialogComponent,
+    BusinessServicesEditDialogComponent,
+    BusinessSocialEditDialogComponent,
+    BusinessDescriptionEditDialogComponent,
+    BusinessHoursEditDialogComponent
+  ],
+  entryComponents: [
+    BusinessNameEditDialogComponent,
+    BusinessLocationEditDialogComponent,
+    BusinessPhoneEditDialogComponent,
+    BusinessEmailEditDialogComponent,
+    BusinessServicesEditDialogComponent,
+    BusinessSocialEditDialogComponent,
+    BusinessDescriptionEditDialogComponent,
+    BusinessHoursEditDialogComponent
   ],
   providers: [
     ServiceService,

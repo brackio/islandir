@@ -1,0 +1,12 @@
+:host {
+
+  .field-row {
+    &.align-center {
+      align-items: center;
+    }
+
+    .field-icon {
+      opacity: 0.54;
+    }
+  }
+}

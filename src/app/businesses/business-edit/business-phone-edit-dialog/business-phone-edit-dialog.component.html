@@ -1,0 +1,28 @@
+<form novalidate fxFlex="100" fxFlex.gt-sm="40rem" [formGroup]="phoneForm" (ngSubmit)="save(phoneForm.value)">
+  <h2 matDialogTitle>Business Phone</h2>
+  <mat-dialog-content>
+
+    <div class="field-row align-center" fxLayout="row" fxLayoutGap="1rem">
+      <mat-icon class="field-icon">phone</mat-icon>
+
+      <mat-form-field fxFlex>
+        <input matInput type="tel" id="phone" formControlName="phone" placeholder="Phone">
+        <mat-error *ngIf="phone.errors">
+          Please enter a valid phone number
+        </mat-error>
+        <mat-hint>
+          Example Phone number: 340 123 4444
+        </mat-hint>
+        <button mat-button *ngIf="phone.value" matSuffix mat-icon-button aria-label="Clear" tabindex="-1" (click)="phone=''">
+          <mat-icon>close</mat-icon>
+        </button>
+      </mat-form-field>
+    </div>
+
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end">
+    <button type="button" mat-button class="text-upper" (click)="cancel()">Cancel</button>
+    <button type="submit" mat-button [disabled]="!phoneForm.valid || phoneForm.pristine" class="text-upper" color="primary">Save</button>
+  </mat-dialog-actions>
+</form>

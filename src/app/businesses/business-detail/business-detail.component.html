@@ -4,38 +4,100 @@
 
 </div>
 
-<div class="details" fxLayout="row" fxLayoutAlign.gt-xs="center center">
-  <div fxFlex.gt-md="68rem" fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap.gt-xs="1rem">
+<div fxLayout="row" fxLayoutAlign.gt-xs="center start" fxFlexFill>
+  <div class="content" fxFlex="100" fxFlex.gt-sm="1080px" fxLayout="row" fxLayoutAlign="space-between start" fxLayoutGap.gt-xs="2rem">
 
-    <div class="info-details" fxFlex.gt-xs="35">
-      <mat-card class="mat-typography">
+    <div fxFlex="56px" fxLayout="column" fxLayoutGap="1.5rem" class="content-actions">
+      <button type="button" mat-mini-fab class="btn-action">
+        <mat-icon aria-label="bookmark this business">bookmark</mat-icon>
+      </button>
+
+      <button type="button" mat-mini-fab class="btn-action">
+        <mat-icon aria-label="rate this business">star_rate</mat-icon>
+      </button>
+
+      <button type="button" mat-mini-fab class="btn-action">
+        <mat-icon aria-label="share">share</mat-icon>
+      </button>
+
+      <button type="button" mat-mini-fab class="btn-action">
+        <mat-icon aria-label="add photos">add_a_photo</mat-icon>
+      </button>
+    </div>
+
+    <div fxFlex.gt-xs="35" class="content-profile" fxLayout="column" fxLayoutGap.gt-xs="1.5rem">
+
+      <mat-card class="mat-typography profile">
         <h2>{{business.name}}</h2>
+        <a class="service" *ngFor="let service of business.services; let last=last" [routerLink]="['/business/search', { q: service, country: business.address.country.code }]">
+          {{last ? service : service + ','}}
+        </a>
+      </mat-card>
+
+      <mat-card class="profile-contact">
         <mat-card-content>
-          <span *ngFor="let service of business.services; let last=last;">
-            {{service.name}}{{ last ? '' : ', ' }}
-          </span>
+          <div fxLayout="column" fxLayoutGap="0.5rem">
+            <div class="row" fxLayout="row" fxLayoutGap="1rem">
+              <mat-icon>location_on</mat-icon>
+              <div class="row-info" fxLayout="column" fxLayoutGap="4px">
+                <div>{{business.address?.street}}</div>
+                <div>{{business.address?.city}}</div>
+                <div>{{business.address?.territory}}</div>
+                <div>{{business.address?.country.name}}, {{business.address?.zip}}</div>
+              </div>
+            </div>
+
+            <div *ngIf="!!business.phone" class="row row-center" fxLayout="row" fxLayoutGap="1rem">
+              <mat-icon>phone</mat-icon>
+              <a href="tel:+{{business.phone}}">{{business.phone}}</a>
+            </div>
+
+            <div *ngIf="!!business.email" class="row row-center" fxLayout="row" fxLayoutGap="1rem">
+              <mat-icon>email</mat-icon>
+              <a href="mailto:{{business.email}}">{{business.email}}</a>
+            </div>
+
+            <div *ngIf="!!business.website" class="row row-center" fxLayout="row" fxLayoutGap="1rem">
+              <mat-icon>public</mat-icon>
+              <a href="{{business.website}}">{{business.website}}</a>
+            </div>
+          </div>
+
+
         </mat-card-content>
       </mat-card>
 
-
+      <a mat-raised-button routerLink="edit">Edit</a>
     </div>
 
-    <div class="content-details" fxFlex.gt-xs="65">
-      <mat-tab-group class="details-tab">
-        <mat-tab label="Review">
-          <h1>Some tab content</h1>
+    <div fxFlex class="content-tab">
+
+      <mat-tab-group color="accent">
+        <mat-tab>
+          <ng-template mat-tab-label>
+            <div class="text-center">
+              <div><mat-icon color="accent">chat</mat-icon></div>
+              <div class="text-upper tab-label">Reviews</div>
+            </div>
+          </ng-template>
+          <h1>Best pasta restaurants</h1>
           <p>...</p>
         </mat-tab>
-        <mat-tab label="Photos">
-          <h1>Some more tab content</h1>
+
+        <mat-tab>
+          <ng-template mat-tab-label>
+            <div class="text-center">
+              <div><mat-icon color="accent">photo_library</mat-icon></div>
+              <div class="text-upper tab-label">Photos</div>
+            </div>
+          </ng-template>
+          <h1>Best pasta restaurants</h1>
           <p>...</p>
         </mat-tab>
       </mat-tab-group>
 
     </div>
   </div>
-
 </div>
 
 
-<a mat-raised-button routerLink="edit">Edit</a>

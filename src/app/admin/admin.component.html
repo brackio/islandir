@@ -9,32 +9,34 @@
   <!--&lt;!&ndash;</mat-select>&ndash;&gt;-->
 <!--</mat-toolbar>-->
 
-<ilr-navbar-admin></ilr-navbar-admin>
+<div class="admin-container" [class.is-mobile]="isMobileView">
+  <ilr-navbar-admin></ilr-navbar-admin>
 
-<mat-sidenav-container>
-  <mat-sidenav #sidenav
-    class="sidenav"
-    fixedInViewport="true"
-    fixedTopGap="{{isMobileView? 0 : 64}}"
-    mode="{{isMobileView?'over':'side'}}"
-    opened="{{!isMobileView}}"
-    disableClose="{{!isMobileView}}">
+  <mat-sidenav-container class="admin-sidenav-container">
+    <mat-sidenav #sidenav
+      class="sidenav"
+      [fixedInViewport]="isMobileView"
+      [fixedTopGap]="isMobileView? 56 : 0"
+      [mode]="isMobileView ? 'over':'side'"
+      [opened]="!isMobileView"
+      [disableClose]="!isMobileView">
 
 
-    <mat-nav-list *ngFor="let nav of navLinks">
-      <a mat-list-item routerLinkActive="active" class="list-item"
-         [routerLinkActiveOptions]="{ exact: nav.options.exactLink }"
-         [routerLink]="nav.link">
-        <mat-icon mat-list-icon>{{nav.icon}}</mat-icon>
-        {{nav.name}}
-      </a>
-    </mat-nav-list>
+      <mat-nav-list *ngFor="let nav of navLinks">
+        <a mat-list-item routerLinkActive="active" class="list-item"
+           [routerLinkActiveOptions]="{ exact: nav.options.exactLink }"
+           [routerLink]="nav.link">
+          <mat-icon mat-list-icon>{{nav.icon}}</mat-icon>
+          {{nav.name}}
+        </a>
+      </mat-nav-list>
 
-  </mat-sidenav>
+    </mat-sidenav>
 
-  <mat-sidenav-content>
+    <mat-sidenav-content>
 
-    <router-outlet></router-outlet>
-  </mat-sidenav-content>
+      <router-outlet></router-outlet>
+    </mat-sidenav-content>
 
-</mat-sidenav-container>
+  </mat-sidenav-container>
+</div>

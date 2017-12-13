@@ -2,8 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 
 import { Business } from '../shared/business';
-import { BusinessService } from '../shared/business.service';
-import { AlertService } from '../../core/alert.service';
 
 @Component({
   selector: 'ilr-business-detail',
@@ -15,15 +13,13 @@ export class BusinessDetailComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private router: Router,
-    private businessService: BusinessService,
+    private router: Router
   ) { }
 
   ngOnInit() {
     this.route.parent.data
       .subscribe((data: { business: Business }) => {
         this.business = data.business;
-        console.log(this.business);
       });
   }
 

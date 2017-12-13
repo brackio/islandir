@@ -1,0 +1,39 @@
+<form class="mat-typography" novalidate fxFlex="100" fxFlex.gt-sm="40rem" [formGroup]="servicesForm" (ngSubmit)="save(servicesForm.value)">
+  <h2 matDialogTitle>Business Services</h2>
+  <mat-dialog-content>
+
+    <div class="field-row" [class.align-center]="services.length === 0" fxLayout="row" fxLayoutGap="1rem" formArrayName="services">
+      <mat-icon class="field-icon">work</mat-icon>
+
+      <div fxLayout="column" fxFlex>
+        <span class="mat-caption field-label">Services</span>
+        <mat-chip-list class="full-width">
+          <mat-chip *ngFor="let service of services.controls; let i=index;" [selectable]="selectable" [formControlName]=""
+                    [removable]="removable" (remove)="removeService(i)">
+            {{service.value}}
+            <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+          </mat-chip>
+        </mat-chip-list>
+        <mat-form-field class="full-width" floatPlaceholder="never">
+          <input matInput placeholder="{{ (services.length>0) ? 'Add Service' : 'Services'}}" #serviceAutocompleteInput
+                 (keyup)="searchServices(serviceAutocompleteInput.value)"
+                 [matAutocomplete]="servicesAutocomplete" [disabled]="services.length >= maxServices"/>
+          <mat-hint>
+            Enter your business services (max. 5)
+          </mat-hint>
+          <mat-autocomplete #servicesAutocomplete="matAutocomplete" (optionSelected)="addService($event); serviceAutocompleteInput.value='';">
+            <mat-option *ngFor="let service of searchedServices | async" [value]="service.name">
+              {{ service.name }}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+      </div>
+    </div>
+
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end">
+    <button type="button" mat-button class="text-upper" (click)="cancel()">Cancel</button>
+    <button type="submit" mat-button [disabled]="!servicesForm.valid" class="text-upper" color="primary">Save</button>
+  </mat-dialog-actions>
+</form>

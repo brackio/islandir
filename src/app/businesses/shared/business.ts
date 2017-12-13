@@ -14,13 +14,13 @@ interface Photos {
 }
 
 interface Hours {
-  sunday: { openAt: number, closesAt: number, allDay: boolean };
-  monday: { openAt: number, closesAt: number, allDay: boolean };
-  tuesday: { openAt: number, closesAt: number, allDay: boolean };
-  wednesday: { openAt: number, closesAt: number, allDay: boolean };
-  thursday: { openAt: number, closesAt: number, allDay: boolean };
-  friday: { openAt: number, closesAt: number, allDay: boolean };
-  saturday: { openAt: number, closesAt: number, allDay: boolean };
+  sunday: [ { opens: string, closes: string } ];
+  monday: [ { opens: string, closes: string } ];
+  tuesday: [ { opens: string, closes: string } ];
+  wednesday: [ { opens: string, closes: string } ];
+  thursday: [ { opens: string, closes: string } ];
+  friday: [ { opens: string, closes: string } ];
+  saturday: [ { opens: string, closes: string } ];
 }
 
 export class Business {

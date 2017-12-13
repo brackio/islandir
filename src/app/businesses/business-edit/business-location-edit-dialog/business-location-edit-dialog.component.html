@@ -1,0 +1,58 @@
+<form novalidate fxFlex="100" fxFlex.gt-sm="40rem" [formGroup]="locationForm" (ngSubmit)="save(locationForm.value)">
+  <h2 matDialogTitle>Business location</h2>
+  <mat-dialog-content>
+
+    <div class="field-row" fxLayout="row" fxLayoutGap="1rem">
+      <mat-icon class="field-icon adjust">location_on</mat-icon>
+
+      <div formGroupName="address" fxFlex fxLayout="column">
+
+        <div formGroupName="country">
+          <mat-form-field class="full-width">
+            <mat-select id="country" placeholder="Country" formControlName="code" (change)="countryChanged($event)">
+              <mat-option *ngFor="let country of countries" [value]="country.code">{{ country.name }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <mat-form-field class="full-width" *ngIf="territories.length">
+          <mat-select id="territory" placeholder="Territory" formControlName="territory">
+            <mat-option *ngFor="let territory of territories" [value]="territory">{{ territory }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field class="full-width">
+          <input matInput type="text" id="street" formControlName="street" placeholder="Street Address">
+          <button mat-button *ngIf="street.value" matSuffix mat-icon-button aria-label="Clear" tabindex="-1" (click)="street=''">
+            <mat-icon>close</mat-icon>
+          </button>
+        </mat-form-field>
+
+        <div class="full-width" fxLayout="column" fxLayout.gt-xs="row" fxLayoutAlign.gt-xs="space-between center" fxLayoutGap.gt-xs="1rem">
+          <mat-form-field fxFlex>
+            <input matInput type="text" id="city" formControlName="city" placeholder="City">
+            <button mat-button *ngIf="city.value" matSuffix mat-icon-button aria-label="Clear" tabindex="-1" (click)="city=''">
+              <mat-icon>close</mat-icon>
+            </button>
+          </mat-form-field>
+
+          <mat-form-field *ngIf="hasZip">
+            <input matInput type="text" id="zip" formControlName="zip" placeholder="Zip Code">
+            <mat-error *ngIf="zip.errors">
+              Please enter a valid zip code
+            </mat-error>
+            <button mat-button *ngIf="zip.value" matSuffix mat-icon-button aria-label="Clear" tabindex="-1" (click)="zip=''">
+              <mat-icon>close</mat-icon>
+            </button>
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end">
+    <button type="button" mat-button class="text-upper" (click)="cancel()">Cancel</button>
+    <button type="submit" mat-button [disabled]="!locationForm.valid || locationForm.pristine" class="text-upper" color="primary">Save</button>
+  </mat-dialog-actions>
+</form>

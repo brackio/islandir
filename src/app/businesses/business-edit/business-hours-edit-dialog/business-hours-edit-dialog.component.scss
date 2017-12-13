@@ -1,0 +1,37 @@
+:host {
+  .field-row {
+
+    &.align-center {
+      align-items: center;
+
+      .field-label {
+        display: none;
+      }
+    }
+
+    .field-label {
+      color: rgba(0, 0, 0, 0.54);
+      padding: 1px 0;
+    }
+
+    .field-icon {
+      opacity: 0.54;
+
+      &.adjust {
+        margin-top: 0.8rem;
+      }
+    }
+
+    .align-center {
+      align-items: center;
+    }
+
+    .hours-select {
+      width: 120px;
+    }
+
+    .mat-slide-toggle {
+      flex-grow: 1;
+    }
+  }
+}

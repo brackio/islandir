@@ -1,0 +1,23 @@
+<form novalidate fxFlex="100" fxFlex.gt-sm="40rem" [formGroup]="nameForm" (ngSubmit)="save(nameForm.value)">
+  <h2 matDialogTitle>Business name</h2>
+  <mat-dialog-content>
+
+    <div fxLayout="row" fxLayoutGap="1rem" class="field-row align-center">
+      <mat-icon class="field-icon">business</mat-icon>
+
+      <mat-form-field fxFlex>
+        <input matInput placeholder="Business name" formControlName="name"  type="text" id="name">
+        <mat-error>Business name is required.</mat-error>
+        <mat-hint>
+          Enter your business name as it appears to customers.
+        </mat-hint>
+      </mat-form-field>
+    </div>
+
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end">
+    <button type="button" mat-button class="text-upper" (click)="cancel()">Cancel</button>
+    <button type="submit" mat-button [disabled]="!nameForm.valid || nameForm.pristine" class="text-upper" color="primary">Save</button>
+  </mat-dialog-actions>
+</form>

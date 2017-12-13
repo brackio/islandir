@@ -1,0 +1,24 @@
+<form novalidate fxFlex="100" fxFlex.gt-sm="40rem" [formGroup]="descriptionForm" (ngSubmit)="save(descriptionForm.value)">
+  <h2 matDialogTitle>Business description</h2>
+  <mat-dialog-content>
+
+    <div class="field-row align-center" fxLayout="row" fxLayoutGap="1rem">
+      <mat-icon class="field-icon">description</mat-icon>
+
+      <mat-form-field fxFlex>
+                <textarea matInput [maxlength]="descriptionCharLength" placeholder="Description" matTextareaAutosize matAutosizeMinRows="2"
+                          matAutosizeMaxRows="5" id="description" formControlName="description"></textarea>
+        <mat-hint align="end">{{description.value.length}} / {{descriptionCharLength}}</mat-hint>
+        <mat-error *ngIf="description.errors?.maxlength">
+          Description must not exceed {{descriptionCharLength}} characters.
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end">
+    <button type="button" mat-button class="text-upper" (click)="cancel()">Cancel</button>
+    <button type="submit" mat-button [disabled]="!descriptionForm.valid || descriptionForm.pristine" class="text-upper" color="primary">Save</button>
+  </mat-dialog-actions>
+</form>
