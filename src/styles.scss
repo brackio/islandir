@@ -154,12 +154,18 @@ a.no-underline {
   text-align: right;
 }
 
-mat-table {
+.mat-table {
 
   &.table-hover {
 
     mat-row:hover {
       background-color: rgba(0, 0, 0, .04);
     }
+  }
+}
+
+.business-hours-hack {
+  .mat-menu-panel {
+    max-height: 256px;
   }
 }

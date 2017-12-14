@@ -35,7 +35,7 @@ export class BusinessEditComponent implements OnInit {
 
   public openDialog(dialogName: string) {
     let dialogRef = this.dialog.open(this.getDialogComponent(dialogName), {
-      width: '624px',
+      minWidth: (dialogName !== 'hours') ? 524 : 720,
       disableClose: true,
       data: this.business
     });
@@ -70,7 +70,7 @@ export class BusinessEditComponent implements OnInit {
       case 'services': return BusinessServicesEditDialogComponent;
       case 'social': return BusinessSocialEditDialogComponent;
       case 'hours': return BusinessHoursEditDialogComponent;
-      case 'description': return BusinessDescriptionEditDialogComponent
+      case 'description': return BusinessDescriptionEditDialogComponent;
       default: return null;
     }
   }

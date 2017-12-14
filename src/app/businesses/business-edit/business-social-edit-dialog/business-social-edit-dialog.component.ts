@@ -35,7 +35,7 @@ export class BusinessSocialEditDialogComponent {
       id: business.id,
       name: business.name,
       website: [business.website, [Validators.pattern('https?://.+')]],
-      social:  this.fb.array(['', '', '', '', '', '', '', '', '', '', '',''].map(social =>
+      social:  this.fb.array([''].map(social =>
         this.fb.control(social), Validators.pattern('https?://.+')))
     });
   }

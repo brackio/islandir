@@ -1,17 +1,13 @@
 :host {
+  min-width: 720px;
   .field-row {
 
     &.align-center {
       align-items: center;
-
-      .field-label {
-        display: none;
-      }
     }
 
     .field-label {
-      color: rgba(0, 0, 0, 0.54);
-      padding: 1px 0;
+
     }
 
     .field-icon {
@@ -26,12 +22,27 @@
       align-items: center;
     }
 
-    .hours-select {
-      width: 120px;
+    .hour-row {
+      min-height: 54px;
+
+      .hours-select {
+        width: 120px;
+      }
+
+      .hours-add, .hours-remove {
+        align-self: flex-end;
+      }
+
+      .hours-split {
+        align-self: center;
+        color: rgba(0, 0, 0, 0.54);
+      }
     }
 
-    .mat-slide-toggle {
-      flex-grow: 1;
-    }
+    //.mat-slide-toggle {
+    //  flex-grow: 1;
+    //}
   }
+
+
 }

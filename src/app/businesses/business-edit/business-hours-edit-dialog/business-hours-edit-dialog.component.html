@@ -1,234 +1,244 @@
-<form class="mat-typography" novalidate fxFlex="100" fxFlex.gt-sm="40rem" [formGroup]="hoursForm" (ngSubmit)="save(hoursForm.value)">
-  <h2 matDialogTitle>Business Opening Hours</h2>
+<form class="mat-typography" novalidate [formGroup]="hoursForm" (ngSubmit)="save(hoursForm.value)">
+  <h2 mat-dialog-title>Business Opening Hours</h2>
   <mat-dialog-content>
+      <div fxLayout="row" fxLayoutGap="1rem" class="field-row">
+        <mat-icon class="field-icon">access_time</mat-icon>
 
-    <div fxLayout="row" fxLayoutGap="1rem" class="field-row">
-      <mat-icon class="field-icon adjust">access_time</mat-icon>
+        <div fxFlex fxLayout="column" formGroupName="openingHours">
+          <div fxLayout="row" formArrayName="sunday" fxLayoutGap="1rem" class="hour-row" [style.align-items]="hasHours(sundayHours, 1) ? 'flex-start': 'center'">
+            <span class="field-label">Sunday</span>
+            <mat-slide-toggle (change)="toggleHours($event, sundayHours)"
+                              color="primary" [checked]="hasHours(sundayHours)">{{hasHours(sundayHours) ? 'Open' : 'Closed'}}</mat-slide-toggle>
 
-      <div fxFlex fxLayout="column" formGroupName="openingHours">
-        <div fxLayout="row" formArrayName="sunday" fxLayoutGap="1rem" [style.align-items]="sundayHours?.length>1 ? 'flex-start': 'center'" style="min-height: 42px;">
-          <mat-slide-toggle (change)="toggleHours($event, sundayHours)" color="primary" [checked]="sundayHours?.length>0" >Sunday</mat-slide-toggle>
+            <div fxLayout="column">
+                <div fxLayout="row" *ngFor="let ctrl of sundayHours.controls; let i=index;" [formGroupName]="i" fxLayoutAlign="space-between center" fxLayoutGap="12px">
 
-          <div fxLayout="column" fxFlex>
-            <div *ngFor="let hour of sundayHours.controls; let i=index;">
-              <div fxLayout="row" [formGroupName]="i" class="align-center" fxLayoutGap="12px">
-                <mat-form-field class="hours-select">
-                  <mat-select placeholder="Opens" formControlName="opens">
-                    <mat-option *ngFor="let hour of hours" [value]="hour.value">{{ hour.text }}</mat-option>
-                  </mat-select>
-                </mat-form-field>
-
-                <span>-</span>
-
-                <mat-form-field class="hours-select">
-                  <mat-select placeholder="Closes" formControlName="closes">
-                    <mat-option *ngFor="let hour of hours" [value]="hour.value">{{ hour.text }}</mat-option>
-                  </mat-select>
-                </mat-form-field>
-              </div>
-              <span fxFlex></span>
-
-              <button [style.align-self]="i>0 ? 'flex-start': 'center'" type="button" mat-button color="primary" class="text-upper" *ngIf="i===0" (click)="addHour(sundayHours)">add hour</button>
-              <button type="button" mat-icon-button *ngIf="i>0" (click)="removeHour(i, sundayHours)" style="align-self: center;">
-                <mat-icon aria-label="remove opening hours">close</mat-icon>
-              </button>
-            </div>
-          </div>
-
-        </div>
-
-        <div fxLayout="row" formArrayName="monday" fxLayoutGap="1rem" [style.align-items]="mondayHours?.length>1 ? 'flex-start': 'center'" style="min-height: 42px;">
-          <mat-slide-toggle (change)="toggleHours($event, mondayHours)" color="primary" [checked]="mondayHours?.length>0" >Monday</mat-slide-toggle>
-
-          <div fxLayout="column" fxFlex>
-            <div *ngFor="let hour of mondayHours.controls; let i=index;">
-              <div fxLayout="row" [formGroupName]="i" class="align-center" fxLayoutGap="12px">
-                <mat-form-field class="hours-select">
-                  <mat-select placeholder="Opens" formControlName="opens">
-                    <mat-option *ngFor="let hour of hours" [value]="hour.value">{{ hour.text }}</mat-option>
-                  </mat-select>
-                </mat-form-field>
-
-                <span>-</span>
-
-                <mat-form-field class="hours-select">
-                  <mat-select placeholder="Closes" formControlName="closes">
-                    <mat-option *ngFor="let hour of hours" [value]="hour.value">{{ hour.text }}</mat-option>
-                  </mat-select>
-                </mat-form-field>
-              </div>
-              <span fxFlex></span>
-
-              <button [style.align-self]="i>0 ? 'flex-start': 'center'" type="button" mat-button color="primary" class="text-upper" *ngIf="i===0" (click)="addHour(mondayHours)">add hour</button>
-              <button type="button" mat-icon-button *ngIf="i>0" (click)="removeHour(i, mondayHours)" style="align-self: center;">
-                <mat-icon aria-label="remove opening hours">close</mat-icon>
-              </button>
-            </div>
-          </div>
-
-        </div>
-
-        <div fxLayout="row" formArrayName="tuesday" fxLayoutGap="1rem" [style.align-items]="tuesdayHours?.length>1 ? 'flex-start': 'center'" style="min-height: 42px;">
-          <mat-slide-toggle (change)="toggleHours($event, tuesdayHours)" color="primary" [checked]="tuesdayHours?.length>0" >Tuesday</mat-slide-toggle>
-
-          <div fxLayout="column" fxFlex>
-            <div *ngFor="let hour of tuesdayHours.controls; let i=index;">
-              <div fxLayout="row" [formGroupName]="i" class="align-center" fxLayoutGap="12px">
-                <mat-form-field class="hours-select">
-                  <mat-select placeholder="Opens" formControlName="opens">
-                    <mat-option *ngFor="let hour of hours" [value]="hour.value">{{ hour.text }}</mat-option>
-                  </mat-select>
-                </mat-form-field>
-
-                <span>-</span>
-
-                <mat-form-field class="hours-select">
-                  <mat-select placeholder="Closes" formControlName="closes">
-                    <mat-option *ngFor="let hour of hours" [value]="hour.value">{{ hour.text }}</mat-option>
-                  </mat-select>
-                </mat-form-field>
-              </div>
-              <span fxFlex></span>
-
-              <button [style.align-self]="i>0 ? 'flex-start': 'center'" type="button" mat-button color="primary" class="text-upper" *ngIf="i===0" (click)="addHour(tuesdayHours)">add hour</button>
-              <button type="button" mat-icon-button *ngIf="i>0" (click)="removeHour(i, tuesdayHours)" style="align-self: center;">
-                <mat-icon aria-label="remove opening hours">close</mat-icon>
-              </button>
-            </div>
-          </div>
-
-        </div>
-
-        <div fxLayout="row" formArrayName="wednesday" fxLayoutGap="1rem" [style.align-items]="wednesdayHours?.length>1 ? 'flex-start': 'center'" style="min-height: 42px;">
-          <mat-slide-toggle (change)="toggleHours($event, wednesdayHours)" color="primary" [checked]="wednesdayHours?.length>0" >Wednesday</mat-slide-toggle>
-
-          <div fxLayout="column" fxFlex>
-            <div *ngFor="let hour of wednesdayHours.controls; let i=index;">
-              <div fxLayout="row" [formGroupName]="i" class="align-center" fxLayoutGap="12px">
-                <mat-form-field class="hours-select">
-                  <mat-select placeholder="Opens" formControlName="opens">
-                    <mat-option *ngFor="let hour of hours" [value]="hour.value">{{ hour.text }}</mat-option>
-                  </mat-select>
-                </mat-form-field>
-
-                <span>-</span>
-
-                <mat-form-field class="hours-select">
-                  <mat-select placeholder="Closes" formControlName="closes">
-                    <mat-option *ngFor="let hour of hours" [value]="hour.value">{{ hour.text }}</mat-option>
-                  </mat-select>
-                </mat-form-field>
-              </div>
-              <span fxFlex></span>
-
-              <button [style.align-self]="i>0 ? 'flex-start': 'center'" type="button" mat-button color="primary" class="text-upper" *ngIf="i===0" (click)="addHour(wednesdayHours)">add hour</button>
-              <button type="button" mat-icon-button *ngIf="i>0" (click)="removeHour(i, wednesdayHours)" style="align-self: center;">
-                <mat-icon aria-label="remove opening hours">close</mat-icon>
-              </button>
-            </div>
-          </div>
-
-        </div>
-
-        <div fxLayout="row" formArrayName="thursday" fxLayoutGap="1rem" [style.align-items]="thursdayHours?.length>1 ? 'flex-start': 'center'" style="min-height: 42px;">
-          <mat-slide-toggle (change)="toggleHours($event, thursdayHours)" color="primary" [checked]="thursdayHours?.length>0" >Thursday</mat-slide-toggle>
-
-          <div fxLayout="column" fxFlex>
-            <div *ngFor="let hour of thursdayHours.controls; let i=index;">
-              <div fxLayout="row" [formGroupName]="i" class="align-center" fxLayoutGap="12px">
-                <mat-form-field class="hours-select">
-                  <mat-select placeholder="Opens" formControlName="opens">
-                    <mat-option *ngFor="let hour of hours" [value]="hour.value">{{ hour.text }}</mat-option>
-                  </mat-select>
-                </mat-form-field>
-
-                <span>-</span>
-
-                <mat-form-field class="hours-select">
-                  <mat-select placeholder="Closes" formControlName="closes">
-                    <mat-option *ngFor="let hour of hours" [value]="hour.value">{{ hour.text }}</mat-option>
-                  </mat-select>
-                </mat-form-field>
-              </div>
-              <span fxFlex></span>
-
-              <button [style.align-self]="i>0 ? 'flex-start': 'center'" type="button" mat-button color="primary" class="text-upper" *ngIf="i===0" (click)="addHour(thursdayHours)">add hour</button>
-              <button type="button" mat-icon-button *ngIf="i>0" (click)="removeHour(i, thursdayHours)" style="align-self: center;">
-                <mat-icon aria-label="remove opening hours">close</mat-icon>
-              </button>
-            </div>
-          </div>
-
-        </div>
-
-        <div fxLayout="row" formArrayName="friday" fxLayoutGap="1rem" [style.align-items]="fridayHours?.length>1 ? 'flex-start': 'center'" style="min-height: 42px;">
-          <mat-slide-toggle (change)="toggleHours($event, fridayHours)" color="primary" [checked]="fridayHours?.length>0" >Friday</mat-slide-toggle>
-
-          <div fxLayout="column" fxFlex>
-            <div *ngFor="let hour of fridayHours.controls; let i=index;">
-              <div fxLayout="row" [formGroupName]="i" class="align-center" fxLayoutGap="12px">
-                <mat-form-field class="hours-select">
-                  <mat-select placeholder="Opens" formControlName="opens">
-                    <mat-option *ngFor="let hour of hours" [value]="hour.value">{{ hour.text }}</mat-option>
-                  </mat-select>
-                </mat-form-field>
-
-                <span>-</span>
-
-                <mat-form-field class="hours-select">
-                  <mat-select placeholder="Closes" formControlName="closes">
-                    <mat-option *ngFor="let hour of hours" [value]="hour.value">{{ hour.text }}</mat-option>
-                  </mat-select>
-                </mat-form-field>
-              </div>
-              <span fxFlex></span>
-
-              <button [style.align-self]="i>0 ? 'flex-start': 'center'" type="button" mat-button color="primary" class="text-upper" *ngIf="i===0" (click)="addHour(fridayHours)">add hour</button>
-              <button type="button" mat-icon-button *ngIf="i>0" (click)="removeHour(i, fridayHours)" style="align-self: center;">
-                <mat-icon aria-label="remove opening hours">close</mat-icon>
-              </button>
-            </div>
-          </div>
-
-        </div>
-
-        <div fxLayout="row" formArrayName="saturday" fxLayoutGap="1rem" [style.align-items]="saturdayHours?.length>1 ? 'flex-start': 'center'" style="min-height: 42px;">
-          <mat-slide-toggle (change)="toggleHours($event, saturdayHours)" color="primary" [checked]="saturdayHours?.length>0" >Saturday</mat-slide-toggle>
-
-          <div fxLayout="column" fxFlex>
-            <div *ngFor="let hour of saturdayHours.controls; let i=index;">
-              <div fxLayout="row" [formGroupName]="i" class="align-center" fxLayoutGap="12px">
-                <mat-form-field class="hours-select">
-                  <mat-select placeholder="Opens" formControlName="opens">
-                    <mat-option value="24hours"><b>24 hours</b></mat-option>
-                    <mat-divider></mat-divider>
-                    <mat-option *ngFor="let hour of hours" [value]="hour.value">{{ hour.text }}</mat-option>
+                  <mat-form-field class="hours-select">
+                    <!--<input matInput placeholder="Opens at" formControlName="opens" [matMenuTriggerFor]="hourMenu" (focus)="currentCtrl(ctrl.controls.opens)">-->
+                    <mat-select placeholder="Opens at" formControlName="opens" (change)="hourSelected($event)">
+                      <mat-option value="24hours"><b>24 hours</b></mat-option>
+                      <mat-divider></mat-divider>
+                      <mat-option *ngFor="let hour of hours" [value]="hour.value">{{ hour.text }}</mat-option>
                     </mat-select>
-                </mat-form-field>
+                  </mat-form-field>
 
-                <span>-</span>
+                  <span class="hours-split">—</span>
 
-                <mat-form-field class="hours-select">
-                  <mat-select placeholder="Closes" formControlName="closes">
-                    <mat-option value="24hours"><b>24 hours</b></mat-option>
-                    <mat-divider></mat-divider>
-                    <mat-option *ngFor="let hour of hours" [value]="hour.value">{{ hour.text }}</mat-option>
-                  </mat-select>
-                </mat-form-field>
+                  <mat-form-field class="hours-select">
+                    <!--<input matInput placeholder="Closes at" formControlName="closes" [matMenuTriggerFor]="hourMenu" (focus)="currentCtrl(ctrl.controls.closes)">-->
+                    <mat-select placeholder="Closes at" formControlName="closes">
+                      <mat-option *ngFor="let hour of hours" [value]="hour.value">{{ hour.text }}</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+
+                  <button type="button" mat-icon-button (click)="removeHour(i, sundayHours)" [style.align-self]="hasHours(sundayHours, 1) ? 'flex-end': 'center'">
+                    <mat-icon aria-label="remove sunday opening hours">close</mat-icon>
+                  </button>
+                </div>
               </div>
-              <span fxFlex></span>
+            <span fxFlex></span>
 
-              <button [style.align-self]="i>0 ? 'flex-start': 'center'" type="button" mat-button color="primary" class="text-upper" *ngIf="i===0" (click)="addHour(saturdayHours)">add hour</button>
-              <button type="button" mat-icon-button *ngIf="i>0" (click)="removeHour(i, saturdayHours)" style="align-self: center;">
-                <mat-icon aria-label="remove opening hours">close</mat-icon>
-              </button>
-            </div>
+            <button type="button" mat-button color="primary" class="text-upper" [style.align-self]="hasHours(sundayHours, 1) ? 'flex-end': 'center'"
+                    *ngIf="sundayHours.dirty && sundayHours.valid" (click)="addHour(sundayHours)">add hour</button>
+
           </div>
 
-        </div>
+          <div fxLayout="row" formArrayName="monday" fxLayoutGap="1rem" [style.align-items]="mondayHours?.length>1 ? 'flex-start': 'center'" style="min-height: 42px;">
+            <mat-slide-toggle (change)="toggleHours($event, mondayHours)" color="primary" [checked]="mondayHours?.length>0" >Monday</mat-slide-toggle>
 
+            <div fxLayout="column" fxFlex>
+              <div *ngFor="let hour of mondayHours.controls; let i=index;">
+                <div fxLayout="row" [formGroupName]="i" class="align-center" fxLayoutGap="12px">
+                  <mat-form-field class="hours-select">
+                    <mat-select placeholder="Opens" formControlName="opens">
+                      <mat-option *ngFor="let hour of hours" [value]="hour.value">{{ hour.text }}</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+
+                  <span>—</span>
+
+                  <mat-form-field class="hours-select">
+                    <mat-select placeholder="Closes" formControlName="closes">
+                      <mat-option *ngFor="let hour of hours" [value]="hour.value">{{ hour.text }}</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <span fxFlex></span>
+
+                <button [style.align-self]="i>0 ? 'flex-start': 'center'" type="button" mat-button color="primary" class="text-upper" *ngIf="i===0" (click)="addHour(mondayHours)">add hour</button>
+                <button type="button" mat-icon-button *ngIf="i>0" (click)="removeHour(i, mondayHours)" style="align-self: center;">
+                  <mat-icon aria-label="remove opening hours">close</mat-icon>
+                </button>
+              </div>
+            </div>
+
+          </div>
+
+          <div fxLayout="row" formArrayName="tuesday" fxLayoutGap="1rem" [style.align-items]="tuesdayHours?.length>1 ? 'flex-start': 'center'" style="min-height: 42px;">
+            <mat-slide-toggle (change)="toggleHours($event, tuesdayHours)" color="primary" [checked]="tuesdayHours?.length>0" >Tuesday</mat-slide-toggle>
+
+            <div fxLayout="column" fxFlex>
+              <div *ngFor="let hour of tuesdayHours.controls; let i=index;">
+                <div fxLayout="row" [formGroupName]="i" class="align-center" fxLayoutGap="12px">
+                  <mat-form-field class="hours-select">
+                    <mat-select placeholder="Opens" formControlName="opens">
+                      <mat-option *ngFor="let hour of hours" [value]="hour.value">{{ hour.text }}</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+
+                  <span>—</span>
+
+                  <mat-form-field class="hours-select">
+                    <mat-select placeholder="Closes" formControlName="closes">
+                      <mat-option *ngFor="let hour of hours" [value]="hour.value">{{ hour.text }}</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <span fxFlex></span>
+
+                <button [style.align-self]="i>0 ? 'flex-start': 'center'" type="button" mat-button color="primary" class="text-upper" *ngIf="i===0" (click)="addHour(tuesdayHours)">add hour</button>
+                <button type="button" mat-icon-button *ngIf="i>0" (click)="removeHour(i, tuesdayHours)" style="align-self: center;">
+                  <mat-icon aria-label="remove opening hours">close</mat-icon>
+                </button>
+              </div>
+            </div>
+
+          </div>
+
+          <div fxLayout="row" formArrayName="wednesday" fxLayoutGap="1rem" [style.align-items]="wednesdayHours?.length>1 ? 'flex-start': 'center'" style="min-height: 42px;">
+            <mat-slide-toggle (change)="toggleHours($event, wednesdayHours)" color="primary" [checked]="wednesdayHours?.length>0" >Wednesday</mat-slide-toggle>
+
+            <div fxLayout="column" fxFlex>
+              <div *ngFor="let hour of wednesdayHours.controls; let i=index;">
+                <div fxLayout="row" [formGroupName]="i" class="align-center" fxLayoutGap="12px">
+                  <mat-form-field class="hours-select">
+                    <mat-select placeholder="Opens" formControlName="opens">
+                      <mat-option *ngFor="let hour of hours" [value]="hour.value">{{ hour.text }}</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+
+                  <span>—</span>
+
+                  <mat-form-field class="hours-select">
+                    <mat-select placeholder="Closes" formControlName="closes">
+                      <mat-option *ngFor="let hour of hours" [value]="hour.value">{{ hour.text }}</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <span fxFlex></span>
+
+                <button [style.align-self]="i>0 ? 'flex-start': 'center'" type="button" mat-button color="primary" class="text-upper" *ngIf="i===0" (click)="addHour(wednesdayHours)">add hour</button>
+                <button type="button" mat-icon-button *ngIf="i>0" (click)="removeHour(i, wednesdayHours)" style="align-self: center;">
+                  <mat-icon aria-label="remove opening hours">close</mat-icon>
+                </button>
+              </div>
+            </div>
+
+          </div>
+
+          <div fxLayout="row" formArrayName="thursday" fxLayoutGap="1rem" [style.align-items]="thursdayHours?.length>1 ? 'flex-start': 'center'" style="min-height: 42px;">
+            <mat-slide-toggle (change)="toggleHours($event, thursdayHours)" color="primary" [checked]="thursdayHours?.length>0" >Thursday</mat-slide-toggle>
+
+            <div fxLayout="column" fxFlex>
+              <div *ngFor="let hour of thursdayHours.controls; let i=index;">
+                <div fxLayout="row" [formGroupName]="i" class="align-center" fxLayoutGap="12px">
+                  <mat-form-field class="hours-select">
+                    <mat-select placeholder="Opens" formControlName="opens">
+                      <mat-option *ngFor="let hour of hours" [value]="hour.value">{{ hour.text }}</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+
+                  <span>—</span>
+
+                  <mat-form-field class="hours-select">
+                    <mat-select placeholder="Closes" formControlName="closes">
+                      <mat-option *ngFor="let hour of hours" [value]="hour.value">{{ hour.text }}</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <span fxFlex></span>
+
+                <button [style.align-self]="i>0 ? 'flex-start': 'center'" type="button" mat-button color="primary" class="text-upper" *ngIf="i===0" (click)="addHour(thursdayHours)">add hour</button>
+                <button type="button" mat-icon-button *ngIf="i>0" (click)="removeHour(i, thursdayHours)" style="align-self: center;">
+                  <mat-icon aria-label="remove opening hours">close</mat-icon>
+                </button>
+              </div>
+            </div>
+
+          </div>
+
+          <div fxLayout="row" formArrayName="friday" fxLayoutGap="1rem" [style.align-items]="fridayHours?.length>1 ? 'flex-start': 'center'" style="min-height: 42px;">
+            <mat-slide-toggle (change)="toggleHours($event, fridayHours)" color="primary" [checked]="fridayHours?.length>0" >Friday</mat-slide-toggle>
+
+            <div fxLayout="column" fxFlex>
+              <div *ngFor="let hour of fridayHours.controls; let i=index;">
+                <div fxLayout="row" [formGroupName]="i" class="align-center" fxLayoutGap="12px">
+                  <mat-form-field class="hours-select">
+                    <mat-select placeholder="Opens" formControlName="opens">
+                      <mat-option *ngFor="let hour of hours" [value]="hour.value">{{ hour.text }}</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+
+                  <span>—</span>
+
+                  <mat-form-field class="hours-select">
+                    <mat-select placeholder="Closes" formControlName="closes">
+                      <mat-option *ngFor="let hour of hours" [value]="hour.value">{{ hour.text }}</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <span fxFlex></span>
+
+                <button [style.align-self]="i>0 ? 'flex-start': 'center'" type="button" mat-button color="primary" class="text-upper" *ngIf="i===0" (click)="addHour(fridayHours)">add hour</button>
+                <button type="button" mat-icon-button *ngIf="i>0" (click)="removeHour(i, fridayHours)" style="align-self: center;">
+                  <mat-icon aria-label="remove opening hours">close</mat-icon>
+                </button>
+              </div>
+            </div>
+
+          </div>
+
+          <div fxLayout="row" formArrayName="saturday" fxLayoutGap="1rem" [style.align-items]="saturdayHours?.length>1 ? 'flex-start': 'center'" style="min-height: 42px;">
+            <mat-slide-toggle (change)="toggleHours($event, saturdayHours)" color="primary" [checked]="saturdayHours?.length>0" >Saturday</mat-slide-toggle>
+
+            <div fxLayout="column" fxFlex>
+              <div *ngFor="let ctrl of saturdayHours.controls; let i=index;">
+                <div fxLayout="row" [formGroupName]="i" class="align-center" fxLayoutGap="12px">
+                  <mat-form-field class="hours-select">
+                    <mat-select placeholder="Opens" formControlName="opens">
+                      <mat-option value="24hours"><b>24 hours</b></mat-option>
+                      <mat-divider></mat-divider>
+                      <mat-option *ngFor="let hour of hours" [value]="hour.value">{{ hour.text }}</mat-option>
+                      </mat-select>
+                  </mat-form-field>
+
+                  <span>—</span>
+
+                  <mat-form-field class="hours-select">
+                    <mat-select placeholder="Closes" formControlName="closes">
+                      <mat-option value="24hours"><b>24 hours</b></mat-option>
+                      <mat-divider></mat-divider>
+                      <mat-option *ngFor="let hour of hours" [value]="hour.value">{{ hour.text }}</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <span fxFlex></span>
+
+                <button [style.align-self]="i>0 ? 'flex-start': 'center'" type="button" mat-button color="primary" class="text-upper" *ngIf="i===0" (click)="addHour(saturdayHours)">add hour</button>
+                <button type="button" mat-icon-button *ngIf="i>0" (click)="removeHour(i, saturdayHours)" style="align-self: center;">
+                  <mat-icon aria-label="remove opening hours">close</mat-icon>
+                </button>
+              </div>
+            </div>
+
+          </div>
+
+          <!--<mat-menu #hourMenu="matMenu" class="business-hours-hack">-->
+            <!--<button mat-menu-item *ngFor="let hour of hours" (click)="setHour(hour.value)">{{hour.text}}</button>-->
+          <!--</mat-menu>-->
+
+        </div>
       </div>
-    </div>
 
   </mat-dialog-content>
 

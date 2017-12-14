@@ -1,5 +1,5 @@
-import { Component, Inject } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA, MatSlideToggleChange } from '@angular/material';
+import { Component, Inject, ViewChild } from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA, MatSlideToggleChange, MatSelectChange } from '@angular/material';
 import { FormBuilder, FormGroup, Validators, FormArray, FormControl } from '@angular/forms';
 import { AlertService } from '../../../core/alert.service';
 import { GlobalErrorHandler as ErrorHandler } from '../../../core/global-error-handler';
@@ -40,6 +40,9 @@ export class BusinessHoursEditDialogComponent {
     { value: '22:00',  text: '10:00 pm' }, { value: '22:30', text: '10:30 pm' },
     { value: '23:00',  text: '11:00 pm' }, { value: '23:30', text: '11:30 pm' }
   ];
+
+  // @ViewChild(MatMenuTrigger) hourTrigger: MatMenuTrigger;
+  // public currentControl: FormControl;
 
   constructor(
     public dialogRef: MatDialogRef<BusinessHoursEditDialogComponent>,
@@ -125,6 +128,31 @@ export class BusinessHoursEditDialogComponent {
         ctrl.removeAt(0);
       }
     }
+  }
+  //
+  // public openHourMenu(): void  {
+  //   this.hourTrigger.openMenu();
+  // }
+  //
+  // public currentCtrl(ctrl: FormControl): void {
+  //   this.currentControl = ctrl;
+  // }
+  //
+  // public setHour(hour: string) {
+  //   this.currentControl.setValue(hour);
+  // }
+
+  public hourSelected(event: MatSelectChange): void {
+    console.log(event);
+
+  }
+
+  public hasHours(ctrl: FormArray, count?: number): boolean {
+    console.log(ctrl && ctrl.length > count || 0);
+    if (ctrl && ctrl.length > count || 0) {
+      return true;
+    }
+    return false;
   }
 
   public save(business: Business): void {
