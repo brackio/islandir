@@ -1,4 +1,3 @@
-///<reference path="../../../node_modules/@angular/common/http/src/response.d.ts"/>
 import { Injectable } from '@angular/core';
 import { Router, NavigationExtras } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
@@ -20,18 +19,21 @@ export class JWTInterceptor  implements HttpInterceptor {
 
   constructor(
     private router: Router
-  ){ }
+  ) { }
 
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
       const token = localStorage.getItem(CONFIG.vars.currentToken);
       if (!!token) {
         const JWT = `Bearer ${JSON.parse(token).token}`;
         // Clone the request to add the new header.
-        req = req.clone({
-          headers: req.headers
-            .set('Authorization', JWT)
-            .set('Content-Type', 'application/json')
-        });
+
+        if (!req.headers.has('noAuth')) { // used to bypass jwt-interceptor
+          req = req.clone({
+            headers: req.headers
+              .set('Authorization', JWT)
+              .set('Content-Type', 'application/json')
+          });
+        }
       }
       return next.handle(req).do((event: HttpEvent<any>) => {
         if (event instanceof HttpResponse) {

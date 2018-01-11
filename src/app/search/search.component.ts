@@ -3,15 +3,8 @@ import { Router } from '@angular/router';
 import { MatAutocompleteSelectedEvent } from '@angular/material';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
-
-// Observable class extensions
-import 'rxjs/add/observable/of';
-import 'rxjs/add/operator/switchMap';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/catch';
-import 'rxjs/add/operator/debounceTime';
-import 'rxjs/add/operator/distinctUntilChanged';
-import 'rxjs/add/operator/startWith';
+import { catchError, startWith, debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
+import { of } from 'rxjs/observable/of';
 
 import { KeywordService } from '../models/keywords/keyword.service';
 import { CountryService } from '../models/countries/country.service';
@@ -44,14 +37,14 @@ export class SearchComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    //this.searchHistory = this.getSearchHistory();
+    // this.searchHistory = this.getSearchHistory();
 
-    this.keywords = this.searchTerms
-      .debounceTime(300)
-      .distinctUntilChanged()
-      .startWith(null)
-      .switchMap(term => term ? this.keywordService.search(term) :  Observable.of<Keyword[]>([]))
-      .catch(error => Observable.of<Keyword[]>([]));
+    this.keywords = this.searchTerms.pipe(
+      debounceTime(300),
+      distinctUntilChanged(),
+      startWith(null),
+      switchMap(term => term ? this.keywordService.search(term) :  of<Keyword[]>([])),
+      catchError(error => of<Keyword[]>([])));
   }
 
   public displayFn(option: SearchOption): string {
@@ -81,10 +74,10 @@ export class SearchComponent implements OnInit {
       history.name = JSON.parse(cache);
       const j = [history];
 
-      return Observable.of(j);
+      return of(j);
     }
 
-    return Observable.of<Keyword[]>([]);
+    return of<Keyword[]>([]);
   }
 
   private updateSearchHistory(search: string): void {
@@ -94,8 +87,4 @@ export class SearchComponent implements OnInit {
     this.searchHistory.unshift(search);
     this.cache.set(CONFIG.vars.searchHistory, JSON.stringify(this.searchHistory));
   }
-
-
-
-
 }

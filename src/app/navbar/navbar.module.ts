@@ -11,6 +11,7 @@ import { NavbarAdminComponent } from './navbar-admin/navbar-admin.component';
 import { UserNavComponent } from './user-nav/user-nav.component';
 import { NotificationService } from '../notifications/shared/notification.service';
 import { NavbarBusinessComponent } from './navbar-business/navbar-business.component';
+import { NavbarBaseComponent } from './navbar-base/navbar-base.component';
 
 @NgModule({
   imports: [
@@ -24,12 +25,15 @@ import { NavbarBusinessComponent } from './navbar-business/navbar-business.compo
     NavbarHomeComponent,
     NavbarAdminComponent,
     UserNavComponent,
-    NavbarBusinessComponent
+    NavbarBusinessComponent,
+    NavbarBaseComponent
   ],
   exports: [
     NavbarHomeComponent,
     NavbarAdminComponent,
-    NavbarBusinessComponent
+    NavbarBusinessComponent,
+    NavbarBaseComponent,
+    UserNavComponent
   ],
   providers: [
     NotificationService

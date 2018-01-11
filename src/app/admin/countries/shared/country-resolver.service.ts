@@ -1,4 +1,6 @@
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs/Observable';
+import { map } from 'rxjs/operators';
 import {
   Router,
   ActivatedRoute,
@@ -8,39 +10,33 @@ import {
 
 import { Country } from '../../../models/countries/country';
 import { CountryService } from '../../../models/countries/country.service';
-import { AlertService } from '../../../core/alert.service';
+
 
 @Injectable()
-export class CountryResolverService implements Resolve<Country>{
+export class CountryResolverService implements Resolve<Country> {
   constructor(
     private countryService: CountryService,
     private router: Router,
-    private route: ActivatedRoute,
-    private alertService: AlertService
+    private route: ActivatedRoute
   ) {}
 
-  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Promise<Country> | Country {
+  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Country> | Country {
     const id = route.paramMap.get('code');
-    if ( id === 'new') {
+    if (id === 'new') {
       return new Country();
     }
 
     return this.countryService.findOne(id)
-      .then(country => {
-        if (country) {
-          return country;
-        }
-        this.goBack();
-        this.alertService.notFound('Country');
-        return null;
-      }, () => {
-        this.goBack();
-        return null;
-      });
-  }
-
-  private goBack() {
-    this.router.navigate(['../'], { relativeTo: this.route });
+      .pipe(
+        map(country => {
+          if (country) {
+            return country;
+          } else { // id not found
+            this.router.navigate(['../'], { relativeTo: this.route });
+            return null;
+          }
+        })
+      );
   }
 
 }

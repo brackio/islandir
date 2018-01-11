@@ -1,8 +1,7 @@
-import { Component, Inject, ViewChild } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA, MatSlideToggleChange, MatSelectChange } from '@angular/material';
 import { FormBuilder, FormGroup, Validators, FormArray, FormControl } from '@angular/forms';
-import { AlertService } from '../../../core/alert.service';
-import { GlobalErrorHandler as ErrorHandler } from '../../../core/global-error-handler';
+import { MessageService } from '../../../core/message.service';
 
 import { Business } from '../../shared/business';
 import { BusinessService } from '../../shared/business.service';
@@ -48,8 +47,7 @@ export class BusinessHoursEditDialogComponent {
     public dialogRef: MatDialogRef<BusinessHoursEditDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: Business,
     private businessService: BusinessService,
-    private alertService: AlertService,
-    private errorHandler: ErrorHandler,
+    private alertService: MessageService,
     private fb: FormBuilder
   ) {
     this.createForm(data);
@@ -142,25 +140,28 @@ export class BusinessHoursEditDialogComponent {
   //   this.currentControl.setValue(hour);
   // }
 
-  public hourSelected(event: MatSelectChange): void {
-    console.log(event);
-
-  }
-
-  public hasHours(ctrl: FormArray, count?: number): boolean {
-    console.log(ctrl && ctrl.length > count || 0);
-    if (ctrl && ctrl.length > count || 0) {
-      return true;
+  public hourSelected(event: MatSelectChange, ctrl: FormControl): void {
+    if (event.value === '24hours') {
+      ctrl.enable();
+      // this.hoursForm.get('sundayClosesAt').disable();
     }
-    return false;
+
   }
+
+  // public hasHours(ctrl: FormArray, count?: number): boolean {
+  //   console.log(ctrl && ctrl.length > count || 0);
+  //   if (ctrl && ctrl.length > count || 0) {
+  //     return true;
+  //   }
+  //   return false;
+  // }
 
   public save(business: Business): void {
     this.businessService.update(business)
-      .then((result) => {
+      .subscribe((result) => {
         this.alertService.saveComplete();
         this.dialogRef.close(result);
-      }, err => this.errorHandler.handleError(err));
+      });
   }
 
   public cancel(): void {

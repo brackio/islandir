@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { TdDialogService } from '@covalent/core';
+import { Observable } from 'rxjs/Observable';
 
 import { Keyword } from '../../../models/keywords/keyword';
 import { KeywordService } from '../../../models/keywords/keyword.service';
-import { AlertService } from '../../../core/alert.service';
-import { GlobalErrorHandler as ErrorHandler } from '../../../core/global-error-handler';
-import { DialogsService } from '../../../dialogs/shared/dialog.service';
+import { MessageService } from '../../../core/message.service';
 
 @Component({
   selector: 'ilr-keyword-edit',
@@ -22,9 +22,8 @@ export class KeywordEditComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private keywordService: KeywordService,
-    private alertService: AlertService,
-    private errorHandler: ErrorHandler,
-    private dialogsService: DialogsService,
+    private alertService: MessageService,
+    private dialogService: TdDialogService,
     private fb: FormBuilder
   ) { }
 
@@ -54,19 +53,18 @@ export class KeywordEditComponent implements OnInit {
     }
   }
 
-  public canDeactivate(): Promise<boolean> | boolean {
+  public canDeactivate(): Observable<boolean> | boolean {
     if (this.form.pristine) {
       return true;
     }
 
-    return this.dialogsService
-      .confirmation(
-        'Discard Changes?',
-        'Are you sure you want to discard your changes?',
-        'Discard').toPromise()
-      .then(result => {
-        return result;
-      });
+    return this.dialogService.openConfirm({
+      message: 'Are you sure you want to discard your changes?',
+      disableClose: true,
+      title: 'Discard Changes',
+      cancelButton: 'Cancel',
+      acceptButton: 'Discard',
+    }).afterClosed();
   }
 
   public cancel(): void {
@@ -76,16 +74,17 @@ export class KeywordEditComponent implements OnInit {
   public delete(): void {
     const id = this.form.get('id').value;
 
-    this.dialogsService
-      .confirmation(
-        'Delete Service',
-        'Are you sure you want to delete this service?',
-        'Delete').toPromise()
-      .then(result => {
-        if (result) {
-          this.deleteKeyword(id);
-        }
-      });
+    this.dialogService.openConfirm({
+      message: 'Are you sure you want to delete this keyword?',
+      disableClose: true,
+      title: 'Delete Category',
+      cancelButton: 'Cancel',
+      acceptButton: 'Delete',
+    }).afterClosed().subscribe((accept: boolean) => {
+      if (accept) {
+        this.deleteKeyword(id);
+      }
+    });
   }
 
   // public removeSynonym(i: number) : void {
@@ -112,35 +111,33 @@ export class KeywordEditComponent implements OnInit {
   }
 
   private deleteKeyword(id: string): void {
-    this.keywordService.remove(id).then(
+    this.keywordService.remove(id)
+      .subscribe(
       () => {
         this.alertService.deleteAction();
         this.form.markAsPristine();
         this.goBack();
-      },
-      err => this.errorHandler.handleError(err));
+      });
   }
 
   private createKeyword(keyword: Keyword): void {
     this.keywordService.create(keyword)
-      .then(
+      .subscribe(
         () => {
           this.alertService.saveComplete();
           this.form.markAsPristine();
           this.goBack();
-        },
-        err => this.errorHandler.handleError(err));
+      });
   }
 
   private updateKeyword(keyword: Keyword): void {
     this.keywordService.update(keyword)
-      .then(
+      .subscribe(
         () => {
           this.alertService.saveComplete();
           this.form.markAsPristine();
           this.goBack();
-        },
-        err => this.errorHandler.handleError(err));
+      });
   }
 
   private goBack(): void {

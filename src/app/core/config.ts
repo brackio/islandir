@@ -18,6 +18,7 @@ export let CONFIG = {
     keywords: `${environment.apiUrl}/keywords`,
     logs: `${environment.apiUrl}/logs`,
     notifications: `${environment.apiUrl}/notifications`,
+    base: `${environment.apiUrl}/base`
   },
   paging: {
     limit: 20,
@@ -56,5 +57,9 @@ export let CONFIG = {
   },
   loggly: {
     customer_Token: environment.loggly.customer_Token
-  }
+  },
+  imgix: {
+    host: environment.imgixUrl
+  },
+  awsPreSignedUrl: environment.awsPreSignedUrl,
 };

@@ -1,0 +1,84 @@
+<form novalidate [formGroup]="form" (ngSubmit)="save(form.value)" fxFlex fxFlex.gt-sm="40rem">
+
+  <mat-card>
+    <div *ngIf="editMode" class="pull-right">
+      <button type="button" mat-icon-button [matMenuTriggerFor]="menu">
+        <mat-icon>more_vert</mat-icon>
+      </button>
+      <mat-menu #menu="matMenu">
+        <button type="button" (click)="delete()" mat-menu-item>
+          <mat-icon>delete</mat-icon>
+          <span>Delete</span>
+        </button>
+      </mat-menu>
+    </div>
+
+    <h2 class="mat-h2">Edit Topic</h2>
+
+    <mat-card-content>
+
+
+      <div fxLayout="column" fxLayoutAlign="start stretch">
+
+        <div fxLayout="row" class="form-content" fxLayoutGap="1rem">
+
+          <div class="img-holder">
+            <div class="img-overlay" ilrSingleImageUpload (imageUploaded)="imageUpload()">
+              <mat-icon>photo_camera</mat-icon>
+            </div>
+            <cl-image *ngIf="!!image.value" public-id="{{image.value}}">
+              <cl-transformation width="128" height="128" crop="fit"></cl-transformation>
+            </cl-image>
+          </div>
+
+          <div fxFlex fxLayout="column" fxLayoutAlign="start stretch">
+
+            <mat-form-field class="full-width">
+              <input matInput placeholder="Name" formControlName="name" type="text">
+              <mat-error>Name is required.</mat-error>
+            </mat-form-field>
+
+            <div formGroupName="image">
+              <mat-form-field class="full-width">
+                <input matInput placeholder="Image Styles" formControlName="styles" type="text">
+              </mat-form-field>
+            </div>
+
+            <mat-form-field formArrayName="tags" class="full-width">
+              <mat-chip-list #tagsList>
+                <mat-chip *ngFor="let tag of tags.controls; let i=index;" [selectable]="selectable" [formControlName]=""
+                          [removable]="removable" (remove)="removeTag(i)">
+                  {{tag.value}}
+                  <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+                </mat-chip>
+                <input placeholder="Tags" #tagsInput
+                       [matChipInputFor]="tagsList"
+                       [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                       [matChipInputAddOnBlur]="addOnBlur"
+                       (matChipInputTokenEnd)="addTag($event); tagsInput.value=''" />
+              </mat-chip-list>
+
+            </mat-form-field>
+
+          </div>
+        </div>
+
+        <mat-form-field class="full-width">
+                <textarea matInput [maxlength]="descriptionCharLength" placeholder="Description" matTextareaAutosize matAutosizeMinRows="2"
+                          matAutosizeMaxRows="5" formControlName="description"></textarea>
+          <mat-hint align="end">{{description?.value?.length}} / {{descriptionCharLength}}</mat-hint>
+          <mat-error *ngIf="description?.errors?.maxlength">
+            Description must not exceed {{descriptionCharLength}} characters.
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+    </mat-card-content>
+
+    <mat-card-footer class="form-card-footer">
+      <button type="button" mat-button class="text-upper" (click)="cancel()">Cancel</button>
+      <button type="submit" mat-button [disabled]="!form.valid || form.pristine" class="text-upper" color="primary">Save</button>
+    </mat-card-footer>
+
+  </mat-card>
+</form>

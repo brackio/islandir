@@ -12,10 +12,10 @@ const routes: Routes = [
   },
   {
     path: ':country',
-    component: HomeComponent, resolve: {
-    country: HomeResolverService
-  }
-
+    component: HomeComponent,
+    resolve: {
+      country: HomeResolverService
+    }
   }
 ];
 

@@ -1,10 +1,17 @@
-<form autocomplete="off" novalidate (ngSubmit)="onSubmit(searchInput.value)" #searchForm="ngForm" fxLayout="row" fxLayoutAlign="center center">
-  <div class="search" fxFlex="100" fxFlex.gt-sm="872px">
-    <div class="search-wrapper mat-elevation-z1">
-      <input class="search full-width" type="text" #searchInput  aria-label="Business Search"
-         (keyup)="search(searchInput.value)"
-         [matAutocomplete]="auto"
-         placeholder="Search businesses or services">
+<form autocomplete="off" novalidate (ngSubmit)="onSubmit(searchInput.value)" #searchForm="ngForm"
+      class="full-width">
+  <div class="search">
+    <div class="search-wrapper" tabindex="0">
+      <mat-icon fxHide.xs class="icon icon-search">search</mat-icon>
+      <input class="search" ilrSearchFocus
+             type="text" #searchInput
+             aria-label="Business Search"
+            (keyup)="search(searchInput.value)"
+             aria-label="Business Search"
+            [matAutocomplete]="auto"
+             name="searchInput"
+            placeholder="Search businesses or services">
+      <button fxHide.xs mat-icon-button><mat-icon *ngIf="searchInput.value" (click)="searchInput.value=''" class="icon icon-clear">cancel</mat-icon></button>
     </div>
 
     <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onOptionSelected($event)" [displayWith]="displayFn">

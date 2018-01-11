@@ -1,9 +1,0 @@
-<div class="ilr-message message-{{messageType}} text-{{position}}">
-  <mat-icon class="message-icon" role="img" aria-hidden="true">{{icon}}</mat-icon>
-  <div class="message-content">
-    <div *ngIf="title" class="mat-body-2">{{title}}</div>
-    <div class="mat-body-1">{{message}}</div>
-  </div>
-  <span fxFlex></span>
-  <a [routerLink]="action" mat-button>{{actionName}}</a>
-</div>

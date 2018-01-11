@@ -1,25 +1,100 @@
-<ilr-message
+<div class="container" fxLayout="column" fxFlexFill>
+
+  <td-message
+    *ngIf="auth.isAuthenticated() && !user.verified"
+    sublabel="An email containing verification instructions was sent to {{ user.email }}" color="accent" icon="info">
+  </td-message>
+
+  <mat-toolbar>
+    <div fxHide.xs>
+      <i class="align-middle flag flag-{{country.code}}"></i>
+      <a mat-button class="text-caps" routerLink="/">business owners</a>
+    </div>
+    <span fxFlex></span>
+    <ilr-user-nav></ilr-user-nav>
+  </mat-toolbar>
+
+
+
+  <div fxFlex class="content">
+    <div fxLayout="row" fxLayoutAlign="start stretch">
+
+    <!--<div fxFlex="20" class="col-left" fxHide.lt-md>-->
+      <!--<img src="../../assets/img/hero-tape.jpeg">-->
+    <!--</div>-->
+
+      <div fxFlex class="hero" fxLayout="column" fxLayoutAlign="center stretch">
+        <h1 class="text-center mat-display-1" routerLink="/"><mat-icon class="hero-logo" svgIcon="islandir-light"></mat-icon></h1>
+
+        <h1 class="mat-headline text-caps text-center">find reliable and verified home services.</h1>
+
+        <div class="hero-search" fxLayout="row" fxLayoutAlign="center center">
+          <ilr-search fxFlex.xs="95" fxFlex.sm="90" fxFlex.md="712px" fxFlex.gt-md="872px"></ilr-search>
+        </div>
+
+      </div>
+
+    <!--<div fxFlex="20" class="col-right" fxHide.lt-md>-->
+      <!--&lt;!&ndash;<img src="../../assets/img/hero-tape.jpeg">&ndash;&gt;-->
+    <!--</div>-->
+
+    </div>
+  </div>
+
+  <div class="footer">
+    <div fxHide.lt-md class="categories mat-body-2" fxLayout="row" fxLayoutAlign="space-between center">
+      <!--<a class="category" routerLink="">-->
+        <!--<mat-icon>apps</mat-icon>-->
+        <!--All categories-->
+      <!--</a>-->
+      <div>
+        <i class="align-middle flag flag-{{country.code}}"></i>
+        <span class="text-caps" routerLink="/">{{country.name}}</span>
+      </div>
+      <a class="category mat-body-2" routerLink="" *ngFor="let category of featuredCategories">
+        <mat-icon svgIcon="{{category.icon}}"></mat-icon>
+        {{category.name}}
+      </a>
+    </div>
+
+
+  </div>
+
+</div>
+
+<mat-card *ngIf="showRedirectPanel" class="country-redirect mat-elevation-z8">
+  <mat-card-content>
+    <h4 class="mat-body-2">We've detected you are located in {{redirectCountry.name}}</h4>
+    <h4 class="mat-body-1">Do you want to redirect to
+      <span style="text-decoration: underline;">islandir.com/{{redirectCountry.code}}</span>?</h4>
+  </mat-card-content>
+  <mat-card-actions align="end">
+    <a routerLink="{{'/' + redirectCountry?.code}}" (click)="showRedirectPanel = !showRedirectPanel"
+       mat-raised-button color="primary" class="text-upper">redirect</a>
+  </mat-card-actions>
+</mat-card>
+
+
+<!--
+<td-message
   *ngIf="auth.isAuthenticated() && !user.verified"
-  [message]="'An email containing verification instructions was sent to ' + user.email + '.'"
-  [messageType]="'warning'"
-  [position]="'center'"
-  [icon]="'info'">
-</ilr-message>
+  sublabel="An email containing verification instructions was sent to {{ user.email }}" color="accent" icon="info">
+</td-message>
 
 <ilr-navbar-home></ilr-navbar-home>
 
 <div class="hero">
-  <!--<div class="hero-header" fxLayout="row" fxLayoutAlign="space-between center">-->
-    <!--<div fxHide.xs>-->
-      <!--<i class="align-middle flag flag-{{country.code}}"></i>-->
-      <!--<a mat-button class="text-caps" routerLink="/">business owners</a>-->
-    <!--</div>-->
-    <!--<a routerLink="/"><mat-icon class="hero-logo" svgIcon="islandir-light"></mat-icon></a>-->
+  &lt;!&ndash;<div class="hero-header" fxLayout="row" fxLayoutAlign="space-between center">&ndash;&gt;
+    &lt;!&ndash;<div fxHide.xs>&ndash;&gt;
+      &lt;!&ndash;<i class="align-middle flag flag-{{country.code}}"></i>&ndash;&gt;
+      &lt;!&ndash;<a mat-button class="text-caps" routerLink="/">business owners</a>&ndash;&gt;
+    &lt;!&ndash;</div>&ndash;&gt;
+    &lt;!&ndash;<a routerLink="/"><mat-icon class="hero-logo" svgIcon="islandir-light"></mat-icon></a>&ndash;&gt;
 
-  <!--</div>-->
+  &lt;!&ndash;</div>&ndash;&gt;
 
   <div class="hero-caption">
-    <!--<h1 fxHide.lt-md class="mat-display-2">Explore your <span class="text-highlight">island</span> 'mon</h1>
+    &lt;!&ndash;<h1 fxHide.lt-md class="mat-display-2">Explore your <span class="text-highlight">island</span> 'mon</h1>
     <h3 class="mat-subheading-2">Find a local doctor, carpenter or mechanic in
 
       <mat-form-field class="app-country" color="accent">
@@ -28,7 +103,7 @@
         </mat-select>
       </mat-form-field>
 
-    </h3>-->
+    </h3>&ndash;&gt;
     <a routerLink="/"><mat-icon class="hero-logo" svgIcon="islandir-light"></mat-icon></a>
   </div>
 
@@ -37,35 +112,35 @@
   </div>
 </div>
 
-<!--<div class="section" fxHide fxShow.gt-sm="true">-->
-  <!--<div fxLayout="row" fxLayoutAlign.gt-xs="center center">-->
-    <!--<div class="instructions rounded-corners"-->
-         <!--fxFlex.gt-md="67rem"-->
-         <!--fxLayout="row"-->
-         <!--fxLayoutAlign="space-around center">-->
-      <!--<div fxLayout.gt-sm="column" fxFlex.gt-sm="16rem" fxLayoutAlign.gt-sm="space-between center">-->
-        <!--<mat-icon svgIcon="list-business"></mat-icon>-->
-        <!--<p class="instructions-summary mat-body-1">-->
-          <!--Add your business to our catalog - add pictures, your company’s hours, contact info, and more...-->
-        <!--</p>-->
-      <!--</div>-->
-      <!--<div fxLayout.gt-sm="column" fxFlex.gt-sm="16rem" fxLayoutAlign.gt-sm="space-between center">-->
-        <!--<mat-icon svgIcon="chat"></mat-icon>-->
-        <!--<p class="instructions-summary mat-body-1">-->
-          <!--Be the first to know when people are talking about your business, respond to them as the business owner.-->
-        <!--</p>-->
-      <!--</div>-->
-      <!--<div fxLayout.gt-sm="column" fxFlex.gt-sm="16rem" fxLayoutAlign.gt-sm="space-between center">-->
-        <!--<mat-icon svgIcon="analytics"></mat-icon>-->
-        <!--<p class="instructions-summary mat-body-1">-->
-           <!--See how many times customers visit your business' page, and watch your business grow.-->
-        <!--</p>-->
-      <!--</div>-->
-    <!--</div>-->
-  <!--</div>-->
-<!--</div>-->
+&lt;!&ndash;<div class="section" fxHide fxShow.gt-sm="true">&ndash;&gt;
+  &lt;!&ndash;<div fxLayout="row" fxLayoutAlign.gt-xs="center center">&ndash;&gt;
+    &lt;!&ndash;<div class="instructions rounded-corners"&ndash;&gt;
+         &lt;!&ndash;fxFlex.gt-md="67rem"&ndash;&gt;
+         &lt;!&ndash;fxLayout="row"&ndash;&gt;
+         &lt;!&ndash;fxLayoutAlign="space-around center">&ndash;&gt;
+      &lt;!&ndash;<div fxLayout.gt-sm="column" fxFlex.gt-sm="16rem" fxLayoutAlign.gt-sm="space-between center">&ndash;&gt;
+        &lt;!&ndash;<mat-icon svgIcon="list-business"></mat-icon>&ndash;&gt;
+        &lt;!&ndash;<p class="instructions-summary mat-body-1">&ndash;&gt;
+          &lt;!&ndash;Add your business to our catalog - add pictures, your company’s hours, contact info, and more...&ndash;&gt;
+        &lt;!&ndash;</p>&ndash;&gt;
+      &lt;!&ndash;</div>&ndash;&gt;
+      &lt;!&ndash;<div fxLayout.gt-sm="column" fxFlex.gt-sm="16rem" fxLayoutAlign.gt-sm="space-between center">&ndash;&gt;
+        &lt;!&ndash;<mat-icon svgIcon="chat"></mat-icon>&ndash;&gt;
+        &lt;!&ndash;<p class="instructions-summary mat-body-1">&ndash;&gt;
+          &lt;!&ndash;Be the first to know when people are talking about your business, respond to them as the business owner.&ndash;&gt;
+        &lt;!&ndash;</p>&ndash;&gt;
+      &lt;!&ndash;</div>&ndash;&gt;
+      &lt;!&ndash;<div fxLayout.gt-sm="column" fxFlex.gt-sm="16rem" fxLayoutAlign.gt-sm="space-between center">&ndash;&gt;
+        &lt;!&ndash;<mat-icon svgIcon="analytics"></mat-icon>&ndash;&gt;
+        &lt;!&ndash;<p class="instructions-summary mat-body-1">&ndash;&gt;
+           &lt;!&ndash;See how many times customers visit your business' page, and watch your business grow.&ndash;&gt;
+        &lt;!&ndash;</p>&ndash;&gt;
+      &lt;!&ndash;</div>&ndash;&gt;
+    &lt;!&ndash;</div>&ndash;&gt;
+  &lt;!&ndash;</div>&ndash;&gt;
+&lt;!&ndash;</div>&ndash;&gt;
 
-<!--
+&lt;!&ndash;
 <div class="section">
   <div fxLayout="row" fxLayoutAlign.gt-xs="center center">
     <div class="topics" fxFlex.gt-md="68rem" fxLayout="row" fxLayoutAlign="space-between center" fxLayoutWrap>
@@ -84,7 +159,7 @@
     </div>
   </div>
 </div>
--->
+&ndash;&gt;
 
 <div class="section-sign-up">
   <h1 class="mat-headline">Your business, in a good place.</h1>
@@ -94,28 +169,29 @@
     learn more and sign up
   </a>
 
-    <!--<div class="options list-business rounded-corners">-->
-        <!--<div class="options-content">-->
-          <!--<h1 class="mat-title options-title">List your business</h1>-->
-          <!--<p class="mat-body-1">Grow your business today! Bring more customers to your door and turn them into regulars. Update your business details including opening hours, payments options and more.</p>-->
-        <!--</div>-->
-      <!--</div>-->
+    &lt;!&ndash;<div class="options list-business rounded-corners">&ndash;&gt;
+        &lt;!&ndash;<div class="options-content">&ndash;&gt;
+          &lt;!&ndash;<h1 class="mat-title options-title">List your business</h1>&ndash;&gt;
+          &lt;!&ndash;<p class="mat-body-1">Grow your business today! Bring more customers to your door and turn them into regulars. Update your business details including opening hours, payments options and more.</p>&ndash;&gt;
+        &lt;!&ndash;</div>&ndash;&gt;
+      &lt;!&ndash;</div>&ndash;&gt;
 
-      <!--<div class="options claim-business rounded-corners">-->
-        <!--<div class="options-content">-->
-          <!--<h1 class="mat-title options-title">Claim your business</h1>-->
-          <!--<p class="mat-body-1">With thousands of local businesses in our catalog your business may already be listed. Claim ownership of your business and receive live updates on customer's reviews and more.</p>-->
-        <!--</div>-->
-      <!--</div>-->
-    <!--</div>-->
+      &lt;!&ndash;<div class="options claim-business rounded-corners">&ndash;&gt;
+        &lt;!&ndash;<div class="options-content">&ndash;&gt;
+          &lt;!&ndash;<h1 class="mat-title options-title">Claim your business</h1>&ndash;&gt;
+          &lt;!&ndash;<p class="mat-body-1">With thousands of local businesses in our catalog your business may already be listed. Claim ownership of your business and receive live updates on customer's reviews and more.</p>&ndash;&gt;
+        &lt;!&ndash;</div>&ndash;&gt;
+      &lt;!&ndash;</div>&ndash;&gt;
+    &lt;!&ndash;</div>&ndash;&gt;
 </div>
 
 <hr class="faded">
 
-<!--<div class="section-featured" fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="1rem">-->
-  <!--<div *ngFor="let category of featuredCategories">-->
-    <!--<button mat-icon-button >-->
-      <!--<mat-icon aria-label="featured" svgIcon="{{category.icon}}"></mat-icon>-->
-    <!--</button>-->
-  <!--</div>-->
-<!--</div>-->
+&lt;!&ndash;<div class="section-featured" fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="1rem">&ndash;&gt;
+  &lt;!&ndash;<div *ngFor="let category of featuredCategories">&ndash;&gt;
+    &lt;!&ndash;<button mat-icon-button >&ndash;&gt;
+      &lt;!&ndash;<mat-icon aria-label="featured" svgIcon="{{category.icon}}"></mat-icon>&ndash;&gt;
+    &lt;!&ndash;</button>&ndash;&gt;
+  &lt;!&ndash;</div>&ndash;&gt;
+&lt;!&ndash;</div>&ndash;&gt;
+-->

@@ -6,6 +6,7 @@ import { SharedModule } from '../shared/shared.module';
 import { SearchComponent } from './search.component';
 import { KeywordService } from '../models/keywords/keyword.service';
 import { SearchOptionsPipe } from './search-options.pipe';
+import { SearchFocusDirective } from './search-focus.directive';
 
 @NgModule({
   imports: [
@@ -15,7 +16,8 @@ import { SearchOptionsPipe } from './search-options.pipe';
   ],
   declarations: [
     SearchComponent,
-    SearchOptionsPipe
+    SearchOptionsPipe,
+    SearchFocusDirective
   ],
   providers: [
     KeywordService

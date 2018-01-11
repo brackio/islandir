@@ -10,7 +10,7 @@ import { SidenavService } from './shared/sidenav.service';
   templateUrl: './admin.component.html',
   styleUrls: ['./admin.component.scss']
 })
-export class AdminComponent implements OnInit{
+export class AdminComponent implements OnInit {
   public isMobileView = false;
 
   @ViewChild('sidenav') public sidenav: MatSidenav;
@@ -20,6 +20,7 @@ export class AdminComponent implements OnInit{
 
       { name: 'Dashboard', link: '.', icon: 'dashboard', options: { exactLink: true }},
       { name: 'Themes', link: 'themes', icon: 'store', options: { exactLink: false }},
+      { name: 'Topics', link: 'topics', icon: 'store', options: { exactLink: false }},
       { name: 'Businesses', link: 'businesses', icon: 'store', options: { exactLink: false }},
       { name: 'Countries', link: 'countries', icon: 'public', options: { exactLink: false }},
       { name: 'Categories', link: 'categories', icon: 'group_work', options: { exactLink: false }},

@@ -82,15 +82,6 @@ hr.faded {
 
 }
 
-//.dialog-content {
-//  md-icon {
-//    margin-right: 18px;
-//    opacity: .6;
-//    align-self: stretch;
-//    margin-top: 14px;
-//  }
-//}
-
 .text-center {
   text-align: center;
 }
@@ -154,6 +145,14 @@ a.no-underline {
   text-align: right;
 }
 
+.table-container {
+  margin-bottom: 4rem;
+
+  @media(max-width: $sm) {
+    margin-bottom: 0;
+  }
+}
+
 .mat-table {
 
   &.table-hover {
@@ -168,4 +167,23 @@ a.no-underline {
   .mat-menu-panel {
     max-height: 256px;
   }
+}
+
+.mat-icon {
+
+  &.size-64 {
+    font-size: 64px;
+    width: 64px;
+    height: 64px;
+  }
+}
+
+.card {
+    transition: box-shadow 280ms cubic-bezier(.4, 0, .2, 1);
+    display: block;
+    position: relative;
+    border-radius: 2px;
+    background: white;
+    color: rgba(0, 0, 0, 0.87);
+    box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0px 1px 5px 0 rgba(0, 0, 0, 0.12);
 }

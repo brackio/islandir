@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { TdDialogService } from '@covalent/core';
+import { Observable } from 'rxjs/Observable';
 
 import { Service } from '../../../models/services/service';
 import { ServiceService } from '../../../models/services/service.service';
 import { Category } from '../../../models/categories/category';
 import { CategoryService } from '../../../models/categories/category.service';
-import { AlertService } from '../../../core/alert.service';
-import { GlobalErrorHandler as ErrorHandler } from '../../../core/global-error-handler';
-import { DialogsService } from '../../../dialogs/shared/dialog.service';
+import { MessageService } from '../../../core/message.service';
 
 @Component({
   selector: 'ilr-service-edit',
@@ -26,9 +26,8 @@ export class ServiceEditComponent implements OnInit {
     private route: ActivatedRoute,
     private serviceService: ServiceService,
     private categoryService: CategoryService,
-    private alertService: AlertService,
-    private errorHandler: ErrorHandler,
-    private dialogsService: DialogsService,
+    private alertService: MessageService,
+    private dialogService: TdDialogService,
     private fb: FormBuilder
   ) { }
 
@@ -55,19 +54,18 @@ export class ServiceEditComponent implements OnInit {
     }
   }
 
-  public canDeactivate(): Promise<boolean> | boolean {
+  public canDeactivate(): Observable<boolean> | boolean {
     if (this.form.pristine) {
       return true;
     }
 
-    return this.dialogsService
-      .confirmation(
-        'Discard Changes?',
-        'Are you sure you want to discard your changes?',
-        'Discard').toPromise()
-      .then(result => {
-        return result;
-      });
+    return this.dialogService.openConfirm({
+      message: 'Are you sure you want to discard your changes?',
+      disableClose: true,
+      title: 'Discard Changes',
+      cancelButton: 'Cancel',
+      acceptButton: 'Discard',
+    }).afterClosed();
   }
 
   public cancel(): void {
@@ -77,16 +75,17 @@ export class ServiceEditComponent implements OnInit {
   public delete(): void {
     const id = this.form.get('id').value;
 
-    this.dialogsService
-      .confirmation(
-        'Delete Service',
-        'Are you sure you want to delete this service?',
-        'Delete').toPromise()
-      .then(result => {
-        if (result) {
-          this.deleteService(id);
-        }
-      });
+    this.dialogService.openConfirm({
+      message: 'Are you sure you want to delete this category?',
+      disableClose: true,
+      title: 'Delete Category',
+      cancelButton: 'Cancel',
+      acceptButton: 'Delete',
+    }).afterClosed().subscribe((accept: boolean) => {
+      if (accept) {
+        this.deleteService(id);
+      }
+    });
   }
 
   private createForm(service: Service): void {
@@ -103,35 +102,33 @@ export class ServiceEditComponent implements OnInit {
   }
 
   private deleteService(id: string): void {
-    this.serviceService.remove(id).then(
+    this.serviceService.remove(id)
+      .subscribe(
       () => {
         this.alertService.deleteAction();
         this.form.markAsPristine();
         this.goBack();
-      },
-      err => this.errorHandler.handleError(err));
+      });
   }
 
   private createService(service: Service): void {
     this.serviceService.create(service)
-      .then(
+      .subscribe(
         () => {
           this.alertService.saveComplete();
           this.form.markAsPristine();
           this.goBack();
-        },
-        err => this.errorHandler.handleError(err));
+        });
   }
 
   private updateService(service: Service): void {
     this.serviceService.update(service)
-      .then(
+      .subscribe(
         () => {
           this.alertService.saveComplete();
           this.form.markAsPristine();
           this.goBack();
-        },
-        err => this.errorHandler.handleError(err));
+        });
   }
 
   private goBack(): void {

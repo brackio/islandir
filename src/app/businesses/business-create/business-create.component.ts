@@ -4,16 +4,10 @@ import { FormBuilder, FormControl, FormGroup, FormArray, Validators } from '@ang
 import { MatAutocompleteSelectedEvent, MatSelectChange } from '@angular/material';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
-import 'rxjs/add/observable/of';
-import 'rxjs/add/operator/switchMap';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/catch';
-import 'rxjs/add/operator/debounceTime';
-import 'rxjs/add/operator/distinctUntilChanged';
-import 'rxjs/add/operator/startWith';
+import { switchMap, catchError, debounceTime, distinctUntilChanged, startWith } from 'rxjs/operators';
+import { of } from 'rxjs/observable/of';
 
-import { AlertService } from '../../core/alert.service';
-import { GlobalErrorHandler as ErrorHandler } from '../../core/global-error-handler';
+import { MessageService } from '../../core/message.service';
 import { Business } from '../shared/business';
 import { Country } from '../../models/countries/country';
 import { Service } from '../../models/services/service';
@@ -48,8 +42,7 @@ export class BusinessCreateComponent implements OnInit {
     private businessService: BusinessService,
     private countryService: CountryService,
     private serviceService: ServiceService,
-    private alertService: AlertService,
-    private errorHandler: ErrorHandler,
+    private alertService: MessageService,
     private fb: FormBuilder
   ) { }
 
@@ -61,14 +54,14 @@ export class BusinessCreateComponent implements OnInit {
       this.getCountries();
       // });
 
-    this.searchedServices = this.searchServiceTerms
-      .debounceTime(300)
-      .distinctUntilChanged()
-      .startWith(null)
-      .switchMap(term => term ?
+    this.searchedServices = this.searchServiceTerms.pipe(
+      debounceTime(300),
+      distinctUntilChanged(),
+      startWith(null),
+      switchMap(term => term ?
         this.serviceService.search(term, 5, 'name', 'asc', ['-category', '-id', '-slug'])
-        : Observable.of<Service[]>([]))
-      .catch(error => Observable.of<Service[]>([]));
+        : of<Service[]>([])),
+      catchError(err => of<Service[]>([])));
   }
 
   get name() { return this.form.get('name'); }
@@ -96,21 +89,24 @@ export class BusinessCreateComponent implements OnInit {
       .subscribe(countries => {
         this.countries = countries;
         const country = this.getCountry(this.countryService.country.code);
-        this.setTerritories(country);
-        this.hasZip = country.hasZipCode;
+        if (country) {
+          this.setTerritories(country);
+          this.hasZip = country.hasZipCode;
+        }
       });
   }
 
   public countryChanged(event: MatSelectChange): void {
     const country = this.getCountry(event.value);
-    this.setTerritories(country);
-    this.hasZip = country.hasZipCode;
+    if (country) {
+      this.setTerritories(country);
+      this.hasZip = country.hasZipCode;
+    }
   }
 
   public saveBusiness(business: Business): void {
     this.businessService.update(business)
-      .then(() => this.alertService.saveComplete(),
-        err => this.errorHandler.handleError(err));
+      .subscribe(() => this.alertService.saveComplete());
   }
 
   public cancel(): void {
@@ -150,9 +146,11 @@ export class BusinessCreateComponent implements OnInit {
   }
 
   private setTerritories(country: Country): void {
-    this.territories = country.territories;
-    if (this.territories.length) {
-      this.territory = this.territories[0];
+    if (country && country.territories) {
+      this.territories = country.territories;
+      if (this.territories.length) {
+        this.territory = this.territories[0];
+      }
     }
   }
 

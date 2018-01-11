@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { MatDialogModule, MatButtonModule  } from '@angular/material';
 
 import { ConfirmDialogComponent }   from './confirm-dialog/confirm-dialog.component';
-import { DialogsService } from './shared/dialog.service';
+import { DialogsService } from '../core/dialog.service';
 
 @NgModule({
   imports: [

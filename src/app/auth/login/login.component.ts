@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AuthService } from '../shared/auth.service';
-import { AlertService } from '../../core/alert.service';
+import { MessageService } from '../../core/message.service';
 import { User } from '../../user/shared/user';
 
 @Component({
@@ -18,7 +18,7 @@ export class LoginComponent implements OnInit {
 
   constructor(
     private auth: AuthService,
-    private alertService: AlertService,
+    private alertService: MessageService,
     private router: Router,
     private route: ActivatedRoute
   ) { }
@@ -30,7 +30,7 @@ export class LoginComponent implements OnInit {
 
   public login(form): void {
     this.auth.login(form.email, form.password)
-      .then((user: User) => {
+      .subscribe((user: User) => {
           this.reason = null;
           this.router.navigate(['/']);
           this.alertService.toast(`Logged in as ${user.firstname}`);

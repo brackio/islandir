@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/operator/toPromise';
-import 'rxjs/add/operator/map';
+import { catchError, map } from 'rxjs/operators';
 
+import { ErrorHandler } from '../../core/error-handler';
 import { User } from '../../user/shared/user';
 import { UserService } from '../../user/shared/user.service';
 import { CacheManagerService as Cache} from '../../core/cache-manager.service';
@@ -23,6 +23,7 @@ export class AuthService {
     private router: Router,
     private userService: UserService,
     private cache: Cache,
+    private errorHandler: ErrorHandler
   ) {
 
     this.userService.currentUser = this.userService.getStoredUser();
@@ -32,7 +33,7 @@ export class AuthService {
     return !!this.cache.get(CONFIG.vars.currentUser) && !this.tokenExpired();
   }
 
-  public login(email: string, password: string): Promise<User> {
+  public login(email: string, password: string): Observable<User> {
     return this.http
       .post<User>(authUrl,
         null,
@@ -40,19 +41,21 @@ export class AuthService {
           headers: new HttpHeaders()
             .set('Authorization', 'Basic ' + btoa(email + ':' + password))
             .set('Content-Type', 'application/x-www-form-urlencoded')
-        })
-      .map((response: any) => {
-       const token = response && response.token;
-        if (token) {
-          this.setToken(token);
-          this.userService.saveProfile(response.user);
-          this.userService.currentUser = response.user;
-          return this.userService.currentUser;
-        }
-      }).toPromise();
+        }).pipe(
+        map((response: any) => {
+          const token = response && response.token;
+          if (token) {
+            this.setToken(token);
+            this.userService.saveProfile(response.user);
+            this.userService.currentUser = response.user;
+            return this.userService.currentUser;
+          }
+        }),
+        catchError(this.errorHandler.error<User>(`User Login: email: ${email}`))
+      );
   }
 
-  public signUp(firstname: string, lastname: string, email: string, password: string): Promise<User> {
+  public signUp(firstname: string, lastname: string, email: string, password: string): Observable<User> {
     return this.http
       .post<User>(usersUrl, JSON.stringify(
         {
@@ -61,16 +64,20 @@ export class AuthService {
           email: email,
           password: password
         }), {
-          headers: new HttpHeaders().set('Content-Type', 'application/json')
-        }).map((response: any) => {
-          const token = response && response.token;
-          if (token) {
-            this.setToken(token);
-            this.userService.saveProfile(response.user);
-            this.userService.currentUser = response.user;
-            return this.userService.currentUser;
-          }
-      }).toPromise();
+          headers: new HttpHeaders()
+            .set('Content-Type', 'application/json')
+        }).pipe(
+          map((response: any) => {
+            const token = response && response.token;
+            if (token) {
+              this.setToken(token);
+              this.userService.saveProfile(response.user);
+              this.userService.currentUser = response.user;
+              return this.userService.currentUser;
+            }
+          }),
+          catchError(this.errorHandler.error<User>(`User Signup: email: ${email}`))
+      );
   }
 
   public logout(): void {
@@ -79,10 +86,12 @@ export class AuthService {
     this.router.navigate(['/login']);
   }
 
-  public sendEmailVerification(email: string): Promise<any> {
+  public sendEmailVerification(email: string): Observable<any> {
     return this.http
       .post(`${authUrl}/resend-verify-email`, JSON.stringify({ email: email }))
-      .toPromise();
+      .pipe(
+        catchError(this.errorHandler.error('sendEmailVerification'))
+      );
   }
 
   public isAdmin(): boolean {
@@ -113,6 +122,4 @@ export class AuthService {
     this.cache.removeItem(CONFIG.vars.currentUser);
     this.cache.removeItem(CONFIG.vars.currentToken);
   }
-
-
 }

@@ -1,0 +1,47 @@
+<div fxFlex="100" fxFlex.gt-sm="90" class="mat-elevation-z1 mat-typography">
+  <mat-table class="table-hover" #table [dataSource]="dataSource"
+             matSort matSortActive="name" matSortDisableClear matSortDirection="asc">
+
+    <ng-container cdkColumnDef="name">
+      <mat-header-cell *cdkHeaderCellDef mat-sort-header disableClear="true"> Name </mat-header-cell>
+      <mat-cell *cdkCellDef="let row"> {{row.name}} </mat-cell>
+    </ng-container>
+
+    <ng-container cdkColumnDef="country">
+      <mat-header-cell *cdkHeaderCellDef mat-sort-header disableClear="true"> Country </mat-header-cell>
+      <mat-cell *cdkCellDef="let row">{{row.country}}</mat-cell>
+    </ng-container>
+
+    <ng-container cdkColumnDef="topics">
+      <mat-header-cell *cdkHeaderCellDef mat-sort-header disableClear="true"> Topics </mat-header-cell>
+      <mat-cell *cdkCellDef="let row">{{row.topics}}</mat-cell>
+    </ng-container>
+
+    <ng-container cdkColumnDef="startDate">
+      <mat-header-cell *cdkHeaderCellDef mat-sort-header disableClear="true"> Start Date </mat-header-cell>
+      <mat-cell *cdkCellDef="let row">{{row.startDate}}</mat-cell>
+    </ng-container>
+
+    <ng-container cdkColumnDef="endDate">
+      <mat-header-cell *cdkHeaderCellDef mat-sort-header disableClear="true"> End Date </mat-header-cell>
+      <mat-cell *cdkCellDef="let row">{{row.endDate}}</mat-cell>
+    </ng-container>
+
+    <mat-header-row *cdkHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *cdkRowDef="let row; columns: displayedColumns;"
+             (click)="onThemeSelected(row)">
+    </mat-row>
+  </mat-table>
+
+
+  <mat-paginator #paginator
+                 [length]="dataSource.totalItems"
+                 [pageIndex]="pageIndex"
+                 [pageSize]="pageSize"
+                 [pageSizeOptions]="pageLimitOptions"
+                 (page)="onPageChange($event)">
+  </mat-paginator>
+
+</div>
+
+<a routerLink="new" mat-fab class="page-fab" color="accent"><mat-icon>add</mat-icon></a>

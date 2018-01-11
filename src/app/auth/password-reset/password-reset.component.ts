@@ -4,8 +4,8 @@ import { AbstractControl, FormBuilder, FormGroup, Validators} from '@angular/for
 
 import { User } from '../../user/shared/user';
 import { PasswordResetService } from './password-reset.service';
-import { AlertService } from '../../core/alert.service';
-import { GlobalErrorHandler as ErrorHandler } from '../../core/global-error-handler';
+import { MessageService } from '../../core/message.service';
+import { ErrorHandler as ErrorHandler } from '../../core/error-handler';
 import { CONFIG } from '../../core/config';
 
 @Component({
@@ -26,10 +26,22 @@ export class PasswordResetComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private passwordResetService: PasswordResetService,
-    private alertService: AlertService,
+    private alertService: MessageService,
     private errorHandler: ErrorHandler,
     private fb: FormBuilder
   ) { }
+
+  private static changePasswordSuccess(): string {
+    return 'Your password was changed. You can now sign in using your new password.';
+  }
+
+  private static emailSentSuccess(): string {
+    return 'Check your email for a link to reset your password. If it doesn\'t appear within a few minutes, check your spam folder.';
+  }
+
+  private static invalidTokenError(): string {
+    return 'It looks like you clicked on an invalid password reset link. Please try again.';
+  }
 
   ngOnInit() {
     this.initChangePasswordForm();
@@ -51,7 +63,7 @@ export class PasswordResetComponent implements OnInit {
             this.errorMessage = null;
           }
         },
-        err => this.errorHandler.handleError(err));
+        err => this.errorHandler.error(err));
   }
 
   public changePassword(form): void {
@@ -62,12 +74,12 @@ export class PasswordResetComponent implements OnInit {
             this.errorMessage = null;
           }
         },
-        err => this.errorHandler.handleError(err));
+        err => this.errorHandler.error(err));
   }
 
   private verifyResetToken(token: string): void {
     this.passwordResetService.verify(token)
-      .then(result => {
+      .subscribe(result => {
           if (result && result.token && result.user) {
             this.token = result.token;
             this.user = result.user;
@@ -84,22 +96,20 @@ export class PasswordResetComponent implements OnInit {
         });
   }
 
-  private static changePasswordSuccess(): string {
-    return 'Your password was changed. You can now sign in using your new password.';
-  }
-
-  private static emailSentSuccess(): string {
-    return 'Check your email for a link to reset your password. If it doesn\'t appear within a few minutes, check your spam folder.';
-  }
-
-  private static invalidTokenError(): string {
-    return 'It looks like you clicked on an invalid password reset link. Please try again.';
-  }
-
   private initChangePasswordForm(): void {
     this.changePasswordForm = this.fb.group({
-      password: ['', [ Validators.required, Validators.required, Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d$@$!%*?&.]{6,}/) ]],
-      confirmPassword: ['', [ Validators.required, Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d$@$!%*?&.]{6,}/) ]]
+      password: ['',
+        [
+          Validators.required,
+          Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d$@$!%*?&.]{6,}/)
+        ]
+      ],
+      confirmPassword: ['',
+        [
+          Validators.required,
+          Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d$@$!%*?&.]{6,}/)
+        ]
+      ]
     }, { validator: this.passwordMatcher });
   }
 
@@ -120,7 +130,4 @@ export class PasswordResetComponent implements OnInit {
     }
     return { 'match': true };
   }
-
-
-
 }

@@ -1,5 +1,4 @@
-<form novalidate [formGroup]="form" (ngSubmit)="onSubmit(form.value)"
-        fxFlex="100" fxFlex.gt-sm="80rem">
+<form novalidate [formGroup]="form" (ngSubmit)="save(form.value)" fxFlex fxFlex.gt-sm="40rem">
 
   <mat-card>
     <div *ngIf="editMode" class="pull-right">
@@ -30,15 +29,17 @@
         </mat-form-field>
 
         <div formArrayName="territories">
-          <div *ngFor="let territory of territories.controls; let i=index;">
-            <mat-form-field class="full-width">
-              <input matInput placeholder="Territory" [formControlName]="i" type="text">
-            </mat-form-field>
+          <div fxLayout="row" fxLayoutGap="0.5rem" *ngFor="let territory of territories.controls; let i=index;">
+              <mat-form-field class="full-width">
+                <input matInput placeholder="Territory" [formControlName]="i" type="text">
+              </mat-form-field>
+
+              <button type="button" mat-icon-button style="align-self: center;" *ngIf="i>0" (click)="removeTerritory(i)">
+                <mat-icon aria-label="remove territory">close</mat-icon>
+              </button>
+            </div>
+            <div class="text-right"><button type="button" (click)="addTerritory()" mat-button class="text-upper">Add Territory</button></div>
           </div>
-
-        </div>
-
-
         <mat-checkbox
           color="primary"
           formControlName="hasZipCode">

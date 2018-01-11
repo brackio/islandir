@@ -1,14 +1,14 @@
 <a *ngIf="!auth.isAuthenticated()" mat-button class="text-upper" routerLink="/login">sign in</a>
 <a *ngIf="!auth.isAuthenticated()" mat-raised-button color="accent" class="text-upper" routerLink="/signup">sign up</a>
 
-<button class="avatar" mat-button [matMenuTriggerFor]="mdUserMenu" *ngIf="auth.isAuthenticated()">
+<button class="avatar" mat-icon-button [matMenuTriggerFor]="mdUserMenu" *ngIf="auth.isAuthenticated()">
   <ngx-avatar name="{{user.nickname}}" style="display: inline-block;"
               size="40" [round]="true">
   </ngx-avatar>
-  <div fxHide.xs style="display: inline-block;">
-    <span class="user-name mat-subheading-2">{{user.firstname}}</span>
-    <mat-icon class="align-middle" >arrow_drop_down</mat-icon>
-  </div>
+  <!--<div fxHide.xs style="display: inline-block;">-->
+    <!--<span class="user-name mat-subheading-2">{{user.firstname}}</span>-->
+    <!--<mat-icon class="align-middle" >arrow_drop_down</mat-icon>-->
+  <!--</div>-->
 </button>
 
 

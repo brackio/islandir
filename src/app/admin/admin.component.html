@@ -22,11 +22,11 @@
       [disableClose]="!isMobileView">
 
 
-      <mat-nav-list *ngFor="let nav of navLinks">
-        <a mat-list-item routerLinkActive="active" class="list-item"
+      <mat-nav-list>
+        <a mat-list-item routerLinkActive="active" class="list-item" *ngFor="let nav of navLinks"
            [routerLinkActiveOptions]="{ exact: nav.options.exactLink }"
            [routerLink]="nav.link">
-          <mat-icon mat-list-icon>{{nav.icon}}</mat-icon>
+          <!--<mat-icon mat-list-icon>{{nav.icon}}</mat-icon>-->
           {{nav.name}}
         </a>
       </mat-nav-list>
@@ -34,7 +34,6 @@
     </mat-sidenav>
 
     <mat-sidenav-content>
-
       <router-outlet></router-outlet>
     </mat-sidenav-content>
 

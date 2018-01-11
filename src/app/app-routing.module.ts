@@ -4,7 +4,7 @@
 import { NgModule } from '@angular/core';
 import { PageNotFoundComponent } from './404/page-not-found.component';
 import { Routes, RouterModule } from '@angular/router';
-import { AuthGuardService as AuthGuard } from './auth/shared/auth-guard.service';
+import { AuthGuardService } from './auth/shared/auth-guard.service';
 import { SelectivePreloadingStrategy } from './core/selective-preload-strategy';
 
 const routes: Routes = [
@@ -23,8 +23,8 @@ const routes: Routes = [
     })],
   exports: [RouterModule],
   providers: [
-    AuthGuard,
-    SelectivePreloadingStrategy
+    SelectivePreloadingStrategy,
+    AuthGuardService
   ]
 })
 

@@ -1,4 +1,7 @@
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs/Observable';
+import { map } from 'rxjs/operators';
+
 import {
   Router,
   ActivatedRoute,
@@ -8,39 +11,31 @@ import {
 
 import { Service } from '../../../models/services/service';
 import { ServiceService } from '../../../models/services/service.service';
-import { AlertService } from '../../../core/alert.service';
 
 @Injectable()
 export class ServiceResolverService implements Resolve<Service>{
   constructor(
     private serviceService: ServiceService,
     private router: Router,
-    private route: ActivatedRoute,
-    private alertService: AlertService
+    private route: ActivatedRoute
   ) {}
 
-  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Promise<Service> | Service {
+  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Service> | Service {
     const id = route.paramMap.get('id');
     if ( id === 'new') {
       return new Service();
     }
 
     return this.serviceService.findOne(id)
-      .then(service => {
-        if (service) {
-          return service;
-        }
-        this.goBack();
-        this.alertService.notFound('Service');
-        return null;
-      }, () => {
-        this.goBack();
-        return null;
-      });
+      .pipe(
+        map(service => {
+          if (service) {
+            return service;
+          } else { // id not found
+            this.router.navigate(['../'], { relativeTo: this.route });
+            return null;
+          }
+        })
+      );
   }
-
-  private goBack() {
-    this.router.navigate(['../'], { relativeTo: this.route });
-  }
-
 }

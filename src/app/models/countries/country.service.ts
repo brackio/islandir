@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/operator/toPromise';
+import { catchError } from 'rxjs/operators';
 
 import { DataAccess } from '../data-access';
+import { ErrorHandler } from '../../core/error-handler';
 import { Paging } from '../../core/paging';
 import { CacheManagerService as Cache } from '../../core/cache-manager.service';
 import { Country } from './country';
@@ -16,6 +17,7 @@ export class CountryService extends DataAccess<Country> {
 
   constructor(
     private http: HttpClient,
+    private errorHandler: ErrorHandler,
     private cache: Cache
   ) {
     super();
@@ -55,14 +57,22 @@ export class CountryService extends DataAccess<Country> {
           .set('limit', `${paging.limit}`)
           .set('sort', (sortOrder === 'asc' ? '' : '-')  + `${sort}`)
           .set('fields', fields.join())
-      });
+      })
+      .pipe(
+        catchError(this.errorHandler.error<HttpResponse<Country[]>>('getPagedCoutries'))
+      );
   }
 
-  public getActive(): Observable<Country[]> {
+  public getActive(fields?: string[]): Observable<Country[]> {
     if (this.countries) {
       return Observable.of(this.countries);
     } else {
-      return this.http.get<Country[]>(`${this.baseUrl}/active?sort=name`);
+      return this.http
+        .get<Country[]>(`${this.baseUrl}/active?sort=name`,
+          { params: new HttpParams().set('fields', !!fields ? fields.join() : '') })
+        .pipe(
+          catchError(this.errorHandler.error<Country[]>('getActiveCountries', []))
+        );
     }
   }
 
@@ -70,32 +80,38 @@ export class CountryService extends DataAccess<Country> {
     this.countries = countries;
   }
 
-  public findOne(code: string): Promise<Country> {
+  public findOne(code: string): Observable<Country> {
     return this.http
       .get<Country>(`${this.baseUrl}/${code}`)
-      .toPromise();
+      .pipe(
+        catchError(this.errorHandler.error<Country>(`getCountry code=${code}`))
+      );
   }
 
-  // public findOne(id: string): Promise<Country> {
-  //   return this.http
-  //     .get<Country>(`${countriesUrl}/${id}`)
-  //     .toPromise();
-  // }
-
-  public update(country: Country): Promise<Country> {
-    const bodyString = JSON.stringify(country);
-    return this.http.put<Country>(`${this.baseUrl}/${country.id}`, bodyString)
-      .toPromise();
+  public update(country: Country): Observable<Country> {
+    const body = JSON.stringify(country);
+    return this.http
+      .put<Country>(`${this.baseUrl}/${country.id}`, body)
+      .pipe(
+        catchError(this.errorHandler.error<Country>('updateCountry'))
+      );
   }
 
-  public create(country: Country): Promise<Country> {
-    const bodyString = JSON.stringify(country);
-    return this.http.post<Country>(`${this.baseUrl}`, bodyString)
-      .toPromise();
+  public create(country: Country): Observable<Country> {
+    const body = JSON.stringify(country);
+    return this.http
+      .post<Country>(`${this.baseUrl}`, body)
+      .pipe(
+        catchError(this.errorHandler.error<Country>('createCountry'))
+      );
   }
 
-  public remove(id: string): Promise<any> {
-    return this.http.delete(`${this.baseUrl}/${id}`)
-      .toPromise();
+  public remove(country: Country | string): Observable<any> {
+    const id = typeof country === 'string' ? country : country.id;
+    return this.http
+      .delete(`${this.baseUrl}/${id}`)
+      .pipe(
+        catchError(this.errorHandler.error<Country>('deleteCountry'))
+      );
   }
 }

@@ -2,8 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSelectChange } from '@angular/material';
-import { AlertService } from '../../../core/alert.service';
-import { GlobalErrorHandler as ErrorHandler } from '../../../core/global-error-handler';
+import { MessageService } from '../../../core/message.service';
 
 import { Business } from '../../shared/business';
 import { BusinessService } from '../../shared/business.service';
@@ -28,8 +27,7 @@ export class BusinessLocationEditDialogComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: Business,
     private businessService: BusinessService,
     private countryService: CountryService,
-    private alertService: AlertService,
-    private errorHandler: ErrorHandler,
+    private alertService: MessageService,
     private fb: FormBuilder
   ) {
     this.business = data;
@@ -54,15 +52,19 @@ export class BusinessLocationEditDialogComponent implements OnInit {
       .subscribe(countries => {
         this.countries = countries;
         const country = this.getCountry(this.business.address.country.code);
-        this.setTerritories(country);
-        this.hasZip = country.hasZipCode;
+        if (country) {
+          this.setTerritories(country);
+          this.hasZip = country.hasZipCode;
+        }
       });
   }
 
   public countryChanged(event: MatSelectChange): void {
     const country = this.getCountry(event.value);
-    this.setTerritories(country);
-    this.hasZip = country.hasZipCode;
+    if (country) {
+      this.setTerritories(country);
+      this.hasZip = country.hasZipCode;
+    }
   }
 
   private getCountry(code: string): Country {
@@ -71,7 +73,9 @@ export class BusinessLocationEditDialogComponent implements OnInit {
   }
 
   private setTerritories(country: Country): void {
-    this.territories = country.territories;
+    if (country && country.territories) {
+      this.territories = country.territories;
+    }
   }
 
   private createForm(business: Business): void {
@@ -93,10 +97,10 @@ export class BusinessLocationEditDialogComponent implements OnInit {
 
   public save(business: Business): void {
     this.businessService.update(business)
-      .then((result) => {
+      .subscribe((result) => {
         this.alertService.saveComplete();
         this.dialogRef.close(result);
-      }, err => this.errorHandler.handleError(err));
+      });
   }
 
   public cancel(): void {

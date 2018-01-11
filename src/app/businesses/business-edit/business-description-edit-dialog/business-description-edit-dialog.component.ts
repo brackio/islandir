@@ -1,8 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { AlertService } from '../../../core/alert.service';
-import { GlobalErrorHandler as ErrorHandler } from '../../../core/global-error-handler';
+import { MessageService } from '../../../core/message.service';
 
 import { Business } from '../../shared/business';
 import { BusinessService } from '../../shared/business.service';
@@ -21,8 +20,7 @@ export class BusinessDescriptionEditDialogComponent {
     public dialogRef: MatDialogRef<BusinessDescriptionEditDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: Business,
     private businessService: BusinessService,
-    private alertService: AlertService,
-    private errorHandler: ErrorHandler,
+    private alertService: MessageService,
     private fb: FormBuilder
   ) {
     this.createForm(data);
@@ -40,10 +38,10 @@ export class BusinessDescriptionEditDialogComponent {
 
   public save(business: Business): void {
     this.businessService.update(business)
-      .then((result) => {
+      .subscribe((result) => {
         this.alertService.saveComplete();
         this.dialogRef.close(result);
-      }, err => this.errorHandler.handleError(err));
+      });
   }
 
   public cancel(): void {

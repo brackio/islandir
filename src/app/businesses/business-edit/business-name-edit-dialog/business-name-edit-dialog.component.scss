@@ -1,4 +1,19 @@
+@import "../../../../media-breakpoints";
 :host {
+
+  .mat-dialog-content {
+    @media(max-width: $sm) {
+      max-height: none;
+      height: 100%;
+    }
+  }
+
+  .mat-dialog-actions {
+    background-color: #eee;
+    margin-top: 24px;
+    margin-left: -24px;
+    margin-right: -24px;
+  }
 
   .field-row {
     &.align-center {

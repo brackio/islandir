@@ -4,7 +4,7 @@ import { Notification } from '../../notifications/shared/notification';
 import { NotificationService } from '../../notifications/shared/notification.service';
 import { AuthService } from '../../auth/shared/auth.service';
 import { User } from '../../user/shared/user';
-import { AlertService } from '../../core/alert.service';
+import { MessageService } from '../../core/message.service';
 import { UserService } from '../../user/shared/user.service';
 
 @Component({
@@ -18,7 +18,7 @@ export class UserNavComponent implements OnInit {
 
   constructor(
     private notificationService: NotificationService,
-    private alertService: AlertService,
+    private alertService: MessageService,
     private userService: UserService,
     public auth: AuthService
   ) { }

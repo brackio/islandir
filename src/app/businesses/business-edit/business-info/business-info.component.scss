@@ -1,0 +1,81 @@
+@import '../../../../colors';
+@import '../../../../media-breakpoints';
+:host {
+
+  .container {
+
+    .content {
+      padding: 16px 8px;
+      @media(max-width: $xs) {
+        padding: 0;
+      }
+
+      .card {
+        .list {
+
+          .list-item {
+            padding: 8px 4px;
+
+            .list-icon-edit {
+              opacity: 0.54;
+            }
+
+            &.auto-height {
+              height: auto;
+              min-height: 48px;
+
+              .list-row {
+                align-items: flex-start;
+              }
+
+              .list-icon-edit {
+                align-self: flex-start;
+                margin-left: 1.0rem;
+              }
+            }
+
+            .list-row {
+              align-items: center;
+              display: flex;
+              flex: 1;
+              flex-direction: row;
+
+              .list-icon {
+                margin-right: 1.5rem;
+              }
+
+              .list-label {
+                min-width: 54px;
+                font-weight: 500;
+              }
+
+              .list-title {
+                flex-basis: 0;
+                flex-grow: 1;
+                display: flex;
+
+                @media(max-width: $xs) {
+                  display: none;
+                }
+              }
+
+              .list-value {
+                flex-basis: 0;
+                flex-grow: 2;
+                display: flex;
+                color: rgba(0, 0, 0, 0.54);
+
+                .list-value-line {
+                  margin-bottom: 4px;
+                }
+              }
+
+            }
+          }
+        }
+
+      }
+    }
+  }
+}
+

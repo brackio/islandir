@@ -1,7 +1,7 @@
-<form novalidate [formGroup]="form" (ngSubmit)="onSubmit(form.value)"
-      fxFlex.xs="100" fxFlex.gt-sm="80rem">
+<form novalidate [formGroup]="form" (ngSubmit)="save(form.value)" fxFlex fxFlex.gt-sm="40rem">
 
   <mat-card>
+
     <div *ngIf="editMode" class="pull-right">
       <button type="button" mat-icon-button [matMenuTriggerFor]="menu">
         <mat-icon>more_vert</mat-icon>
@@ -34,6 +34,7 @@
           <input matInput placeholder="Color" formControlName="color" type="text">
           <mat-error>Color is required.</mat-error>
         </mat-form-field>
+
       </div>
     </mat-card-content>
 
@@ -44,4 +45,3 @@
 
   </mat-card>
 </form>
-

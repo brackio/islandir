@@ -16,7 +16,7 @@ export class ErrorLogService {
     } else if (error instanceof Error) {
       console.error('There was a general error.', error.message);
     } else {
-      console.error('Nobody threw an error but something happened!', error);
+      console.error(error);
     }
   }
 }

@@ -1,55 +1,91 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/operator/toPromise';
+import { catchError } from 'rxjs/operators';
 
 import { DataAccess } from '../data-access';
 import { Theme } from './theme';
 import { CONFIG } from '../../core/config';
-import { CategoryService } from '../categories/category.service';
-import { Category } from '../categories/category';
-
-const themesUrl: string = CONFIG.baseUrls.themes;
+import { ErrorHandler } from '../../core/error-handler';
+import { Paging } from '../../core/paging';
 
 @Injectable()
 export class ThemeService extends DataAccess<Theme> {
   constructor(
     private http: HttpClient,
-    private categoryService: CategoryService,
+    private errorHandler: ErrorHandler
   ) {
     super();
-    this.baseUrl = CONFIG.baseUrls.categories;
+    this.baseUrl = CONFIG.baseUrls.themes;
   }
 
-  // public currentTheme(country: string): Observable<Theme> {
-  //   return this.http.get(`${themesUrl}/now/${country}`)
-  //     .map(res => this.extractDataService.extractData<Theme>(res))
-  //     .catch(this.exceptionService.catchBadResponse);
-  // }
-
-  get(page: number, limit: number, sort: string, sortOrder?: string, fields?: string[]): Observable<HttpResponse<Theme[]>> {
-    return undefined;
+  public get(page: number,
+             limit: number,
+             sort: string,
+             sortOrder?: string,
+             fields?: string[]): Observable<HttpResponse<Theme[]>> {
+    const paging = Paging.paginate(page, limit);
+    return this.http.get<Theme[]>(`${this.baseUrl}`,
+      {
+        observe: 'response',
+        params: new HttpParams()
+          .set('page', `${paging.page}`)
+          .set('skip', `${paging.skip}`)
+          .set('limit', `${paging.limit}`)
+          .set('sort', (sortOrder === 'asc' ? '' : '-')  + `${sort}`)
+          .set('fields', fields.join())
+      })
+      .pipe(
+        catchError(this.errorHandler.error<HttpResponse<Theme[]>>('getPagedThemes'))
+      );
   }
 
-  create(item: Theme): Promise<Theme> {
-    return undefined;
+  public create(theme: Theme): Observable<Theme> {
+    const body = JSON.stringify(theme);
+    return this.http
+      .post<Theme>(`${this.baseUrl}`, body)
+      .pipe(
+        catchError(this.errorHandler.error<Theme>('createTheme'))
+      );
   }
 
-  remove(id: string): Promise<Theme> {
-    return undefined;
+  public remove(theme: Theme | string): Observable<any> {
+    const id = typeof theme === 'string' ? theme : theme.id;
+    return this.http
+      .delete<Theme>(`${this.baseUrl}/${id}`)
+      .pipe(
+        catchError(this.errorHandler.error<Theme>('deleteTheme'))
+      );
   }
 
-  update(item: Theme): Promise<Theme> {
-    return undefined;
+  public update(theme: Theme): Observable<Theme> {
+    const body = JSON.stringify(theme);
+    return this.http
+      .put<Theme>(`${this.baseUrl}/${theme.id}`, body)
+      .pipe(
+        catchError(this.errorHandler.error<Theme>(`updateTheme`))
+      );
   }
 
-  findOne(id: string): Promise<Theme> {
-    return undefined;
+  public findOne(id: string): Observable<Theme> {
+    return this.http
+      .get<Theme>(`${this.baseUrl}/${id}`)
+      .pipe(
+        catchError(this.errorHandler.error<Theme>(`getTheme id=${id}`))
+      );
   }
 
-  public current(country: string, maxCards?: number): Observable<Theme> {
-    const cardsToGet: number = maxCards || 7;
-    return this.http.get<Theme>(`${themesUrl}/now/${country}`);
+  public current(country: string): Observable<Theme> {
+    return this.http
+      .get<Theme>(`${this.baseUrl}/now/${country}`)
+      .pipe(
+        catchError(this.errorHandler.error<Theme>('getCurrentTheme'))
+      );
+  }
+
+  // public current(country: string, maxCards?: number): Observable<Theme> {
+  //   const cardsToGet: number = maxCards || 7;
+  //   return this.http.get<Theme>(`${this.baseUrl}/now/${country}`);
       // .map((res: any) => res.json())
       // .flatMap((theme: Theme) => {
       //   if (theme && theme.topics) {
@@ -82,7 +118,7 @@ export class ThemeService extends DataAccess<Theme> {
       //   }
       //   return Observable.of(theme);
       // });
-  }
+  // }
 
   // public current(country: string, maxCards?: number): Observable<Theme> {
   //   let cardsToGet: number = maxCards || 7;

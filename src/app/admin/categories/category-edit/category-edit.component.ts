@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { TdDialogService } from '@covalent/core';
+import { Observable } from 'rxjs/Observable';
 
 import { Category } from '../../../models/categories/category';
 import { CategoryService } from '../../../models/categories/category.service';
-import { GlobalErrorHandler as ErrorHandler } from '../../../core/global-error-handler';
-import { AlertService } from '../../../core/alert.service';
-import { DialogsService } from '../../../dialogs/shared/dialog.service';
+import { MessageService } from '../../../core/message.service';
 
 @Component({
   selector: 'ilr-category-edit',
@@ -22,9 +22,8 @@ export class CategoryEditComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private categoryService: CategoryService,
-    private errorHandler: ErrorHandler,
-    private alertService: AlertService,
-    private dialogsService: DialogsService,
+    private messageService: MessageService,
+    private dialogService: TdDialogService,
     private fb: FormBuilder
   ) { }
 
@@ -41,8 +40,8 @@ export class CategoryEditComponent implements OnInit {
       });
   }
 
-  public onSubmit(category: Category): void {
-    this.alertService.saving();
+  public save(category: Category): void {
+    this.messageService.saving();
     if (this.editMode) {
       this.updateCategory(category);
     } else {
@@ -50,19 +49,18 @@ export class CategoryEditComponent implements OnInit {
     }
   }
 
-  public canDeactivate(): Promise<boolean> | boolean {
+  public canDeactivate(): Observable<boolean> | boolean {
     if (this.form.pristine) {
       return true;
     }
 
-    return this.dialogsService
-      .confirmation(
-        'Discard Changes?',
-        'Are you sure you want to discard your changes?',
-        'Discard').toPromise()
-      .then(result => {
-        return result;
-      });
+    return this.dialogService.openConfirm({
+      message: 'Are you sure you want to discard your changes?',
+      disableClose: true,
+      title: 'Discard Changes',
+      cancelButton: 'Cancel',
+      acceptButton: 'Discard',
+    }).afterClosed();
   }
 
   public cancel(): void {
@@ -72,16 +70,17 @@ export class CategoryEditComponent implements OnInit {
   public delete(): void {
     const id = this.form.get('id').value;
 
-    this.dialogsService
-      .confirmation(
-        'Delete Category',
-        'Are you sure you want to delete this category?',
-        'Delete').toPromise()
-      .then(result => {
-        if (result) {
-          this.deleteCategory(id);
-        }
-      });
+    this.dialogService.openConfirm({
+      message: 'Are you sure you want to delete this category?',
+      disableClose: true,
+      title: 'Delete Category',
+      cancelButton: 'Cancel',
+      acceptButton: 'Delete',
+    }).afterClosed().subscribe((accept: boolean) => {
+      if (accept) {
+        this.deleteCategory(id);
+      }
+    });
   }
 
   private createForm(category: Category): void  {
@@ -103,35 +102,33 @@ export class CategoryEditComponent implements OnInit {
   }
 
   private deleteCategory(id: string): void {
-    this.categoryService.remove(id).then(
+    this.categoryService.remove(id)
+      .subscribe(
       () => {
-        this.alertService.deleteAction();
+        this.messageService.deleteAction();
         this.form.markAsPristine();
         this.goBack();
-      },
-      () => err => this.errorHandler.handleError(err));
+      });
   }
 
   private createCategory(category: Category): void {
     this.categoryService.create(category)
-      .then(
+      .subscribe(
         () => {
-          this.alertService.saveComplete();
+          this.messageService.saveComplete();
           this.form.markAsPristine();
           this.goBack();
-        },
-        err => this.errorHandler.handleError(err));
+      });
   }
 
   private updateCategory(category: Category): void {
     this.categoryService.update(category)
-      .then(
+      .subscribe(
         () => {
-          this.alertService.saveComplete();
+          this.messageService.saveComplete();
           this.form.markAsPristine();
           this.goBack();
-        },
-        err => this.errorHandler.handleError(err));
+      });
   }
 
   private goBack(): void {

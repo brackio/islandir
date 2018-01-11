@@ -1,40 +1,40 @@
-import { ErrorHandler, NgModule, Optional, SkipSelf, Type } from '@angular/core';
+import { NgModule, Optional, SkipSelf } from '@angular/core';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import {  } from '@angular/common/http';
-
 import { throwIfAlreadyLoaded } from './module-import-guard';
 
 import { CountryService } from '../models/countries/country.service';
 import { CommonService } from './common.service';
-import { AlertService } from './alert.service';
+import { MessageService } from './message.service';
 import { JWTInterceptor } from './jwt-interceptor.service';
-import { GlobalErrorHandler } from './global-error-handler';
+import { ErrorHandler } from './error-handler';
 import { CacheManagerService } from './cache-manager.service';
+import { UserService } from '../user/shared/user.service';
 
-import { ErrorLogService } from './error-log.service';
-import { LogglyLoggerService } from './loggly-logger.service';
+// import { ErrorLogService } from './error-log.service';
+// import { LogglyLoggerService } from './loggly-logger.service';
 
 @NgModule({
   imports: [
     HttpClientModule
   ],
   providers: [
+    UserService,
     CountryService,
     CommonService,
-    AlertService,
+    MessageService,
     CacheManagerService,
-    GlobalErrorHandler,
-    ErrorLogService,
+    ErrorHandler,
+    // ErrorLogService,
     // LogglyLoggerService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: JWTInterceptor,
       multi: true,
     },
-    {
-      provide: ErrorHandler,
-      useClass: GlobalErrorHandler
-    }
+    // {
+    //   provide: ErrorHandling,
+    //   useClass: ErrorHandler
+    // }
   ]
 })
 export class CoreModule {

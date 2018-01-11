@@ -3,12 +3,9 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { MatPaginator, PageEvent, MatSort } from '@angular/material';
 import { DataSource } from '@angular/cdk/collections';
 import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/operator/startWith';
-import 'rxjs/add/observable/merge';
-import 'rxjs/add/observable/of';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/catch';
-import 'rxjs/add/operator/switchMap';
+import { switchMap, catchError, map, startWith } from 'rxjs/operators';
+import { of } from 'rxjs/observable/of';
+import { merge } from 'rxjs/observable/merge';
 
 import { Business } from '../../../businesses/shared/business';
 import { BusinessService } from '../../../businesses/shared/business.service';
@@ -72,29 +69,28 @@ export class BusinessDataSource extends DataSource<Business> {
       this.paginator.pageIndex = 0;
     });
 
-    return Observable.merge(...displayDataChanges)
-      .startWith(null)
-      .switchMap(() => {
-        //this.isLoadingResults = true;
+    return merge(...displayDataChanges).pipe(
+      startWith(null),
+      switchMap(() => {
         return this.businessService.get(
           this.paginator.pageIndex,
           this.paginator.pageSize,
           this.sort.active,
           this.sort.direction,
           this.displayedColumns);
-      })
-      .catch(() => {
-        return Observable.of(null);
-      })
-      .map(result => {
-        //this.isLoadingResults = false;
+      }),
+      catchError(() => {
+        return of(null);
+      }),
+      map(result => {
         return result;
-      })
-      .map(result => {
+      }),
+      map(result => {
         if (!result) { return []; }
         this.totalItems = +result.headers.get(CONFIG.vars.xInlineCount);
         return result.body;
-      });
+      })
+    );
   }
 
   disconnect() {}

@@ -1,4 +1,7 @@
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs/Observable';
+import { map } from 'rxjs/operators';
+
 import {
   CanActivate,
   ActivatedRouteSnapshot,
@@ -12,28 +15,30 @@ import { BusinessService } from './business.service';
 import { Business } from './business';
 
 @Injectable()
-export class BusinessGuardService implements CanActivate{
-  constructor(
-    private authService: AuthService,
-    private userService: UserService,
-    private businessService: BusinessService,
-    private router: Router
-  ) { }
+export class BusinessGuardService implements CanActivate {
+  constructor(private authService: AuthService,
+              private userService: UserService,
+              private businessService: BusinessService,
+              private router: Router) {
+  }
 
-  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Promise<boolean> | boolean {
+  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | boolean {
     if (this.authService.isAdmin()) {
       return true;
     }
 
     return this.businessService.getOwner(route.params['slug'])
-      .then((business: Business) => {
-        if (business) {
-          if ((business.owner.id === this.userService.currentUser.id)) {
-            return true;
+      .pipe(
+        map(business => {
+          if (business) {
+            if ((business.owner.id === this.userService.currentUser.id)) {
+              return true;
+            }
+          } else { // id not found
+            /// TODO: navigate back
+            return false;
           }
-        }
-        ///TODO: navigate back
-        return false;
-      });
+        })
+      );
   }
 }

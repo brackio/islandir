@@ -1,18 +1,13 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
-import { FormBuilder, FormGroup, FormControl, FormArray, Validators, AbstractControl } from '@angular/forms';
+import { FormBuilder, FormGroup, FormControl, FormArray, } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
-import 'rxjs/add/observable/of';
-import 'rxjs/add/operator/switchMap';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/catch';
-import 'rxjs/add/operator/debounceTime';
-import 'rxjs/add/operator/distinctUntilChanged';
-import 'rxjs/add/operator/startWith';
-import { AlertService } from '../../../core/alert.service';
-import { GlobalErrorHandler as ErrorHandler } from '../../../core/global-error-handler';
+import { switchMap, map, catchError, debounceTime, distinctUntilChanged, startWith } from 'rxjs/operators';
+import { of } from 'rxjs/observable/of';
+
+import { MessageService } from '../../../core/message.service';
 import { CustomValidators } from '../../../core/custom-validators';
 
 import { Service } from '../../../models/services/service';
@@ -39,22 +34,21 @@ export class BusinessServicesEditDialogComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: Business,
     private businessService: BusinessService,
     private serviceService: ServiceService,
-    private alertService: AlertService,
-    private errorHandler: ErrorHandler,
+    private alertService: MessageService,
     private fb: FormBuilder
   ) {
     this.createForm(data);
   }
 
   ngOnInit() {
-    this.searchedServices = this.searchServiceTerms
-      .debounceTime(300)
-      .distinctUntilChanged()
-      .startWith(null)
-      .switchMap(term => term ?
+    this.searchedServices = this.searchServiceTerms.pipe(
+      debounceTime(300),
+      distinctUntilChanged(),
+      startWith(null),
+      switchMap(term => term ?
         this.serviceService.search(term, 5, 'name', 'asc', ['-category', '-id', '-slug'])
-        : Observable.of<Service[]>([]))
-      .catch(error => Observable.of<Service[]>([]));
+        : of<Service[]>([])),
+      catchError(error => of<Service[]>([])));
   }
 
   get services(): FormArray { return this.servicesForm.get('services') as FormArray;  }
@@ -74,12 +68,11 @@ export class BusinessServicesEditDialogComponent implements OnInit {
   }
 
   public save(business: Business): void {
-    console.log(business);
     this.businessService.update(business)
-      .then((result) => {
+      .subscribe((result) => {
         this.alertService.saveComplete();
         this.dialogRef.close(result);
-      }, err => this.errorHandler.handleError(err));
+      });
   }
 
   public cancel(): void {

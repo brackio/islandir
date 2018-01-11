@@ -1,4 +1,4 @@
-<div fxFlex="100" fxFlex.gt-sm="80rem" class="mat-elevation-z1 mat-typography">
+<div fxFlex="100" fxFlex.gt-sm="90" class="table-container mat-typography" [ngClass.gt-sm]="['mat-elevation-z1']">
   <mat-table class="table-hover" #table [dataSource]="dataSource"
              matSort matSortActive="name" matSortDisableClear matSortDirection="asc">
     <ng-container cdkColumnDef="name">
@@ -27,16 +27,14 @@
     </mat-row>
   </mat-table>
 
-  <mat-card-footer>
-    <mat-paginator #paginator
-                   [length]="dataSource.totalItems"
-                   [pageIndex]="pageIndex"
-                   [pageSize]="pageSize"
-                   [pageSizeOptions]="pageLimitOptions"
-                   (page)="onPageChange($event)">
-    </mat-paginator>
-  </mat-card-footer>
+  <mat-paginator #paginator
+                 [length]="dataSource.totalItems"
+                 [pageIndex]="pageIndex"
+                 [pageSize]="pageSize"
+                 [pageSizeOptions]="pageLimitOptions"
+                 (page)="onPageChange($event)">
+  </mat-paginator>
 
 </div>
 
-<a routerLink="new" mat-fab class="page-fab md-24" color="accent"><mat-icon>add</mat-icon></a>
+<a routerLink="new" mat-fab class="page-fab" color="accent"><mat-icon>add</mat-icon></a>

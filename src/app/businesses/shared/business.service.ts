@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/operator/toPromise';
 
 import { DataAccess } from '../../models/data-access';
 import { Paging } from '../../core/paging';
@@ -38,42 +37,36 @@ export class BusinessService extends DataAccess<Business> {
     });
   }
 
-  public search(query: string, country: string, page: number): Observable<Business[]>{
+  public search(query: string, country: string, page: number): Observable<Business[]> {
     return this.http.get<Business[]>(`${this.baseUrl}/search?q=${query}&country=${country}&page=${page}&limit=${pageLimit}`);
   }
 
-  create(business: Business): Promise<Business> {
+  public create(business: Business): Observable<Business> {
     const bodyString = JSON.stringify(business);
-    return this.http.post<Business>(`${this.baseUrl}`, bodyString)
-      .toPromise();
+    return this.http.post<Business>(`${this.baseUrl}`, bodyString);
   }
 
-  public findOne(id: string): Promise<Business> {
+  public findOne(id: string): Observable<Business> {
     return this.http
-      .get<Business>(`${this.baseUrl}/${id}`)
-      .toPromise();
+      .get<Business>(`${this.baseUrl}/${id}`);
   }
 
-  public findOneBySug(slug: string): Promise<Business> {
+  public findOneBySug(slug: string): Observable<Business> {
     return this.http
-      .get<Business>(`${this.baseUrl}/by-slug/${slug}`)
-      .toPromise();
+      .get<Business>(`${this.baseUrl}/by-slug/${slug}`);
   }
 
-  public getOwner(slug: string): Promise<Business> {
+  public getOwner(slug: string): Observable<Business> {
     return this.http
-      .get<Business>(`${this.baseUrl}/owner/${slug}`)
-      .toPromise();
+      .get<Business>(`${this.baseUrl}/owner/${slug}`);
   }
 
-  public update(business: Business): Promise<Business> {
+  public update(business: Business): Observable<Business> {
     const bodyString = JSON.stringify(business);
-    return this.http.put<Business>(`${this.baseUrl}/${business.id}`, bodyString)
-      .toPromise();
+    return this.http.put<Business>(`${this.baseUrl}/${business.id}`, bodyString);
   }
 
-  public remove(id: string): Promise<any> {
-    return this.http.delete(`${this.baseUrl}/${id}`)
-      .toPromise();
+  public remove(id: string): Observable<any> {
+    return this.http.delete(`${this.baseUrl}/${id}`);
   }
 }

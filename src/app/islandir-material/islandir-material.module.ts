@@ -21,8 +21,12 @@ import {
   MatTableModule,
   MatPaginatorModule,
   MatSortModule,
-  MatExpansionModule,
-  MatTabsModule
+  MatTabsModule,
+  MatStepperModule,
+  MatGridListModule,
+  MatProgressSpinnerModule,
+  MatDatepickerModule,
+  MatNativeDateModule
 } from '@angular/material';
 
 @NgModule({
@@ -47,8 +51,12 @@ import {
     MatTableModule,
     MatPaginatorModule,
     MatSortModule,
-    MatExpansionModule,
-    MatTabsModule
+    MatTabsModule,
+    MatStepperModule,
+    MatGridListModule,
+    MatProgressSpinnerModule,
+    MatDatepickerModule,
+    MatNativeDateModule
   ],
   exports: [
     MatButtonModule,
@@ -71,8 +79,12 @@ import {
     MatTableModule,
     MatPaginatorModule,
     MatSortModule,
-    MatExpansionModule,
-    MatTabsModule
+    MatTabsModule,
+    MatStepperModule,
+    MatGridListModule,
+    MatProgressSpinnerModule,
+    MatDatepickerModule,
+    MatNativeDateModule
   ]
 })
 export class IslandirMaterialModule { }

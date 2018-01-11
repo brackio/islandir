@@ -13,21 +13,22 @@
 
     .admin-sidenav-container {
       flex: 1;
+      background-color: $body-background;
 
       .sidenav {
         width: 260px;
-        background-color: $body-background;
+        background-color: #fff;
+        border-right: 1px solid $divider-color;
 
         @media (min-width: $sm) {
-          padding-right: 18px;
+          //padding-right: 18px;
         }
 
         @media(max-width: $sm) {
           width: 300px;
-          background-color: #fff;
         }
 
-        mat-nav-list {
+        .mat-nav-list {
 
           .list-item {
             color: #616161;
@@ -37,23 +38,31 @@
               background: rgba(0, 0, 0, 0.04);
             }
 
-            mat-icon {
+            .mat-icon {
               margin-right: 16px;
             }
 
             &.active {
               color: rgba(0, 0, 0, 0.87);
               background: rgba(0, 0, 0, 0.06);
-              border-left: 2px solid $primary-color;
-              border-bottom-right-radius: 2px;
+              border-right: 2px solid $primary-color;
               font-weight: 500;
 
-              mat-icon {
+              .mat-icon {
                 color: $primary-color;
               }
 
             }
           }
+        }
+      }
+
+      .mat-sidenav-content {
+        padding: 24px;
+
+        @media(max-width: $sm) {
+          padding: 0;
+          margin: 0;
         }
       }
     }

@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/operator/toPromise';
+import { catchError } from 'rxjs/operators';
+import { of } from 'rxjs/observable/of'
 
 import { DataAccess } from '../data-access';
+import { ErrorHandler } from '../../core/error-handler';
 import { Paging } from '../../core/paging';
 import { Keyword } from './keyword';
 import { CONFIG } from '../../core/config';
@@ -12,7 +14,8 @@ import { CONFIG } from '../../core/config';
 export class KeywordService extends DataAccess<Keyword> {
 
   constructor(
-    private http: HttpClient
+    private http: HttpClient,
+    private errorHandler: ErrorHandler
   ) {
     super();
     this.baseUrl = CONFIG.baseUrls.keywords;
@@ -34,36 +37,55 @@ export class KeywordService extends DataAccess<Keyword> {
           .set('limit', `${paging.limit}`)
           .set('sort', (sortOrder === 'asc' ? '' : '-')  + `${sort}`)
           .set('fields', fields.join())
-      });
+      })
+      .pipe(
+        catchError(this.errorHandler.error<HttpResponse<Keyword[]>>('getPagedKeywords'))
+      );
   }
 
   public search(query: string): Observable<Keyword[]> {
     if (query === '') {
-      return Observable.of([]);
+      return of([]);
     }
-    return this.http.get<Keyword[]>(`${this.baseUrl}/search?q=${query}`);
+    return this.http
+      .get<Keyword[]>(`${this.baseUrl}/search?q=${query}`)
+      .pipe(
+        catchError(this.errorHandler.error<Keyword[]>('searchKeyword', []))
+      );
   }
 
-  public findOne(id: string): Promise<Keyword> {
+  public findOne(id: string): Observable<Keyword> {
     return this.http
       .get<Keyword>(`${this.baseUrl}/${id}`)
-      .toPromise();
+      .pipe(
+        catchError(this.errorHandler.error<Keyword>('getKeyword'))
+      );
   }
 
-  public update(keyword: Keyword): Promise<Keyword> {
+  public update(keyword: Keyword): Observable<Keyword> {
     const bodyString = JSON.stringify(keyword);
-    return this.http.put<Keyword>(`${this.baseUrl}/${keyword.id}`, bodyString)
-      .toPromise();
+    return this.http
+      .put<Keyword>(`${this.baseUrl}/${keyword.id}`, bodyString)
+      .pipe(
+        catchError(this.errorHandler.error<Keyword>('updateKeyword'))
+      );
   }
 
-  public create(keyword: Keyword): Promise<Keyword> {
+  public create(keyword: Keyword): Observable<Keyword> {
     const bodyString = JSON.stringify(keyword);
-    return this.http.post<Keyword>(`${this.baseUrl}`, bodyString)
-      .toPromise();
+    return this.http
+      .post<Keyword>(`${this.baseUrl}`, bodyString)
+      .pipe(
+        catchError(this.errorHandler.error<Keyword>('createKeyword'))
+      );
   }
 
-  public remove(id: string): Promise<any> {
-    return this.http.delete(`${this.baseUrl}/${id}`)
-      .toPromise();
+  public remove(keyword: Keyword | string): Observable<any> {
+    const id = typeof keyword === 'string' ? keyword : keyword.id;
+    return this.http
+      .delete(`${this.baseUrl}/${id}`)
+      .pipe(
+        catchError(this.errorHandler.error<Keyword>('deleteKeyword'))
+      );
   }
 }

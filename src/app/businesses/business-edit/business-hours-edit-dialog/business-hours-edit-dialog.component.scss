@@ -1,5 +1,21 @@
+@import "../../../../media-breakpoints";
+
 :host {
-  min-width: 720px;
+
+  .mat-dialog-content {
+    @media(max-width: $sm) {
+      max-height: none;
+      height: 100%;
+    }
+  }
+
+  .mat-dialog-actions {
+    background-color: #eee;
+    margin-top: 24px;
+    margin-left: -24px;
+    margin-right: -24px;
+  }
+
   .field-row {
 
     &.align-center {
@@ -7,7 +23,9 @@
     }
 
     .field-label {
-
+      text-transform: uppercase;
+      font-weight: 500;
+      min-width: 88px;
     }
 
     .field-icon {
@@ -26,7 +44,7 @@
       min-height: 54px;
 
       .hours-select {
-        width: 120px;
+        max-width: 90px;
       }
 
       .hours-add, .hours-remove {
@@ -35,13 +53,10 @@
 
       .hours-split {
         align-self: center;
-        color: rgba(0, 0, 0, 0.54);
+        color: rgba(0, 0, 0, 0.32);
       }
     }
 
-    //.mat-slide-toggle {
-    //  flex-grow: 1;
-    //}
   }
 
 

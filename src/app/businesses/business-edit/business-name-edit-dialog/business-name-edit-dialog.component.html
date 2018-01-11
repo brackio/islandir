@@ -1,5 +1,5 @@
-<form novalidate fxFlex="100" fxFlex.gt-sm="40rem" [formGroup]="nameForm" (ngSubmit)="save(nameForm.value)">
-  <h2 matDialogTitle>Business name</h2>
+<form fxFlexFill fxLayout="column" fxLayoutAlign="start stretch" class="mat-typography" [formGroup]="nameForm" (ngSubmit)="save(nameForm.value)">
+  <h2 mat-dialog-title>Business name</h2>
   <mat-dialog-content>
 
     <div fxLayout="row" fxLayoutGap="1rem" class="field-row align-center">

@@ -1,8 +1,11 @@
 export class Topic {
-  name: string;
-  title: string;
-  description: string;
-  tags: [string];
-  imageUrl: string;
-  refUrl: string;
+  public id: string;
+  public name: string;
+  public description: string;
+  public tags: [string];
+  public image: {
+    name: string,
+    styles: string,
+    thumbnail: string
+  };
 }

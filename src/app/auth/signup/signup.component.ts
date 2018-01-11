@@ -2,8 +2,6 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { User } from '../../user/shared/user';
 import { AuthService } from '../shared/auth.service';
-import { GlobalErrorHandler as ErrorHandler } from '../../core/global-error-handler';
-import { AlertService } from '../../core/alert.service';
 
 @Component({
   selector: 'ilr-signup',
@@ -19,19 +17,11 @@ export class SignupComponent {
 
   constructor(
     private auth: AuthService,
-    private errorHandler: ErrorHandler,
-    private router: Router,
-    private alertService: AlertService
+    private router: Router
   ) { }
 
   public signup (form): void {
     this.auth.signUp(form.firstname, form.lastname, form.email, form.password)
-      .then((user: User) => {
-          this.router.navigate(['/']);
-        },
-        err => {
-          this.errorHandler.handleError(err);
-          this.alertService.error(err.error.message);
-        });
+      .subscribe((user: User) => this.router.navigate(['/']));
   }
 }

@@ -1,5 +1,5 @@
-<form novalidate fxFlex="100" fxFlex.gt-sm="40rem" [formGroup]="locationForm" (ngSubmit)="save(locationForm.value)">
-  <h2 matDialogTitle>Business location</h2>
+<form fxFlexFill fxLayout="column" fxLayoutAlign="start stretch" class="mat-typography" [formGroup]="locationForm" (ngSubmit)="save(locationForm.value)">
+  <h2 mat-dialog-title>Business location</h2>
   <mat-dialog-content>
 
     <div class="field-row" fxLayout="row" fxLayoutGap="1rem">
@@ -15,7 +15,7 @@
           </mat-form-field>
         </div>
 
-        <mat-form-field class="full-width" *ngIf="territories.length">
+        <mat-form-field class="full-width" *ngIf="territories?.length">
           <mat-select id="territory" placeholder="Territory" formControlName="territory">
             <mat-option *ngFor="let territory of territories" [value]="territory">{{ territory }}</mat-option>
           </mat-select>

@@ -4,9 +4,9 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { Category } from '../../../models/categories/category';
 import { CategoryService } from '../../../models/categories/category.service';
-import { GlobalErrorHandler as ErrorHandler } from '../../../core/global-error-handler';
-import { AlertService } from '../../../core/alert.service';
-import { DialogsService } from '../../../dialogs/shared/dialog.service';
+import { ErrorHandler as ErrorHandler } from '../../../core/error-handler';
+import { MessageService } from '../../../core/message.service';
+import { DialogsService } from '../../../core/dialog.service';
 
 @Component({
   selector: 'ilr-admin-business-edit',

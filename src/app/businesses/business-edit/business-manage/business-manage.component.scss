@@ -1,0 +1,14 @@
+@import '../../../../colors';
+@import '../../../../media-breakpoints';
+:host {
+
+  .container {
+
+    .content {
+      padding: 16px 8px;
+      @media(max-width: $sm) {
+        padding: 0;
+      }
+    }
+  }
+}

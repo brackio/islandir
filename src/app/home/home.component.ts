@@ -1,23 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
-// import { Theme } from '../models/themes/theme';
-// import { Category } from '../models/categories/category';
-// import { Service } from '../models/services/service';
+import { Category } from '../models/categories/category';
 import { Country } from '../models/countries/country';
-import { GlobalErrorHandler as ErrorHandler } from '../core/global-error-handler';
 import { User } from '../user/shared/user';
+import {Theme} from '../models/themes/theme';
 
 import { AuthService } from '../auth/shared/auth.service';
 import { UserService } from '../user/shared/user.service';
-// import { CountryService } from '../models/countries/country.service';
-// import { ThemeService } from '../models/themes/theme.service';
-// import { CategoryService } from '../models/categories/category.service';
-// import { ServiceService } from '../models/services/service.service';
-import { AlertService } from '../core/alert.service';
-
-// const maxThemeCards = 7;
-// const maxTopServices = 7;
+import { CountryService } from '../models/countries/country.service';
+import { CategoryService } from '../models/categories/category.service';
+import { GeolocatorService } from '../core/geolocator.service';
+import { ThemeService } from '../models/themes/theme.service';
 
 @Component({
   selector: 'ilr-home',
@@ -27,69 +21,77 @@ import { AlertService } from '../core/alert.service';
 
 export class HomeComponent implements OnInit {
   public user: User;
-  // public country: Country;
-  // public countries: Country[];
-  // public theme: Theme;
-  // public featuredCategories: Category[];
-  // public topServices: Service[];
-  // private cardsToGet: number;
+  public theme: Theme;
+  public country: Country;
+  public countries: Country[];
+  public redirectCountry: Country = new Country();
+  public featuredCategories: Category[];
+  public showRedirectPanel: boolean = false;
 
   constructor(
     public auth: AuthService,
-    // private themeService: ThemeService,
-    // private categoryService: CategoryService,
+    private categoryService: CategoryService,
     private userService: UserService,
-    // private countryService: CountryService,
-    private errorHandler: ErrorHandler,
-    // private serviceService: ServiceService,
-    private alertService: AlertService,
+    private themeService: ThemeService,
     private route: ActivatedRoute,
-    private router: Router) {
+    private countryService: CountryService,
+    private geolocatorService: GeolocatorService,
+    private router: Router
+  ) {
   }
 
   ngOnInit() {
-    // this.cardsToGet = maxThemeCards;
-    this.user = this.userService.currentUser;
-    // this.getCountries();
-    // this.getFeaturedCategories();
     this.route.data
       .subscribe((data: { country: Country }) => {
-        // this.country = data.country;
-        // this.cardsToGet = maxThemeCards;
-        // this.getTheme(data.country.code);
-      // this.getTopServices(data.country.code, maxTopServices);
+        this.country = data.country;
+        this.getTheme(data.country.code);
+      });
+
+    this.user = this.userService.currentUser;
+    this.getFeaturedCategories();
+    this.getCountries();
+  }
+
+  public changeCountry(country: Country): void {
+    this.countryService.country = country;
+    this.router.navigate(['/', country.code]);
+  }
+
+  private getCountries(): void {
+    this.countryService.getActive(['-id', 'code', 'name'])
+      .subscribe((countries: Country[]) => {
+        this.countries = countries;
+        this.locateUser(countries);
+      });
+  }
+
+  private locateUser(countries): void {
+    this.geolocatorService.locate((err, location) => {
+      if (err) {
+        console.log(err);
+      } else {
+        if (location.address) {
+          this.redirectCountry.id = null;
+          this.redirectCountry.code = location.address.countryCode.toLowerCase();
+          this.redirectCountry.name = location.address.country;
+          if (this.country.code !== this.redirectCountry.code
+            && this.countries.filter(c => c.code === this.redirectCountry.code).length > 0) {
+            this.showRedirectPanel = true;
+          }
+        }
+      }
     });
   }
 
-  // public changeCountry(country: Country): void {
-  //   this.countryService.country = country;
-  //   this.router.navigate(['/', country.code]);
-  // }
+  private getFeaturedCategories(): void {
+    this.categoryService.featured()
+      .subscribe(categories => this.featuredCategories = categories);
+  }
 
-  // private getCountries(): void {
-  //   this.countryService.getActive()
-  //     .subscribe(countries => this.countries = countries,
-  //     err => this.errorHandler.handleError(err));
-  // }
-
-  // private getFeaturedCategories(): void {
-  //   this.categoryService.featured()
-  //     .subscribe(categories => this.featuredCategories = categories,
-  //       err => this.errorHandler.handleError(err));
-  // }
-
-  // private getTheme(country: string): void {
-  //   this.themeService.current(country, maxThemeCards)
-  //     .subscribe(
-  //       theme => this.theme = theme,
-  //         // if (this.theme && this.theme.topics) {
-  //         //   this.cardsToGet -= this.theme.topics.length;
-  //         // }
-  //         // if (this.cardsToGet > 0) {
-  //         //     this.getTopCategories(country, this.cardsToGet);
-  //         // }
-  //       err => this.errorHandler.error(err));
-  // }
+  private getTheme(country: string): void {
+    this.themeService.current(country)
+      .subscribe(theme => this.theme = theme);
+  }
 
   // private getTopCategories(country: string, limit: number): void {
   //   this.categoryService.topCategories(country, limit)

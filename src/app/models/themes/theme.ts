@@ -1,11 +1,10 @@
 import { Topic } from '../topics/topic';
-import { Category } from '../categories/category';
 
 export class Theme {
-  name: string;
-  country: string;
-  topics: Topic[];
-  categories: Category[];
-  startDate: Date;
-  endDate: Date;
+  public id: string;
+  public name: string;
+  public country: [string];
+  public topics: Topic[];
+  public startDate: Date;
+  public endDate: Date;
 }

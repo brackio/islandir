@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
-import { RouterModule } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
-import { DialogsModule } from '../../dialogs/dialogs.module';
+import { CovalentDialogsModule } from '@covalent/core';
 import { SharedModule } from '../../shared/shared.module';
 import { KeywordsRoutingModule } from './keywords-routing.module';
 
@@ -12,10 +11,9 @@ import { KeywordResolverService } from './shared/keyword-resolver.service';
 
 @NgModule({
   imports: [
-    RouterModule,
     ReactiveFormsModule,
     SharedModule,
-    DialogsModule,
+    CovalentDialogsModule,
     KeywordsRoutingModule
   ],
   declarations: [

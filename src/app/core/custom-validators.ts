@@ -9,7 +9,6 @@ export class CustomValidators extends Validators {
 
     // first check if the control has a value
     if (control.value && control.value.length > 0) {
-
       // match the control value against the regular expression
       const matches = control.value.match(validCharacters);
 
