@@ -9,18 +9,22 @@ import { TopicListComponent } from './topic-list/topic-list.component';
 
 import { TopicService } from '../../models/topics/topic.service';
 import { TopicResolverService } from './shared/topic-resolver.service';
-import { UploadService } from '../../core/upload.service';
+import { UploadService } from '../../common/services/upload.service';
 
 import { CloudinaryModule } from '@cloudinary/angular-5.x';
-import * as  Cloudinary from 'cloudinary-core';
+import { Cloudinary } from 'cloudinary-core';
 import { CONFIG } from '../../core/config';
+
+export const cloudinaryLib = {
+  Cloudinary: Cloudinary
+};
 
 
 @NgModule({
   imports: [
     ReactiveFormsModule,
     SharedModule,
-    CloudinaryModule.forRoot(Cloudinary,
+    CloudinaryModule.forRoot(cloudinaryLib,
       {
           cloud_name: CONFIG.cloudinary.cloud_name,
           upload_preset: CONFIG.cloudinary.upload_preset

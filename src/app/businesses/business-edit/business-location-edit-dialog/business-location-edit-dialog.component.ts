@@ -8,7 +8,7 @@ import { Business } from '../../shared/business';
 import { BusinessService } from '../../shared/business.service';
 import { Country } from '../../../models/countries/country';
 import { CountryService } from '../../../models/countries/country.service';
-import { CustomValidators } from '../../../core/custom-validators';
+import { CustomValidators } from '../../../common/custom-validators';
 
 @Component({
   selector: 'ilr-business-location-edit-dialog',

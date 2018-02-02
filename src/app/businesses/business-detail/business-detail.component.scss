@@ -1,107 +1,109 @@
 @import "../../../colors";
+@import "../../../media-breakpoints";
 
 :host {
 
-  .cover {
-    position: relative;
-    background-color: $primary-color-500;
-  }
+  .container {
+    .header {
+      height: 200px;
+      position: relative;
+      background-color: $primary-color-500;
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      //background: linear-gradient(
+      //    to bottom,
+      //    $primary-color-500,
+      //    rgba(0, 0, 0, 0.4));
 
-  .content {
-    margin-top: -60px;
+      .logo-wrapper {
+        position: absolute;
+        bottom: -1rem;
+        left: 1rem;
+        z-index: 10;
+        border-radius: 5px;
+        .logo {
 
-    .content-actions {
-      margin-top: 42px;
 
-      .btn-action {
-        background-color: #fff;
-
-        &.active {
-          background-color: $primary-color-500;
-
-          .mat-icon {
-            color: #fff;
-          }
-        }
-        .mat-icon {
-          color: $primary-color;
-        }
-      }
-    }
-
-    .content-profile {
-      //margin-top: -60px;
-
-      .profile {
-
-        a.service {
-          color: #1E88E5;
-          text-decoration: none;
-          text-transform: capitalize;
+          background-color: #fff;
         }
 
-      }
-
-      .profile-contact {
-
-        .row {
-
-          &.row-center {
-            align-items: center;
-          }
-
-          .mat-icon {
-            opacity: 0.54;
-          }
-
-          a {
-            color: #1E88E5;
-            text-decoration: none;
-          }
+        .title {
+          font-size: 20px;
         }
       }
     }
 
-    .content-tab {
-      //margin-top: -24px;
+    .content {
+      max-width: 80rem;
 
-      .mat-tab-group {
+      .ads-space {
+        width: 200px;
+        height: 400px;
+        background-color: #ddd;
+      }
 
-        .tab-label {
-          font-size: 12px;
-        }
 
-        /deep/ {
+      .p {
+        margin-bottom: 1rem;
 
-          .mat-tab-header {
-            border-radius: 2px;
-            background-color: #fff;
-            -webkit-box-shadow: 0 2px 1px -1px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 1px 3px 0px rgba(0, 0, 0, 0.12);
-            -moz-box-shadow: 0 2px 1px -1px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 1px 3px 0px rgba(0, 0, 0, 0.12);
-            box-shadow: 0 2px 1px -1px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 1px 3px 0px rgba(0, 0, 0, 0.12);
-            border-bottom: none;
+        .p-body {
+          padding: 1rem 2rem;
+          @media (max-width: $sm) {
+            padding: 1rem;
+          }
 
-            .mat-tab-label {
-              height: 56px;
+          .p-info {
 
-              .mat-icon, .tab-label {
-                color: rgba(0,0,0,0.54);
-              }
+
+
+            .services {
+              font-size: 13px;
+              color: rgba(0,0,0,.87);
+              margin-bottom: 8px;
             }
 
-            .mat-tab-label-active {
-
-              .mat-icon, .tab-label {
-                color: $accent-color;
+            .phone {
+              align-items: center;
+              .mat-icon, a {
+                color: $text-muted;
+              }
+              a {
+                text-decoration: none;
               }
             }
-
           }
         }
-      }
 
+        .p-actions {
+          background-color: #f8f8f8;
+          padding: 12px 0;
+
+          .social {
+            margin: 0 2rem;
+          }
+
+          .actions {
+            color: rgba(0,0,0,.54);
+            max-width: 564px;
+
+            button, a {
+              font-size: 13px;
+
+              .mat-icon {
+                margin-right: 4px;
+                vertical-align: middle;
+              }
+            }
+          }
+        }
+
+        .p-footer {
+          width: 100%;
+          margin-top: 1rem;
+        }
+      }
     }
 
   }
-
 }

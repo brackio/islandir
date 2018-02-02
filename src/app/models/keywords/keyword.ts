@@ -5,7 +5,7 @@ export class Keyword {
   // approved: boolean;
   // synonyms: [string];
 
-  // constructor(name: string) {
-  //   this.name = name;
-  // }
+  constructor(name?: string) {
+    this.name = name;
+  }
 }

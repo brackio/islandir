@@ -5,7 +5,10 @@ export class Topic {
   public tags: [string];
   public image: {
     name: string,
-    styles: string,
+    url: string,
+    styles: {
+      backgroundPosition: string
+    },
     thumbnail: string
   };
 }

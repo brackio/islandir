@@ -4,13 +4,14 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Category } from '../models/categories/category';
 import { Country } from '../models/countries/country';
 import { User } from '../user/shared/user';
-import {Theme} from '../models/themes/theme';
+import { Theme } from '../models/themes/theme';
+import { Topic } from '../models/topics/topic';
 
 import { AuthService } from '../auth/shared/auth.service';
 import { UserService } from '../user/shared/user.service';
 import { CountryService } from '../models/countries/country.service';
 import { CategoryService } from '../models/categories/category.service';
-import { GeolocatorService } from '../core/geolocator.service';
+import { GeolocatorService } from '../common/services/geolocator.service';
 import { ThemeService } from '../models/themes/theme.service';
 
 @Component({
@@ -22,11 +23,14 @@ import { ThemeService } from '../models/themes/theme.service';
 export class HomeComponent implements OnInit {
   public user: User;
   public theme: Theme;
+  public topic: Topic;
   public country: Country;
   public countries: Country[];
   public redirectCountry: Country = new Country();
   public featuredCategories: Category[];
   public showRedirectPanel: boolean = false;
+  public currentYear: any = new Date().getFullYear();
+  public themeStyles: {};
 
   constructor(
     public auth: AuthService,
@@ -37,8 +41,7 @@ export class HomeComponent implements OnInit {
     private countryService: CountryService,
     private geolocatorService: GeolocatorService,
     private router: Router
-  ) {
-  }
+  ) { }
 
   ngOnInit() {
     this.route.data
@@ -52,9 +55,24 @@ export class HomeComponent implements OnInit {
     this.getCountries();
   }
 
+  public setThemeStyle(theme: Theme): void {
+    this.themeStyles = {
+      'background-image': `linear-gradient(
+        to bottom,
+        rgba(0, 0, 0, 0),
+        rgba(0, 0, 0, 0.5)
+      ), url(${theme.topics[0].image.url})`,
+      'background-position': `${theme.topics[0].image.styles.backgroundPosition}`
+    };
+  }
+
   public changeCountry(country: Country): void {
     this.countryService.country = country;
     this.router.navigate(['/', country.code]);
+  }
+
+  public tagSelected(tag: string): void {
+    this.router.navigate(['/business/search', { q: tag.toLowerCase(), country: this.countryService.country.code }]);
   }
 
   private getCountries(): void {
@@ -90,7 +108,12 @@ export class HomeComponent implements OnInit {
 
   private getTheme(country: string): void {
     this.themeService.current(country)
-      .subscribe(theme => this.theme = theme);
+      .subscribe(theme => {
+        this.theme = theme;
+        if (!!theme) {
+          this.setThemeStyle(theme);
+        }
+      });
   }
 
   // private getTopCategories(country: string, limit: number): void {

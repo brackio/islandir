@@ -24,7 +24,8 @@ import {
   MatTabsModule,
   MatStepperModule,
   MatGridListModule,
-  MatProgressSpinnerModule,
+  MatExpansionModule,
+  MatProgressBarModule,
   MatDatepickerModule,
   MatNativeDateModule
 } from '@angular/material';
@@ -54,7 +55,8 @@ import {
     MatTabsModule,
     MatStepperModule,
     MatGridListModule,
-    MatProgressSpinnerModule,
+    MatExpansionModule,
+    MatProgressBarModule,
     MatDatepickerModule,
     MatNativeDateModule
   ],
@@ -82,7 +84,8 @@ import {
     MatTabsModule,
     MatStepperModule,
     MatGridListModule,
-    MatProgressSpinnerModule,
+    MatExpansionModule,
+    MatProgressBarModule,
     MatDatepickerModule,
     MatNativeDateModule
   ]

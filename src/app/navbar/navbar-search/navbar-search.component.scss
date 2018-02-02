@@ -1,0 +1,16 @@
+:host {
+  //flex: 0 0 auto;
+
+  mat-toolbar {
+    //position: relative;
+    //z-index: 3;
+    //background-color: #fff;
+
+    .app-logo {
+      mat-icon {
+        width: 64px;
+        height: auto;
+      }
+    }
+  }
+}

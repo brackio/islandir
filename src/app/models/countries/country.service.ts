@@ -5,8 +5,8 @@ import { catchError } from 'rxjs/operators';
 
 import { DataAccess } from '../data-access';
 import { ErrorHandler } from '../../core/error-handler';
-import { Paging } from '../../core/paging';
-import { CacheManagerService as Cache } from '../../core/cache-manager.service';
+import { Paging } from '../../common/paging';
+import { CacheManagerService as Cache } from '../../common/services/cache-manager.service';
 import { Country } from './country';
 import { CONFIG } from '../../core/config';
 

@@ -1,0 +1,215 @@
+<!--<div class="container" fxLayoutAlign="center center">
+  <div class="content" fxFlex="48rem" fxLayout="row" fxLayoutAlign="center start">
+    <div class="mat-typography full-width">
+
+      <div class="drop-zone"
+           [ngClass]="{'file-over': hasBaseDropZoneOver}"
+           ng2FileDrop [uploader]="uploader" (fileOver)="fileOverBase($event)"
+           fxLayout="column"
+           fxLayoutAlign="start stretch">
+
+        <h3 class="mat-subheading-2 text-center">
+          Drag photos here or
+          <label class="upload-button">
+            <input type="file" #fileInput ng2FileSelect [uploader]="uploader" (change)="fileInput.value=''" multiple>
+            browse
+          </label>
+          to upload.
+        </h3>
+
+        <div *ngFor="let item of uploader.queue">
+          <div class="preview" fxLayout="row" fxLayoutGap="1rem">
+            <img src="" ilrImgPreview [image]="item?._file" />
+
+            <div fxLayout="column" fxFlex>
+
+              <mat-progress-bar
+                fxFlexAlign="center"
+                *ngIf="item.progress"
+                role="progressbar"
+                mode="determinate"
+                [value]="item.progress">
+              </mat-progress-bar>
+
+              <h4 class="mat-body-2">Uploading {{item?.file?.name}}... {{item.progress}}%</h4>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="gallery">
+        <mat-grid-list cols="4" gutterSize="8px">
+          <mat-grid-tile class="img-holder" *ngFor="let photo of business.photos; let index=index;">
+            <div class="photo">
+              <img
+                sizes="(min-width: 30em) 28em, 100vw"
+                srcset="https://res.cloudinary.com/eeeps/image/upload/f_auto,q_70,w_256/on_the_phone.jpg 256w,
+                https://res.cloudinary.com/eeeps/image/upload/f_auto,q_70,w_512/on_the_phone.jpg 512w,
+                https://res.cloudinary.com/eeeps/image/upload/f_auto,q_70,w_768/on_the_phone.jpg 768w,
+                https://res.cloudinary.com/eeeps/image/upload/f_auto,q_70,w_1024/on_the_phone.jpg 1024w,
+                https://res.cloudinary.com/eeeps/image/upload/f_auto,q_70,w_1280/on_the_phone.jpg 1280w"
+                src="https://res.cloudinary.com/eeeps/image/upload/f_auto,q_70,w_512/on_the_phone.jpg"
+                alt />
+
+              &lt;!&ndash;<img [src]="photo.url + '?fit=crop&w=148&h=148'">&ndash;&gt;
+            </div>
+          </mat-grid-tile>
+        </mat-grid-list>
+      </div>
+    </div>
+
+  </div>
+</div>-->
+
+<div class="container" fxLayoutAlign="center center">
+  <div class="content" fxFlex="48rem" fxLayout="column">
+    <ng-template #elseBlock>
+      <div class="text-center mat-body-1">Drop files here</div>
+    </ng-template>
+
+    <div class="album album-logo" fxLayout="row" fxLayoutGap="2rem">
+      <div class="album-label">
+        <p class="mat-body-2 label">logo</p>
+        <p class="mat-caption sub-label">Upload a image of your business' logo (max. 1).</p>
+      </div>
+
+      <div class="album-photos" fxFlex fxLayout="row" fxLayoutGap="1rem">
+        <div class="photo-drop-zone" *ngIf="!business.photos?.logo"
+             [ngClass]="{'file-over': logoDragOver}"
+             ng2FileDrop [uploader]="logoUploader"
+             (fileOver)="logoFileOver($event)">
+
+          <div *ngIf="!logoDragOver; else elseBlock" class="text-center">
+            <mat-icon>add_a_photo</mat-icon>
+            <p class="mat-body-1"><label class="upload-button">
+              <input type="file" #logofileInput ng2FileSelect [uploader]="logoUploader" (change)="logofileInput.value=''" multiple>
+              Add Photo
+            </label>
+            </p>
+          </div>
+
+        </div>
+
+        <div *ngFor="let item of logoUploader.queue">
+          <div class="preview" fxLayout="row" fxLayoutGap="1rem">
+            <img class="photo" src="" ilrImgPreview [image]="item?._file" />
+
+            <div fxLayout="column" fxFlex>
+
+              <mat-progress-bar
+                fxFlexAlign="center"
+                *ngIf="item.progress"
+                role="progressbar"
+                mode="determinate"
+                [value]="item.progress">
+              </mat-progress-bar>
+
+              <p class="mat-body-1">Uploading {{item?.file?.name}}... {{item.progress}}%</p>
+            </div>
+          </div>
+        </div>
+
+        <cl-image *ngIf="hasLogo" public-id="{{business.photos.logo.public_id}}">
+          <cl-transformation border="1px_solid_rgb:eee" radius="2" height="112" quality="auto" width="112" crop="fill" fetch_format="auto">
+          </cl-transformation>
+        </cl-image>
+      </div>
+    </div>
+
+    <div class="album album-cover border-top" fxLayout="row" fxLayoutGap="2rem">
+      <div class="album-label">
+        <p class="mat-body-2 label">cover photo</p>
+        <p class="mat-caption sub-label">Upload a image of your business profile cover photo  (max. 1).</p>
+      </div>
+
+      <div class="album-photos" fxFlex fxLayout="row" fxLayoutGap="1rem">
+        <div class="photo-drop-zone" *ngIf="!business.photos?.cover"
+             [ngClass]="{'file-over': coverDragOver}"
+             ng2FileDrop [uploader]="coverUploader"
+             (fileOver)="coverFileOver($event)">
+
+          <div *ngIf="!coverDragOver; else elseBlock" class="text-center">
+            <mat-icon>add_a_photo</mat-icon>
+            <p class="mat-body-1">
+              <label class="upload-button">
+                <input type="file" #coverfileInput ng2FileSelect [uploader]="coverUploader" (change)="coverfileInput.value=''" multiple>
+                Add Photo
+              </label>
+            </p>
+          </div>
+
+        </div>
+
+        <div *ngFor="let item of coverUploader.queue">
+          <div class="preview" fxLayout="row" fxLayoutGap="1rem">
+            <img class="photo" src="" ilrImgPreview [image]="item?._file" />
+
+            <div fxLayout="column" fxFlex>
+
+              <mat-progress-bar
+                fxFlexAlign="center"
+                *ngIf="item.progress"
+                role="progressbar"
+                mode="determinate"
+                [value]="item.progress">
+              </mat-progress-bar>
+
+              <p class="mat-body-1">Uploading {{item?.file?.name}}... {{item.progress}}%</p>
+            </div>
+          </div>
+        </div>
+
+        <cl-image *ngIf="hasCover" public-id="{{business.photos.cover.public_id}}">
+          <cl-transformation border="1px_solid_rgb:eee" radius="2"  height="112" quality="auto" width="112" crop="fill" fetch_format="auto">
+          </cl-transformation>
+        </cl-image>
+      </div>
+    </div>
+
+    <div class="album album-gallery border-top" fxLayout="row" fxLayoutGap="2rem">
+      <div class="album-label">
+        <p class="mat-body-2 label">gallery</p>
+        <p class="mat-caption sub-label">Upload images that showcases your best work.</p>
+      </div>
+
+      <div class="album-photos" fxFlex fxLayout="row" fxLayoutGap="1rem" fxLayoutWrap>
+        <div class="photo-drop-zone"
+             [ngClass]="{'file-over': galleryDragOver}"
+             ng2FileDrop [uploader]="galleryUploader"
+             (fileOver)="galleryFileOver($event)">
+          <div *ngIf="!galleryDragOver; else elseBlock" class="text-center">
+            <mat-icon>add_a_photo</mat-icon>
+            <p class="mat-body-1"><label class="upload-button">
+              <input type="file" #galleryfileInput ng2FileSelect [uploader]="galleryUploader" (change)="galleryfileInput.value=''" multiple>
+              Add Photo
+            </label>
+            </p>
+          </div>
+        </div>
+
+        <div *ngFor="let item of galleryUploader.queue" class="preview" fxLayout="row" fxLayoutGap="1rem" fxFlex fxLayoutWrap>
+          <img class="photo" src="" ilrImgPreview [image]="item?._file" />
+
+          <div fxLayout="column" fxFlex>
+
+            <mat-progress-bar
+              fxFlexAlign="center"
+              *ngIf="item.progress"
+              role="progressbar"
+              mode="determinate"
+              [value]="item.progress">
+            </mat-progress-bar>
+
+            <p class="mat-body-1">Uploading {{item?.file?.name}}... {{item.progress}}%</p>
+          </div>
+        </div>
+
+        <cl-image *ngFor="let photo of business.photos?.gallery" public-id="{{photo.public_id}}">
+          <cl-transformation border="1px_solid_rgb:eee" radius="2"  height="112" quality="auto" width="112" crop="fill" fetch_format="auto">
+          </cl-transformation>
+        </cl-image>
+      </div>
+    </div>
+  </div>
+
+</div>

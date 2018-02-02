@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
 import { Business } from '../shared/business';
-import { GeolocatorService } from '../../core/geolocator.service';
 
 @Component({
   selector: 'ilr-business-detail',
@@ -11,21 +10,34 @@ import { GeolocatorService } from '../../core/geolocator.service';
 })
 export class BusinessDetailComponent implements OnInit {
   public business: Business;
-  public staticMapUrl: string;
+
+  public navLinks = [
+    {
+      label: 'overview',
+      path: '.',
+      options: {exact: true}
+    },
+    {
+      label: 'reviews',
+      path: 'reviews',
+      options: {exact: true}
+    },
+    {
+      label: 'photos',
+      path: 'photos',
+      options: {exact: true}
+    }
+  ];
 
   constructor(
     private route: ActivatedRoute,
-    private router: Router,
-    public geolocatorService: GeolocatorService
+    private router: Router
   ) { }
 
   ngOnInit() {
     this.route.parent.data
       .subscribe((data: { business: Business }) => {
         this.business = data.business;
-        if (this.business.latitude && this.business.longitude) {
-          this.staticMapUrl = this.geolocatorService.staticMapUrl(this.business.latitude, this.business.longitude);
-        }
       });
   }
 

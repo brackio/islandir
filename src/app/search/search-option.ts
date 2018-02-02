@@ -4,7 +4,7 @@ export class SearchOption {
   public index: string;
   public icon: string;
 
-  constructor(index: string, icon: string, value: string, text: string) {
+  constructor(index?: string, icon?: string, value?: string, text?: string) {
     this.index = index;
     this.icon = icon;
     this.value = value;

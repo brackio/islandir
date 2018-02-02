@@ -9,12 +9,16 @@ html, body {
   height: 100%;
 }
 
+.mat-app-background {
+  background-color: $body-background;
+}
+
 .text-highlight {
   color: #FFE57F;//$accent-color-light;
 }
 
 .text-muted {
-  color: $text-muted;
+  color: $text-muted !important;
 }
 
 .rounded-corners {
@@ -113,7 +117,7 @@ hr.faded {
 }
 
 a, button {
-
+  text-decoration: none;
   &.page-fab {
     bottom: 0;
     margin-bottom: 24px;
@@ -121,10 +125,6 @@ a, button {
     position: fixed;
     right: 0;
   }
-}
-
-a.no-underline {
-  text-decoration: none;
 }
 
 .pull-left{
@@ -178,7 +178,7 @@ a.no-underline {
   }
 }
 
-.card {
+div.card {
     transition: box-shadow 280ms cubic-bezier(.4, 0, .2, 1);
     display: block;
     position: relative;

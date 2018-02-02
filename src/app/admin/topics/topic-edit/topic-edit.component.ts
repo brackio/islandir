@@ -8,7 +8,7 @@ import { ENTER, COMMA } from '@angular/cdk/keycodes';
 import { Topic } from '../../../models/topics/topic';
 import { TopicService } from '../../../models/topics/topic.service';
 import { MessageService } from '../../../core/message.service';
-import { UploadService } from '../../../core/upload.service';
+import { UploadService } from '../../../common/services/upload.service';
 
 @Component({
   selector: 'ilr-topic-edit',
@@ -49,11 +49,13 @@ export class TopicEditComponent implements OnInit {
   }
 
   get image() { return this.form.get('image.name'); }
+  get url() { return this.form.get('image.url'); }
   get thumbnail() { return this.form.get('image.thumbnail'); }
   get tags(): FormArray { return this.form.get('tags') as FormArray; }
   get description() { return this.form.get('description'); }
 
   set image(val) { this.form.get('image.name').setValue(val); }
+  set url(val) { this.form.get('image.url').setValue(val); }
   set thumbnail(val) { this.form.get('image.thumbnail').setValue(val); }
 
   public cancel(): void {
@@ -76,6 +78,7 @@ export class TopicEditComponent implements OnInit {
         console.log(err);
       } else {
         this.image = res[0].public_id;
+        this.url = res[0].secure_url;
         this.thumbnail = res[0].thumbnail_url;
       }
     });
@@ -87,7 +90,10 @@ export class TopicEditComponent implements OnInit {
       name: [topic.name, [Validators.required]],
       image: this.fb.group({
         name: this.topic.image.name,
-        styles: this.topic.image.styles,
+        url: this.topic.image.url,
+        styles: this.fb.group({
+          backgroundPosition: this.topic.image.styles.backgroundPosition
+        }),
         thumbnail: this.topic.image.thumbnail
       }),
       tags: this.fb.array(topic.tags || []),

@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { MatAutocompleteSelectedEvent } from '@angular/material';
+import { MatAutocompleteSelectedEvent, MatAutocompleteTrigger} from '@angular/material';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import { catchError, startWith, debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
@@ -8,7 +8,7 @@ import { of } from 'rxjs/observable/of';
 
 import { KeywordService } from '../models/keywords/keyword.service';
 import { CountryService } from '../models/countries/country.service';
-import { CacheManagerService } from '../core/cache-manager.service';
+import { CacheManagerService } from '../common/services/cache-manager.service';
 import { SearchOption } from './search-option';
 import { Keyword } from '../models/keywords/keyword';
 import { CONFIG } from '../core/config';
@@ -21,15 +21,19 @@ import { CONFIG } from '../core/config';
 
 export class SearchComponent implements OnInit {
   public keywords: Observable<Keyword[]> ;
+  private searchHistory: Keyword[] = [];
   private searchTerms = new Subject<string>();
-  private searchHistory = [];
 
   constructor(
     private keywordService: KeywordService,
     private countryService: CountryService,
     private cache: CacheManagerService,
     private router: Router
-  ) { }
+  ) {
+    this.searchHistory = this.getSearchHistory();
+  }
+
+  @ViewChild(MatAutocompleteTrigger) trigger: MatAutocompleteTrigger;
 
   // Push a search term into the observable stream.
   public search(term: string): void {
@@ -37,13 +41,11 @@ export class SearchComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // this.searchHistory = this.getSearchHistory();
-
     this.keywords = this.searchTerms.pipe(
+      startWith(null),
       debounceTime(300),
       distinctUntilChanged(),
-      startWith(null),
-      switchMap(term => term ? this.keywordService.search(term) :  of<Keyword[]>([])),
+      switchMap(term => term ? this.keywordService.search(term) :  of<Keyword[]>(this.searchHistory)),
       catchError(error => of<Keyword[]>([])));
   }
 
@@ -52,39 +54,54 @@ export class SearchComponent implements OnInit {
   }
 
   public onSubmit(val: string): void {
-    this.router.navigate(['/business/search', { q: val.toLowerCase(), country: this.countryService.country.code }]);
+    this.onOptionSelected(val);
+    this.trigger.closePanel();
   }
 
-  public onOptionSelected(event: MatAutocompleteSelectedEvent): void {
-    this.updateSearchHistory(event.option.value);
-    const option: SearchOption = event.option.value;
-
+  public onOptionSelected(selection: MatAutocompleteSelectedEvent | string): void {
+    const option: SearchOption = new SearchOption();
+    if (typeof selection === 'string') {
+      option.text = selection;
+    } else {
+      option.text = selection.option.value.text;
+      option.value = selection.option.value.value;
+      option.index = selection.option.value.index;
+    }
+    this.updateSearchHistory(option.text);
     if (option.index === 'businesss') {
-      this.router.navigate(['/business', option.value.toLowerCase()]);
+      console.log(option);
+      // this.router.navigate(['/business', option.value.toLowerCase()]);
     } else {
       this.router.navigate(['/business/search', { q: option.text.toLowerCase(), country: this.countryService.country.code }]);
     }
   }
 
-  private getSearchHistory(): Observable<Keyword[]> {
-    const cache = this.cache.get(CONFIG.vars.searchHistory);
-    if (!!cache) {
-
-      const history = new Keyword();
-      history.name = JSON.parse(cache);
-      const j = [history];
-
-      return of(j);
-    }
-
-    return of<Keyword[]>([]);
+  public removeItemFromHistory(option: SearchOption): void {
+    this.searchHistory = this.searchHistory.filter((item: Keyword) => item.name !== option.text);
+    this.keywords = of(<Keyword[]>(this.searchHistory));
+    this.saveHistory(this.searchHistory);
   }
 
-  private updateSearchHistory(search: string): void {
-    if (this.searchHistory.length >= CONFIG.searchHistoryLimit ) {
-      this.searchHistory.pop();
+  private getSearchHistory(): Keyword[] {
+    // this.cache.removeItem(CONFIG.vars.searchHistory);
+    const cache = this.cache.get(CONFIG.vars.searchHistory);
+    return (!!cache) ? JSON.parse(cache) : [];
+  }
+
+  private updateSearchHistory(term: Keyword | string): void {
+    if (!!term) {
+      const keyword: Keyword = typeof term === 'string' ? new Keyword(term) : term;
+      if (!(!!this.searchHistory.find(item => item.name === keyword.name))) {
+        if (this.searchHistory.length >= CONFIG.searchHistoryLimit) {
+          this.searchHistory.pop();
+        }
+        this.searchHistory.unshift(keyword);
+        this.saveHistory(this.searchHistory);
+      }
     }
-    this.searchHistory.unshift(search);
-    this.cache.set(CONFIG.vars.searchHistory, JSON.stringify(this.searchHistory));
+  }
+
+  private saveHistory(history): void {
+    this.cache.set(CONFIG.vars.searchHistory, JSON.stringify(history));
   }
 }

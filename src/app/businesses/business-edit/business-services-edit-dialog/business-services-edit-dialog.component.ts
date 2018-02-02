@@ -8,7 +8,7 @@ import { switchMap, map, catchError, debounceTime, distinctUntilChanged, startWi
 import { of } from 'rxjs/observable/of';
 
 import { MessageService } from '../../../core/message.service';
-import { CustomValidators } from '../../../core/custom-validators';
+import { CustomValidators } from '../../../common/custom-validators';
 
 import { Service } from '../../../models/services/service';
 import { ServiceService } from '../../../models/services/service.service';

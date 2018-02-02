@@ -6,13 +6,16 @@ import { BusinessDetailComponent } from './business-detail/business-detail.compo
 import { BusinessEditComponent } from './business-edit/business-edit.component';
 import { BusinessResolverService } from './shared/business-resolver.service';
 import { BusinessCreateComponent } from './business-create/business-create.component';
-import { BusinessInfoComponent } from './business-edit/business-info/business-info.component';
-import { BusinessPhotosComponent } from './business-edit/business-photos/business-photos.component';
-import { BusinessReviewsComponent } from './business-edit/business-reviews/business-reviews.component';
-import { BusinessManageComponent } from './business-edit/business-manage/business-manage.component';
+import { BusinessInfoEditComponent } from './business-edit/business-info-edit/business-info-edit.component';
+import { BusinessPhotosEditComponent } from './business-edit/business-photos-edit/business-photos-edit.component';
+import { BusinessReviewsEditComponent } from './business-edit/business-reviews-edit/business-reviews-edit.component';
+import { BusinessManageEditComponent } from './business-edit/business-manage-edit/business-manage-edit.component';
 
 import { BusinessGuardService as BusinessGuard } from './shared/business-guard.service';
 import { AuthGuardService as AuthGuard } from '../auth/shared/auth-guard.service';
+import { BusinessReviewsComponent } from './business-detail/business-reviews/business-reviews.component';
+import { BusinessPhotosComponent } from './business-detail/business-photos/business-photos.component';
+import { BusinessOverviewComponent } from './business-detail/business-overview/business-overview.component';
 
 const routes: Routes = [
   {
@@ -35,13 +38,21 @@ const routes: Routes = [
             component: BusinessEditComponent,
             canActivate: [ AuthGuard, BusinessGuard ],
             children: [
-              { path: 'photos', component: BusinessPhotosComponent },
-              { path: 'reviews', component: BusinessReviewsComponent },
-              { path: 'manage', component: BusinessManageComponent },
-              { path: '', component: BusinessInfoComponent }
+              { path: 'photos', component: BusinessPhotosEditComponent },
+              { path: 'reviews', component: BusinessReviewsEditComponent },
+              { path: 'manage', component: BusinessManageEditComponent },
+              { path: '', component: BusinessInfoEditComponent }
             ]
           },
-          { path: '', component: BusinessDetailComponent }
+          {
+            path: '',
+            component: BusinessDetailComponent,
+            children: [
+              { path: 'reviews', component: BusinessReviewsComponent },
+              { path: 'photos', component: BusinessPhotosComponent },
+              { path: '', component: BusinessOverviewComponent }
+            ]
+          }
         ]
       },
     ]

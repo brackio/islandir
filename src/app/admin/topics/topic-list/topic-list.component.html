@@ -5,7 +5,7 @@
     <ng-container cdkColumnDef="image">
       <mat-header-cell *cdkHeaderCellDef mat-sort-header disableClear="true"> Image </mat-header-cell>
       <mat-cell *cdkCellDef="let row">
-        <img [clSrc]="row.image.thumbnail" >
+        <img *ngIf="row.image.thumbnail" [clSrc]="row.image.thumbnail" >
 
       </mat-cell>
     </ng-container>

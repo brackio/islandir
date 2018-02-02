@@ -1,0 +1,40 @@
+@import "../../../../colors";
+@import "../../../../media-breakpoints";
+
+:host {
+  @media (min-width: $gt-xs) {
+    margin: -8px;
+  }
+
+  div.card, .mat-card {
+    flex-grow: 1;
+    min-width: 33.33%;
+
+    @media (min-width: $gt-xs) {
+      margin: 8px;
+    }
+
+    .header {
+      font-weight: 500;
+      color: $text-muted;
+      margin-bottom: 16px;
+
+      .mat-icon {
+        margin-right: 5px;
+      }
+    }
+
+
+    .card-content {
+
+      .mat-icon {
+        margin-right: 5px;
+        color: #999;
+      }
+    }
+  }
+
+  .address-panel {
+    max-height: 200px;
+  }
+}

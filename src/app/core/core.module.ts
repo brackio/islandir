@@ -3,11 +3,10 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { throwIfAlreadyLoaded } from './module-import-guard';
 
 import { CountryService } from '../models/countries/country.service';
-import { CommonService } from './common.service';
 import { MessageService } from './message.service';
 import { JWTInterceptor } from './jwt-interceptor.service';
 import { ErrorHandler } from './error-handler';
-import { CacheManagerService } from './cache-manager.service';
+import { CacheManagerService } from '../common/services/cache-manager.service';
 import { UserService } from '../user/shared/user.service';
 
 // import { ErrorLogService } from './error-log.service';
@@ -20,7 +19,6 @@ import { UserService } from '../user/shared/user.service';
   providers: [
     UserService,
     CountryService,
-    CommonService,
     MessageService,
     CacheManagerService,
     ErrorHandler,

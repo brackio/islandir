@@ -1,4 +1,4 @@
-<form autocomplete="off" novalidate (ngSubmit)="onSubmit(searchInput.value)" #searchForm="ngForm"
+<form autocomplete="off" novalidate (ngSubmit)="onSubmit(searchInput.value)" #searchForm="ngForm" fxFlex.md="712px" fxFlex.gt-md="872px"
       class="full-width">
   <div class="search">
     <div class="search-wrapper" tabindex="0">
@@ -7,17 +7,26 @@
              type="text" #searchInput
              aria-label="Business Search"
             (keyup)="search(searchInput.value)"
-             aria-label="Business Search"
-            [matAutocomplete]="auto"
+            [matAutocomplete]="autocomplete"
              name="searchInput"
             placeholder="Search businesses or services">
-      <button fxHide.xs mat-icon-button><mat-icon *ngIf="searchInput.value" (click)="searchInput.value=''" class="icon icon-clear">cancel</mat-icon></button>
+      <button type="button" fxHide.xs mat-icon-button (click)="searchInput.value=''" *ngIf="searchInput.value">
+        <mat-icon class="icon icon-clear">cancel</mat-icon>
+      </button>
     </div>
 
-    <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onOptionSelected($event)" [displayWith]="displayFn">
-      <mat-option *ngFor="let option of keywords | async | searchOptions" [value]="option">
-        <mat-icon class="align-middle autocomplete-icon">{{option.icon}}</mat-icon> {{ option.text }}
-      </mat-option>
+    <mat-autocomplete #autocomplete="matAutocomplete" (optionSelected)="onOptionSelected($event)" [displayWith]="displayFn">
+
+      <div fxLayout="row" *ngFor="let option of keywords | async | searchOptions">
+        <mat-option fxFlex [value]="option">
+          <mat-icon class="align-middle autocomplete-icon">{{option.icon}}</mat-icon> {{ option.text }}
+        </mat-option>
+
+        <button mat-icon-button fxFlexAlign="center" class="pull-right" *ngIf="!option.index" (click)="removeItemFromHistory(option)">
+          <mat-icon aria-label="Remove from search history">close</mat-icon>
+        </button>
+      </div>
+
     </mat-autocomplete>
   </div>
 </form>

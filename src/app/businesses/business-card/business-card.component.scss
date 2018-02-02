@@ -1,0 +1,28 @@
+@import "../../../media-breakpoints";
+
+:host {
+
+  .mat-card {
+    margin-bottom: 1rem;
+    cursor: pointer;
+    width: 260px;
+
+    @media (max-width: $xs) {
+      width: 100%;
+    }
+
+    @media (min-width: $gt-xs) and (max-width: $sm){
+      width: 50%;
+    }
+
+    .name {
+      font-weight: 500;
+      font-size: 15px;
+    }
+
+
+    .contact {
+      color: #999;
+    }
+  }
+}

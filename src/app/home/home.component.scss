@@ -4,65 +4,113 @@
 :host {
 
   .container {
-
-    background: linear-gradient(
-        to bottom,
-        rgba(0, 0, 0, 0),
-        rgba(0, 0, 0, 0.6)
-    ), url('../../assets/img/healthy-food.jpg') no-repeat bottom right fixed;
+    background-color: rgba(0, 0, 0, 0.6);
     background-size: cover;
-    //background-position: bottom left;
-    //background-repeat: no-repeat;
+    background-repeat: no-repeat;
+    background-attachment:fixed;
+    background-image: linear-gradient(
+        to top,
+        rgba(0, 0, 0, 0),
+        rgba(0, 0, 0, 0.5)), url("../../assets/img/healthy-food.jpg");
 
     .mat-toolbar {
       background: transparent;
-    }
-
-    .hero {
-      .hero-logo {
-        height: auto;
-        width: 164px;
-      }
-
-      //.hero-search {
-      //
-      //  @media(max-width: $xs) {
-      //    padding: 0 10px;
-      //  }
-      //
-      //  @media(min-width: $gt-xs) and (max-width: $sm) {
-      //    padding: 0 20px;
-      //  }
-      //}
-    }
-
-
-    .footer {
-      background-color: #fff;
-      padding: 18px;
-      border-top: 1px solid $divider-color;
-
-      .categories {
-
-        a.category {
-          text-decoration: none;
-          text-transform: capitalize;
-          color: rgba(0,0,0,.54);
-
-          .mat-icon {
-            color: rgba(0,0,0,.54);
-            vertical-align: middle;
-            margin-right: 3px;
-          }
+      .app-logo {
+        mat-icon {
+          width: 64px;
+          height: auto;
         }
       }
+    }
+
+    .hero-logo {
+      height: auto;
+      width: 128px;
+    }
+
+    .search-container {
+      margin-bottom: 1rem;
+
+      /deep/ form .search {
+        .search-wrapper {
+          background: rgba(255, 255, 255, .72);
+        }
+      }
+    }
+
+    .services-container {
+      margin-bottom: 2rem;
+    }
+
+
+    .tag-line {
+      color: rgba(0,0,0,.87);
+
+      @media (min-width: $sm) {
+        font-size: 22px;
+      }
+    }
+
+    .topic-tag {
+      cursor: pointer;
+      text-transform: capitalize;
+    }
+
+    .promote {
+      //background-color: $primary-text-color;
+      //width: 364px;
+      padding: 8px 16px;
+      border-radius: 3px;
+      box-sizing: border-box;
+      max-width: 400px;
+      //
+      .img-wrapper {
+        height: 64px;
+        width: 64px;
+      }
+    }
+
+    .footer {
+      background-color: #fafafa;
+      padding: 8px;
+      border-bottom: 1px solid #e4e4e4;
+      color: rgba(0, 0, 0, 0.87);
+
+      a {
+        text-decoration: none;
+        color: rgba(0,0,0,.87);
+      }
+
+      &.footer-sm {
+        border-top: 1px solid #fff;
+        padding: 8px;
+
+        a {
+          font-size: 12px;
+        }
+      }
+
+      .terms-list {
+        a {
+          font-size: 13px;
+        }
+      }
+
+      @media (min-width: $gt-xs){
+        padding: 10px;
+      }
+
+      //@media (min-width: $md) {
+      //  padding: 12px;
+      //}
     }
   }
 
   .country-redirect {
     position: absolute;
-    bottom: 0;
-    right: 0;
+    bottom: 10px;
+    right: 10px;
+    max-width: 380px;
   }
 
 }

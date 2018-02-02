@@ -1,0 +1,40 @@
+<div fxLayout="column" fxLayout.gt-xs="row" fxLayoutWrap>
+  <mat-card class="mat-typography">
+    <div class="header">
+      <mat-icon class="align-middle">description</mat-icon>Description
+    </div>
+
+    <mat-card-content class="card-content">
+      <p>
+        {{business.description}}
+      </p>
+      <h4><mat-icon class="align-middle">event</mat-icon>Joined</h4>
+
+      <h4><mat-icon class="align-middle">public</mat-icon>{{business.website}}</h4>
+
+    </mat-card-content>
+
+  </mat-card>
+
+  <mat-card class="mat-typography">
+    <div class="header">
+      <mat-icon class="align-middle">access_time</mat-icon>Opening Hours
+    </div>
+  </mat-card>
+
+  <div class="address-panel card mat-elevation-z1 mat-typography" [ngClass]="{'full-width': !!staticMapUrl}">
+    <div fxLayout="column" fxLayout.gt-xs="row">
+      <div fxFlex style="padding: 24px;">
+        <div class="header">
+          <mat-icon class="align-middle">location_on</mat-icon>Address
+        </div>
+
+        <p>{{business.address?.street}}{{(business.address?.city) ? ', ' + business.address?.city : '' }}</p>
+        <p>{{(business.address?.territory && business.address?.territory !== business.address?.city) ? business.address?.territory + ', ' : ''}}{{business.address?.country.name}}, {{business.address?.zip}}</p>
+      </div>
+      <div fxFlex>
+        <img *ngIf="!!staticMapUrl" [src]="staticMapUrl">
+      </div>
+    </div>
+  </div>
+</div>

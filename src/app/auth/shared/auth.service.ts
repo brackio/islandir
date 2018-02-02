@@ -7,7 +7,7 @@ import { catchError, map } from 'rxjs/operators';
 import { ErrorHandler } from '../../core/error-handler';
 import { User } from '../../user/shared/user';
 import { UserService } from '../../user/shared/user.service';
-import { CacheManagerService as Cache} from '../../core/cache-manager.service';
+import { CacheManagerService as Cache} from '../../common/services/cache-manager.service';
 
 import { CONFIG } from '../../core/config';
 

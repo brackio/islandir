@@ -6,7 +6,7 @@ import { of } from 'rxjs/observable/of'
 
 import { DataAccess } from '../data-access';
 import { ErrorHandler } from '../../core/error-handler';
-import { Paging } from '../../core/paging';
+import { Paging } from '../../common/paging';
 import { Keyword } from './keyword';
 import { CONFIG } from '../../core/config';
 

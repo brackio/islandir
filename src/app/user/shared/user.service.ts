@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 
 import { User } from './user';
-import { CacheManagerService } from '../../core/cache-manager.service';
-import { CommonService } from '../../core/common.service';
+import { CacheManagerService } from '../../common/services/cache-manager.service';
+import { Common } from '../../common/common';
 import { CONFIG } from '../../core/config';
 
 @Injectable()
@@ -10,7 +10,6 @@ export class UserService {
   private user: User;
 
   constructor(
-    private commonService: CommonService,
     private cache: CacheManagerService
   ) { }
 
@@ -50,6 +49,6 @@ export class UserService {
     }
 
     return !this.user.verified
-      && this.commonService.dateDiff(new Date(), this.user.createdAt) > 0;
+      && Common.dateDiff(new Date(), this.user.createdAt) > 0;
   }
 }

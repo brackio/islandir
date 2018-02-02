@@ -83,9 +83,6 @@ export class BusinessDataSource extends DataSource<Business> {
         return of(null);
       }),
       map(result => {
-        return result;
-      }),
-      map(result => {
         if (!result) { return []; }
         this.totalItems = +result.headers.get(CONFIG.vars.xInlineCount);
         return result.body;

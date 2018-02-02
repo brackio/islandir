@@ -1,18 +1,209 @@
 @import '../../../colors';
 @import '../../../media-breakpoints';
 :host {
-  flex: 1 1 auto;
-  display: flex;
-  -webkit-box-flex: 1;
-  flex-direction: column;
 
-  .filters {
-    background-color: #fff;
-    border-right: 1px solid $divider-color;
-  }
+  .container {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    overflow: hidden;
 
-  .results {
-    background-color: $body-background;
-    padding: 0.75rem;
-  }
+    //.content {
+    //  position: relative;
+    //  z-index: 1;
+    //  box-sizing: border-box;
+    //  -webkit-overflow-scrolling: touch;
+    //  display: block;
+    //  flex: 1;
+      //position: relative;/* need this to position inner content */
+      //overflow-y: auto;
+
+      /*.filters {
+        background-color: #fff;
+        border-right: 1px solid $divider-color;
+
+        .filter-group {
+          border-bottom: 1px solid $divider-color;
+          background-color: #f5f5f5;
+
+          &.open {
+            background-color: #fff;
+          }
+
+          .filter-content {
+            padding: 8px;
+
+            .title {
+              font-weight: 500;
+              display: inline-block;
+              padding-bottom: 5px;
+              position: relative;
+              text-transform: capitalize;
+
+              &:before {
+                content: "";
+                position: absolute;
+                width: 25px;
+                height: 1px;
+                bottom: 0;
+                left: 0;
+                border-bottom: 2px solid $primary-color-500;
+              }
+            }
+
+            .header {
+              font-weight: 500;
+              text-transform: capitalize;
+              font-size: 14px;
+              color: rgba(0, 0, 0, .87);
+
+              button[type=button] {
+                color: $text-muted;
+              }
+            }
+
+            .services {
+              .item {
+                font-size: 13px;
+
+                .count {
+                  color: #999;
+                  font-size: 12px;
+                }
+              }
+            }
+          }
+        }
+
+        @media(min-width: $gt-sm) {
+          width: 280px;
+          position: fixed;
+          z-index: 2;
+          top: 64px;
+          bottom: 0;
+          overflow-x: hidden;
+          outline: 0;
+          box-sizing: border-box;
+          overflow-y: auto;
+          left: 0;
+        }
+      }*/
+
+
+      .results {
+        overflow: auto;
+        flex: 1;
+
+        //@media(min-width: $gt-sm) {
+        //  margin-left: 280px;
+        //}
+
+        .r-header {
+          margin: 16px;
+          .highlight {
+            color: $accent-color-dark;
+          }
+        }
+
+        .r-body {
+
+
+          .data {
+            max-width: 80rem;
+            &:after {
+              content: '';
+              flex: auto;
+            }
+
+            //@media (max-width: $sm) {
+            //  padding: 0 16px;
+            //}
+
+            a.card {
+              //min-width: 25%;\
+              //flex-grow: 1;
+              padding: 8px;
+              box-sizing: border-box;
+
+
+              @media (max-width: $xs) {
+                margin: 8px 0;
+              }
+
+              .mat-card {
+                .title {
+                  font-weight: 500;
+                  font-size: 16px;
+                  position: relative;
+                }
+
+                .bookmark {
+                  color: #999;
+                }
+
+                .sub-title {
+                  color: rgba(0, 0, 0, .54);
+                  font-size: 13px;
+                  max-width: 285px;
+
+                  @media (max-width: $xs) {
+                    max-width: 320px;
+                  }
+
+                  //@media (min-width: $gt-sm) and (max-width: $md) {
+                  //  max-width: 300px;
+                  //}
+                }
+
+                .row {
+                  align-items: center;
+                  color: $text-muted;
+                  .row-icon {
+                    opacity: .54;
+                  }
+
+                  .row-label {
+                    color: $text-muted;
+                    line-height: 24px;
+
+                    a {
+                      color: $text-muted;
+
+                      &:hover {
+                        text-decoration: underline;
+                      }
+                    }
+                  }
+
+                }
+              }
+            }
+
+            .empty-block {
+              text-align: center;
+              align-self: center;
+
+              .mat-icon {
+                color: rgba(0, 0, 0, .54);
+              }
+
+              h2 {
+                color: $text-muted;
+              }
+            }
+          }
+
+          .paginator-wrapper {
+            flex: 0 0 auto;
+            z-index: 1;
+            box-shadow: 0 0 8px rgba(0, 0, 0, .4);
+          }
+        }
+      }
+    }
+  //}
 }

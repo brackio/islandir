@@ -4,6 +4,7 @@
 import { environment } from '../../environments/environment';
 
 export let CONFIG = {
+  appname: 'islandir.com',
   appUrl: environment.appUrl,
   baseUrls: {
     auth: `${environment.apiUrl}/auth`,
@@ -50,7 +51,8 @@ export let CONFIG = {
   },
   cloudinary: {
     cloud_name: environment.cloudinary.cloud_name,
-    upload_preset: environment.cloudinary.upload_preset
+    upload_preset: environment.cloudinary.upload_preset,
+    defaultImageId: 'islandir.com/core/image-placeholder'
   },
   google_maps: {
     apiKey: environment.google_maps.apiKey

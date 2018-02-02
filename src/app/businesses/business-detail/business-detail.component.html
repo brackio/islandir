@@ -1,113 +1,85 @@
-<div fxLayout="column">
-  <ilr-navbar-business></ilr-navbar-business>
+<ilr-navbar-search></ilr-navbar-search>
 
-  <div class="cover" fxFlex="250px">
+<div class="container" >
 
-  </div>
+  <div class="header">
 
-  <div class="container" fxLayoutAlign="center center">
-    <div class="content" fxFlex="63rem" fxLayout.gt-xs="row" fxLayoutAlign.gt-xs="space-between start" fxLayoutGap.gt-xs="2rem">
-
-      <div fxFlex.gt-xs="40px" fxLayout="column" fxLayoutGap="1.5rem" class="content-actions">
-        <button type="button" mat-mini-fab class="btn-action">
-          <mat-icon aria-label="bookmark this business">bookmark</mat-icon>
-        </button>
-
-        <button type="button" mat-mini-fab class="btn-action">
-          <mat-icon aria-label="rate this business">star_rate</mat-icon>
-        </button>
-
-        <button type="button" mat-mini-fab class="btn-action">
-          <mat-icon aria-label="share">share</mat-icon>
-        </button>
-
-        <button type="button" mat-mini-fab class="btn-action">
-          <mat-icon aria-label="add photos">add_a_photo</mat-icon>
-        </button>
+    <div class="logo-wrapper" fxLayout="row" fxLayoutGap="1rem">
+      <div class="logo">
+        <cl-image *ngIf="business.photos?.logo?.public_id"
+                  public-id="{{business.photos.logo.public_id}}">
+          <cl-transformation width="108" height="108" radius="5" crop="fill"></cl-transformation>
+        </cl-image>
       </div>
+      <div fxLayout="column" fxLayoutAlign="space-between stretch">
+        <h3 class="mat-title title">{{business.name}}</h3>
 
-      <div fxFlex.gt-xs="350px" class="content-profile" fxLayout="column" fxLayoutGap="1.5rem">
+        <div class="services text-caps">
+          {{business.services.join(', ')}}
+        </div>
 
-        <mat-card class="mat-typography profile">
-          <h2>{{business.name}}</h2>
-          <a class="service" *ngFor="let service of business.services; let last=last" [routerLink]="['/business/search', { q: service, country: business.address.country.code }]">
-            {{last ? service : service + ','}}
-          </a>
-        </mat-card>
-
-        <mat-card class="profile-contact">
-          <img mat-card-image [src]="staticMapUrl" *ngIf="!!staticMapUrl">
-          <mat-card-content>
-            <div fxLayout="column" fxLayoutGap="0.6rem">
-              <div class="row" fxLayout="row" fxLayoutGap="1rem">
-                <mat-icon>location_on</mat-icon>
-                <div class="row-info" fxLayout="column" fxLayoutGap="4px">
-                  <div>{{business.address?.street}}</div>
-                  <div>{{business.address?.city}}</div>
-                  <div *ngIf="business.address?.territory && business.address?.territory !== business.address?.city">{{business.address?.territory}}</div>
-                  <div>{{business.address?.country.name}}, {{business.address?.zip}}</div>
-                </div>
-              </div>
-
-              <div *ngIf="!!business.phone" class="row row-center" fxLayout="row" fxLayoutGap="1rem">
-                <mat-icon>phone</mat-icon>
-                <a href="tel:+{{business.phone}}">{{business.phone}}</a>
-              </div>
-
-              <div *ngIf="!!business.email" class="row row-center" fxLayout="row" fxLayoutGap="1rem">
-                <mat-icon>email</mat-icon>
-                <a href="mailto:{{business.email}}">{{business.email}}</a>
-              </div>
-
-              <div *ngIf="!!business.website" class="row row-center" fxLayout="row" fxLayoutGap="1rem">
-                <mat-icon>public</mat-icon>
-                <a href="{{business.website}}">{{business.website}}</a>
-              </div>
-            </div>
-
-
-          </mat-card-content>
-        </mat-card>
-
-        <a mat-raised-button routerLink="edit">Edit</a>
-      </div>
-
-      <div fxFlex class="content-tab">
-        <mat-tab-group color="accent">
-          <mat-tab>
-            <ng-template mat-tab-label>
-              <div class="text-center">
-                <div><mat-icon color="accent">chat</mat-icon></div>
-                <div class="text-upper tab-label">Reviews</div>
-              </div>
-            </ng-template>
-            <h1>Best pasta restaurants</h1>
-            <p>...</p>
-          </mat-tab>
-
-          <mat-tab>
-            <ng-template mat-tab-label>
-              <div class="text-center">
-                <div><mat-icon color="accent">photo_library</mat-icon></div>
-                <div class="text-upper tab-label">Photos</div>
-              </div>
-            </ng-template>
-            <h1>Best pasta restaurants</h1>
-            <p>...</p>
-          </mat-tab>
-        </mat-tab-group>
+        <div class="phone" fxLayout="row" fxLayoutGap="0.6rem">
+          <mat-icon>phone</mat-icon>
+          <div fxFlex>
+            <a class="mat-body-1" href="tel:+01-{{business.phone}}" rel="nofollow">{{business.phone}}</a>
+          </div>
+        </div>
 
       </div>
-
     </div>
-
-
   </div>
 
-  <!--<div fxLayout="row" fxLayoutAlign.gt-xs="center start" fxFlexFill>
-    <div class="content" fxFlex="100" fxFlex.gt-sm="1080px" fxLayout="row" fxLayoutAlign="space-between start" fxLayoutGap.gt-xs="2rem">
+  <!--<div class="content" fxLayout="row" fxLayoutAlign="center start" fxLayoutGap.gt-sm="2rem">-->
+
+    <!--<div fxLayout="column" fxFlexAlign="start stretch" fxFlex>-->
+      <!--<div class="card p mat-elevation-z1">-->
+
+        <!--<div class="p-body" fxLayout="row" fxLayoutAlign="space-between start">-->
+          <!--<div class="p-info" fxLayout="row" fxLayoutGap="1rem">-->
 
 
 
-  </div>-->
+
+
+          <!--</div>-->
+
+          <!--<div class="scoring">-->
+
+          <!--</div>-->
+        <!--</div>-->
+
+        <!--<div class="p-actions" fxLayout="row" fxLayoutAlign="center center">-->
+          <!--<div class="actions" fxFlex fxLayout="row" fxLayoutAlign="space-around center" fxLayoutWrap>-->
+            <!--<button type="button" mat-button class="text-upper"><mat-icon>share</mat-icon>share</button>-->
+            <!--<a mat-button class="text-upper"><mat-icon>email</mat-icon>message</a>-->
+            <!--<button type="button" mat-button class="text-upper"><mat-icon>rate_review</mat-icon>review</button>-->
+            <!--<button type="button" mat-button class="text-upper"><mat-icon>bookmark_border</mat-icon>save</button>-->
+          <!--</div>-->
+        <!--</div>-->
+
+        <!--<nav class="p-footer" mat-tab-nav-bar [ngClass.xs]="['text-center']">-->
+          <!--<a mat-tab-link class="text-upper"-->
+             <!--*ngFor="let link of navLinks"-->
+             <!--[routerLink]="[link.path]"-->
+             <!--skipLocationChange-->
+             <!--routerLinkActive #rla="routerLinkActive"-->
+             <!--[routerLinkActiveOptions]= "link.options"-->
+             <!--[active]="rla.isActive">-->
+            <!--{{link.label}}-->
+          <!--</a>-->
+        <!--</nav>-->
+      <!--</div>-->
+
+      <!--<router-outlet></router-outlet>-->
+    <!--</div>-->
+
+    <!--<div class="ads-space" fxHide.lt-md>-->
+      <!--<a mat-raised-button routerLink="edit">Edit</a>-->
+    <!--</div>-->
+
+  <!--</div>-->
+
+
+
+
 </div>

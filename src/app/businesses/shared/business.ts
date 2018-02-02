@@ -5,16 +5,24 @@ interface IReviews {
   id: string;
 }
 
-// cover: string;
-// exterior: [string];
-// interior: [string];
-// logo: string;
-// service: [string];
+export interface Address {
+  country: Country;
+  territory: string;
+  city: string;
+  street: string;
+  zip: number;
+}
+
+
 export interface Photo {
+  public_id: string;
   publisher?: string;
   url: string;
   comment?: string;
   uploadedOn?: Date;
+  archivedOn?: Date;
+  filename: string;
+  tags?: [string];
 }
 
 interface Hours {
@@ -31,15 +39,13 @@ export class Business {
   public id: string;
   public name: string;
   public slug: string;
-  public photos: Photo[];
+  public photos: {
+    logo: Photo,
+    cover: Photo,
+    gallery: Photo[]
+  };
   public openingHours: Hours;
-  public address: {
-    country: Country,
-    territory: string,
-    city: string,
-    street: string,
-    zip: number
-  public };
+  public address: Address;
   public latitude: number;
   public longitude: number;
   public phone: string;

@@ -2,8 +2,6 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { IslandirMaterialModule } from '../islandir-material/islandir-material.module';
-import { SingleImageUploadDirective } from './directives/single-image-upload.directive';
-
 
 @NgModule({
   imports: [
@@ -14,11 +12,7 @@ import { SingleImageUploadDirective } from './directives/single-image-upload.dir
   exports: [
     CommonModule,
     FlexLayoutModule,
-    IslandirMaterialModule,
-    SingleImageUploadDirective
-  ],
-  declarations: [
-    SingleImageUploadDirective
+    IslandirMaterialModule
   ]
 })
 export class SharedModule { }

@@ -11,7 +11,7 @@ import { HomeRedirectComponent } from './home-redirect.component';
 
 import { CategoryService } from '../models/categories/category.service';
 import { HomeResolverService } from './home-resolver.service';
-import { GeolocatorService } from '../core/geolocator.service';
+import { GeolocatorService } from '../common/services/geolocator.service';
 import { ThemeService } from '../models/themes/theme.service';
 
 @NgModule({

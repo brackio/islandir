@@ -7,7 +7,7 @@ import { DataAccess } from '../data-access';
 import { Theme } from './theme';
 import { CONFIG } from '../../core/config';
 import { ErrorHandler } from '../../core/error-handler';
-import { Paging } from '../../core/paging';
+import { Paging } from '../../common/paging';
 
 @Injectable()
 export class ThemeService extends DataAccess<Theme> {

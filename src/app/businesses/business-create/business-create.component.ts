@@ -14,7 +14,7 @@ import { Service } from '../../models/services/service';
 import { BusinessService } from '../shared/business.service';
 import { ServiceService } from '../../models/services/service.service';
 import { CountryService } from '../../models/countries/country.service';
-import { CustomValidators } from '../../core/custom-validators';
+import { CustomValidators } from '../../common/custom-validators';
 import { CONFIG } from '../../core/config';
 
 @Component({

@@ -19,12 +19,12 @@
 
     <ng-container cdkColumnDef="startDate">
       <mat-header-cell *cdkHeaderCellDef mat-sort-header disableClear="true"> Start Date </mat-header-cell>
-      <mat-cell *cdkCellDef="let row">{{row.startDate}}</mat-cell>
+      <mat-cell *cdkCellDef="let row">{{row.startDate | date }}</mat-cell>
     </ng-container>
 
     <ng-container cdkColumnDef="endDate">
       <mat-header-cell *cdkHeaderCellDef mat-sort-header disableClear="true"> End Date </mat-header-cell>
-      <mat-cell *cdkCellDef="let row">{{row.endDate}}</mat-cell>
+      <mat-cell *cdkCellDef="let row">{{row.endDate | date}}</mat-cell>
     </ng-container>
 
     <mat-header-row *cdkHeaderRowDef="displayedColumns"></mat-header-row>
