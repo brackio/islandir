@@ -6,7 +6,7 @@ import {Directive, ElementRef, EventEmitter, HostListener, Output} from '@angula
 })
 
 export class SingleImageUploadDirective {
-  @Output() imageUploaded: EventEmitter<boolean> = new EventEmitter<boolean>();
+  @Output() uploadImage: EventEmitter<boolean> = new EventEmitter<boolean>();
 
   constructor(
     private el: ElementRef
@@ -35,7 +35,7 @@ export class SingleImageUploadDirective {
   }
 
   @HostListener('click') onClick() {
-    this.imageUploaded.emit(true);
+    this.uploadImage.emit(true);
   }
 
   private toggle(visible: boolean): void {
