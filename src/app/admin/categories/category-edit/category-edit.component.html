@@ -1,47 +1,51 @@
-<form novalidate [formGroup]="form" (ngSubmit)="save(form.value)" fxFlex fxFlex.gt-sm="40rem">
+<div fxLayout="row"
+     fxLayoutAlign="center start">
 
-  <mat-card>
+  <form novalidate [formGroup]="form" (ngSubmit)="save(form.value)" fxFlex fxFlex.gt-sm="40rem">
 
-    <div *ngIf="editMode" class="pull-right">
-      <button type="button" mat-icon-button [matMenuTriggerFor]="menu">
-        <mat-icon>more_vert</mat-icon>
-      </button>
-      <mat-menu #menu="matMenu">
-        <button type="button" (click)="delete()" mat-menu-item>
-          <mat-icon>delete</mat-icon>
-          <span>Delete</span>
+    <mat-card>
+
+      <div *ngIf="editMode" class="pull-right">
+        <button type="button" mat-icon-button [matMenuTriggerFor]="menu">
+          <mat-icon>more_vert</mat-icon>
         </button>
-      </mat-menu>
-    </div>
-
-    <h2 class="mat-h2">Edit Category</h2>
-
-    <mat-card-content>
-      <div fxLayout="column" fxLayoutAlign="start stretch" class="form-content">
-
-        <mat-form-field class="full-width">
-          <input matInput placeholder="Name" formControlName="name" type="text">
-          <mat-error>Name is required.</mat-error>
-        </mat-form-field>
-
-        <mat-form-field class="full-width">
-          <input matInput placeholder="Icon" formControlName="icon" type="text">
-          <mat-icon matSuffix svgIcon="{{form.get('icon').value}}"></mat-icon>
-          <mat-error>Icon is required.</mat-error>
-        </mat-form-field>
-
-        <mat-form-field class="full-width">
-          <input matInput placeholder="Color" formControlName="color" type="text">
-          <mat-error>Color is required.</mat-error>
-        </mat-form-field>
-
+        <mat-menu #menu="matMenu">
+          <button type="button" (click)="delete()" mat-menu-item>
+            <mat-icon>delete</mat-icon>
+            <span>Delete</span>
+          </button>
+        </mat-menu>
       </div>
-    </mat-card-content>
 
-    <mat-card-footer class="form-card-footer">
-      <button type="button" mat-button class="text-upper" (click)="cancel()">Cancel</button>
-      <button type="submit" mat-button [disabled]="!form.valid || form.pristine" class="text-upper" color="primary">Save</button>
-    </mat-card-footer>
+      <h2 class="mat-h2">Edit Category</h2>
 
-  </mat-card>
-</form>
+      <mat-card-content>
+        <div fxLayout="column" fxLayoutAlign="start stretch" class="form-content">
+
+          <mat-form-field class="full-width">
+            <input matInput placeholder="Name" formControlName="name" type="text">
+            <mat-error>Name is required.</mat-error>
+          </mat-form-field>
+
+          <mat-form-field class="full-width">
+            <input matInput placeholder="Icon" formControlName="icon" type="text">
+            <mat-icon matSuffix svgIcon="{{form.get('icon').value}}"></mat-icon>
+            <mat-error>Icon is required.</mat-error>
+          </mat-form-field>
+
+          <mat-form-field class="full-width">
+            <input matInput placeholder="Color" formControlName="color" type="text">
+            <mat-error>Color is required.</mat-error>
+          </mat-form-field>
+
+        </div>
+      </mat-card-content>
+
+      <mat-card-footer class="form-card-footer">
+        <button type="button" mat-button class="text-upper" (click)="cancel()">Cancel</button>
+        <button type="submit" mat-button [disabled]="!form.valid || form.pristine" class="text-upper" color="primary">Save</button>
+      </mat-card-footer>
+
+    </mat-card>
+  </form>
+</div>

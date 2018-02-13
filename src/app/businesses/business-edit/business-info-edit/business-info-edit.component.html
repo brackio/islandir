@@ -35,67 +35,50 @@
             <mat-icon class="list-icon" color="primary" fxHide.gt-xs>contacts</mat-icon>
             <div class="list-title">Contact</div>
             <div class="list-value" fxLayout="column" fxLayoutGap="1rem">
-              <div *ngIf="!!business.phone" fxLayout="row" fxLayoutGap.xs="0.1rem" fxLayoutGap.gt-xs="1rem">
+
+              <div *ngIf="!!business.phone" fxLayout="row" fxLayoutGap="0.1rem" fxLayoutGap.gt-xs="1rem">
                 <div class="list-label">Phone:</div>
-                <div>{{business.phone}}</div>
+                <div class="">{{business.phone}}</div>
               </div>
-              <div *ngIf="!!business.email" fxLayout="row" fxLayoutGap.xs="0.1rem" fxLayoutGap.gt-xs="1rem">
+
+              <div *ngIf="!!business.email" fxLayout="row" fxLayoutGap="0.1rem" fxLayoutGap.gt-xs="1rem">
                 <div class="list-label">Email:</div>
-                <div>{{business.email}}</div>
+                <div class="">{{business.email}}</div>
               </div>
-              <div fxLayout="row" fxLayoutGap.xs="0.1rem" fxLayoutGap.gt-xs="1rem">
+
+              <div *ngIf="!!business.website" fxLayout="row" fxLayoutGap="0.1rem" fxLayoutGap.gt-xs="1rem">
                 <div class="list-label">Web:</div>
+                <div class="">{{business.website}}</div>
+              </div>
+
+              <div *ngIf="!!business.social?.length" fxLayout="row" fxLayoutGap="0.1rem" fxLayoutGap.gt-xs="1rem">
+                <div class="list-label">Social:</div>
                 <div fxLayout="column" fxLayoutGap="8px">
-                  <div *ngIf="!!business.website">{{business.website}}</div>
-                  <div *ngFor="let social of business.social">
+                  <div class="" *ngFor="let social of business.social">
                     {{social}}
                   </div>
                 </div>
               </div>
+
             </div>
           </div>
           <mat-icon class="list-icon-edit">edit</mat-icon>
         </mat-list-item>
         <mat-divider></mat-divider>
-
-        <!--<mat-list-item class="list-item" (click)="openDialog('email')">
-          <div fxLayout="row" class="list-row">
-            <mat-icon class="list-icon" color="primary" fxHide.gt-xs>email</mat-icon>
-            <div class="list-title">Email</div>
-            <div class="list-value">{{business.email}}</div>
-          </div>
-          <mat-icon class="list-icon-edit">edit</mat-icon>
-        </mat-list-item>
-        <mat-divider></mat-divider>-->
 
         <mat-list-item class="list-item" [class.auto-height]="business.services?.length>1" (click)="openDialog('services')">
           <div fxLayout="row" class="list-row">
             <mat-icon class="list-icon" color="primary" fxHide.gt-xs>work</mat-icon>
             <div class="list-title">Services</div>
             <div class="list-value" fxLayout="column">
-              <div *ngFor="let service of business.services" class="text-caps" class="list-value-line">
-                {{service}}
+              <div *ngFor="let service of business.services"  class="list-value-line">
+                <span class="text-caps">{{service}}</span>
               </div>
             </div>
           </div>
           <mat-icon class="list-icon-edit">edit</mat-icon>
         </mat-list-item>
         <mat-divider></mat-divider>
-
-        <!--<mat-list-item class="list-item" [class.auto-height]="business.social?.length>0" (click)="openDialog('social')">
-          <div fxLayout="row" class="list-row">
-            <mat-icon class="list-icon" color="primary" fxHide.gt-xs>public</mat-icon>
-            <div class="list-title">Website</div>
-            <div class="list-value" fxLayout="column">
-              <div class="list-value-line">{{business.website}}</div>
-              <div *ngFor="let social of business.social" class="list-value-line">
-                {{social}}
-              </div>
-            </div>
-          </div>
-          <mat-icon class="list-icon-edit">edit</mat-icon>
-        </mat-list-item>
-        <mat-divider></mat-divider>-->
 
         <mat-list-item class="list-item auto-height" (click)="openDialog('hours')">
           <div fxLayout="row" class="list-row">

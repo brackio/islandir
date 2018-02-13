@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
+import { Cloudinary } from '@cloudinary/angular-5.x';
 import { FormArray, FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
-import { TdDialogService } from '@covalent/core';
+import { TdDialogService } from '@covalent/core/dialogs';
 import { MatChipInputEvent } from '@angular/material';
 import { ENTER, COMMA } from '@angular/cdk/keycodes';
 
 import { Topic } from '../../../models/topics/topic';
 import { TopicService } from '../../../models/topics/topic.service';
 import { MessageService } from '../../../core/message.service';
-import { UploadService } from '../../../common/services/upload.service';
 
 @Component({
   selector: 'ilr-topic-edit',
@@ -31,7 +31,7 @@ export class TopicEditComponent implements OnInit {
     private topicService: TopicService,
     private dialogService: TdDialogService,
     private messageService: MessageService,
-    private uploadService: UploadService,
+    private cloudinary: Cloudinary,
     private fb: FormBuilder
   ) { }
 
@@ -66,22 +66,18 @@ export class TopicEditComponent implements OnInit {
     const control = new FormControl();
     control.setValue(event.value);
     this.tags.push(control);
+    this.form.markAsDirty();
   }
 
   public removeTag(index: number): void {
     this.tags.removeAt(index);
+    this.form.markAsDirty();
   }
 
-  public imageUpload(): any {
-    this.uploadService.uploadWidget((err, res: any) =>  {
-      if (err) {
-        console.log(err);
-      } else {
-        this.image = res[0].public_id;
-        this.url = res[0].secure_url;
-        this.thumbnail = res[0].thumbnail_url;
-      }
-    });
+  public imageUploaded(data: any): any {
+    this.image = data.public_id;
+    this.url = data.secure_url;
+    this.form.markAsDirty();
   }
 
   private createForm(topic: Topic): void {

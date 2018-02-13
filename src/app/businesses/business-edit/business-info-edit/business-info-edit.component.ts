@@ -9,8 +9,9 @@ import { BusinessServicesEditDialogComponent } from '../business-services-edit-d
 import { BusinessLocationEditDialogComponent } from '../business-location-edit-dialog/business-location-edit-dialog.component';
 import { BusinessDescriptionEditDialogComponent } from '../business-description-edit-dialog/business-description-edit-dialog.component';
 import { BusinessContactEditDialogComponent } from '../business-contact-edit-dialog/business-contact-edit-dialog.component';
-import { GeolocatorService } from '../../../common/services/geolocator.service';
+import { GoogleMapsService } from '../../../common/services/google-maps.service';
 import { DialogsService } from '../../../core/dialog.service';
+import { Marker } from '../../../models/marker';
 
 @Component({
   selector: 'ilr-business-edit-info',
@@ -25,7 +26,7 @@ export class BusinessInfoEditComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private dialog: MatDialog,
-    private geolocatorService: GeolocatorService,
+    private googleMapsService: GoogleMapsService,
     private dialogService: DialogsService
   ) { }
 
@@ -55,7 +56,13 @@ export class BusinessInfoEditComponent implements OnInit {
 
   private updateStaticMapUrl(business: Business): void {
     if (business.longitude && business.latitude) {
-      this.staticMapUrl = this.geolocatorService.staticMapUrl(business.latitude, business.longitude);
+      this.staticMapUrl = this.googleMapsService.getStaticMap(
+        {
+          latitude: this.business.latitude,
+          longitude: this.business.longitude
+        } as Marker,
+        250,
+        448);
     }
   }
 

@@ -1,11 +1,15 @@
 <div fxLayout="column">
+  <mat-toolbar>
+    <a routerLink="/" class="app-logo"><mat-icon  svgIcon="islandir-dark"></mat-icon></a>
+    <span fxFlex></span>
+    <ilr-user-nav></ilr-user-nav>
+  </mat-toolbar>
 
-  <!--<ilr-navbar-base></ilr-navbar-base>-->
-
-  <nav mat-tab-nav-bar backgroundColor="primary" [ngClass.xs]="['text-center']" class="mat-elevation-z1">
+  <nav mat-tab-nav-bar [ngClass.xs]="['text-center']" class="tab-nav mat-elevation-z2">
     <a mat-tab-link class="text-upper"
        *ngFor="let link of navLinks"
        [routerLink]="link.path"
+       skipLocationChange
        routerLinkActive #rla="routerLinkActive"
        [routerLinkActiveOptions]= "link.options"
        [active]="rla.isActive">
@@ -15,3 +19,4 @@
   </nav>
   <router-outlet></router-outlet>
 </div>
+

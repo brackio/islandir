@@ -1,16 +1,12 @@
+@import "../../../media-breakpoints";
 :host {
-  //flex: 0 0 auto;
-
   mat-toolbar {
-    //position: relative;
-    //z-index: 3;
-    //background-color: #fff;
+    position: relative;
+    z-index: 3;
+    background-color: rgb(250,250,250);
 
-    .app-logo {
-      mat-icon {
-        width: 64px;
-        height: auto;
-      }
+    @media (min-width: $gt-sm) {
+      background-color: #fff;
     }
   }
 }

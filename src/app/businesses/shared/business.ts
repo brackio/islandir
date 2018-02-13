@@ -1,8 +1,19 @@
 import { User } from '../../user/shared/user';
 import { Country } from '../../models/countries/country';
 
-interface IReviews {
+export interface Review {
   id: string;
+  review: User;
+  rating: number;
+  category: {
+    prices: number,
+    services: number,
+    communication: number,
+    location: number,
+    accuracy: number,
+    availability: number
+  };
+  comment: string;
 }
 
 export interface Address {
@@ -10,7 +21,7 @@ export interface Address {
   territory: string;
   city: string;
   street: string;
-  zip: number;
+  zip: string;
 }
 
 
@@ -55,12 +66,22 @@ export class Business {
   public services: [string];
   public amenities: [string];
   public owner: User;
-  public reviews: IReviews[];
+  public reviews: Review[];
   public description: string;
   public createdAt: Date;
   public updatedAt: Date;
   public active: boolean;
-
   constructor() { }
+
+  get rating(): number {
+    let avg = 0;
+    let count = 0;
+    this.reviews.forEach((review: Review) => {
+      avg += review.rating;
+      count += 1;
+    });
+    count = (count === 0) ? 1 : count;
+    return avg / count;
+  }
 
 }

@@ -14,6 +14,8 @@ import { CategoryService } from '../models/categories/category.service';
 import { GeolocatorService } from '../common/services/geolocator.service';
 import { ThemeService } from '../models/themes/theme.service';
 
+import { CONFIG } from '../core/config';
+
 @Component({
   selector: 'ilr-home',
   templateUrl: './home.component.html',
@@ -51,18 +53,22 @@ export class HomeComponent implements OnInit {
       });
 
     this.user = this.userService.currentUser;
-    this.getFeaturedCategories();
-    this.getCountries();
+    if (!this.user && !(localStorage.getItem(CONFIG.vars.clientLocation))) {
+      this.getUserLocation();
+    }
+
+    // this.getFeaturedCategories();
+    // this.getCountries();
   }
 
   public setThemeStyle(theme: Theme): void {
     this.themeStyles = {
       'background-image': `linear-gradient(
-        to bottom,
+        to top,
         rgba(0, 0, 0, 0),
         rgba(0, 0, 0, 0.5)
       ), url(${theme.topics[0].image.url})`,
-      'background-position': `${theme.topics[0].image.styles.backgroundPosition}`
+      'background-position': `${(theme.topics[0].image.styles) ? theme.topics[0].image.styles.backgroundPosition : 'center center'}`
     };
   }
 
@@ -75,28 +81,21 @@ export class HomeComponent implements OnInit {
     this.router.navigate(['/business/search', { q: tag.toLowerCase(), country: this.countryService.country.code }]);
   }
 
-  private getCountries(): void {
-    this.countryService.getActive(['-id', 'code', 'name'])
-      .subscribe((countries: Country[]) => {
-        this.countries = countries;
-        this.locateUser(countries);
-      });
-  }
+  // private getCountries(): void {
+  //   this.countryService.getActive(['-id', 'code', 'name'])
+  //     .subscribe((countries: Country[]) => {
+  //       this.countries = countries;
+  //       // this.locateUser(countries);
+  //     });
+  // }
 
-  private locateUser(countries): void {
+  private getUserLocation() {
     this.geolocatorService.locate((err, location) => {
       if (err) {
         console.log(err);
       } else {
-        if (location.address) {
-          this.redirectCountry.id = null;
-          this.redirectCountry.code = location.address.countryCode.toLowerCase();
-          this.redirectCountry.name = location.address.country;
-          if (this.country.code !== this.redirectCountry.code
-            && this.countries.filter(c => c.code === this.redirectCountry.code).length > 0) {
-            this.showRedirectPanel = true;
-          }
-        }
+        console.log('saving location', location);
+        localStorage.setItem(CONFIG.vars.clientLocation, JSON.stringify(location));
       }
     });
   }
@@ -109,11 +108,11 @@ export class HomeComponent implements OnInit {
   private getTheme(country: string): void {
     this.themeService.current(country)
       .subscribe(theme => {
-        this.theme = theme;
         if (!!theme) {
+          this.theme = theme;
           this.setThemeStyle(theme);
         }
-      });
+    });
   }
 
   // private getTopCategories(country: string, limit: number): void {

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
-import { TdDialogService } from '@covalent/core';
+import { TdDialogService } from '@covalent/core/dialogs';
 import { Theme } from '../../../models/themes/theme';
 import { ThemeService } from '../../../models/themes/theme.service';
 import { MessageService } from '../../../core/message.service';

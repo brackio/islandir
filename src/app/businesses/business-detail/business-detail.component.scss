@@ -4,106 +4,166 @@
 :host {
 
   .container {
-    .header {
-      height: 200px;
-      position: relative;
-      background-color: $primary-color-500;
-      background-size: cover;
-      background-repeat: no-repeat;
-      background-attachment: fixed;
-      //background: linear-gradient(
-      //    to bottom,
-      //    $primary-color-500,
-      //    rgba(0, 0, 0, 0.4));
-
-      .logo-wrapper {
-        position: absolute;
-        bottom: -1rem;
-        left: 1rem;
-        z-index: 10;
-        border-radius: 5px;
-        .logo {
-
-
-          background-color: #fff;
-        }
-
-        .title {
-          font-size: 20px;
-        }
-      }
-    }
 
     .content {
       max-width: 80rem;
 
-      .ads-space {
-        width: 200px;
-        height: 400px;
-        background-color: #ddd;
+      @media (min-width: $gt-sm) {
+        padding: 1rem;
       }
 
+      .details {
 
-      .p {
-        margin-bottom: 1rem;
+        .mat-card.header {
 
-        .p-body {
-          padding: 1rem 2rem;
-          @media (max-width: $sm) {
-            padding: 1rem;
+          .cover-image {
+            border-top-left-radius: 2px;
+            border-top-right-radius: 2px;
+            @media (min-width: $gt-sm) {
+              height: 232px;
+            }
           }
 
-          .p-info {
+          .info-bar {
+            margin-bottom: 2rem;
 
+            .profile {
 
+              .logo-wrapper {
+                border: 2px solid $divider-color;
+                padding: 4px;
+                height: 112px;
+                border-radius: 5px;
+              }
 
-            .services {
-              font-size: 13px;
-              color: rgba(0,0,0,.87);
-              margin-bottom: 8px;
-            }
+              .title {
+                font-size: 20px;
+                font-weight: 500;
+                //margin-bottom: 8px;
+              }
 
-            .phone {
-              align-items: center;
-              .mat-icon, a {
+              .services {
+                font-size: 13px;
+                color: #999;
+              }
+
+              .contact {
                 color: $text-muted;
+                align-items: center;
+
+                .mat-icon {
+                  margin-right: 8px;
+                }
               }
-              a {
-                text-decoration: none;
+            }
+        }
+
+          .social-bar {
+            background-color: #eee;
+            margin: 0 -24px 16px;
+
+            .actions {
+
+              .action {
+                color: #999;
+                margin: 8px;
+
+                .mat-icon {
+                  margin-right: 4px;
+                }
               }
             }
           }
-        }
 
-        .p-actions {
-          background-color: #f8f8f8;
-          padding: 12px 0;
-
-          .social {
-            margin: 0 2rem;
+          .navigation-bar {
+            border-bottom: none;
           }
-
-          .actions {
-            color: rgba(0,0,0,.54);
-            max-width: 564px;
-
-            button, a {
-              font-size: 13px;
-
-              .mat-icon {
-                margin-right: 4px;
-                vertical-align: middle;
-              }
-            }
-          }
-        }
-
-        .p-footer {
-          width: 100%;
-          margin-top: 1rem;
         }
       }
-    }
 
+      .right-col {
+        margin-left: 1.5rem;
+        width: 260px;
+
+        .location-details {
+          color: $text-muted;
+
+          .mat-icon {
+            color: #999;
+          }
+        }
+
+        .ads-space {
+          height: 300px;
+          background-color: #ddd;
+
+        }
+      }
+
+
+
+    }
   }
 }
+
+
+      //.p {
+      //  margin-bottom: 1rem;
+      //
+      //  .p-body {
+      //    padding: 1rem 2rem;
+      //    @media (max-width: $sm) {
+      //      padding: 1rem;
+      //    }
+      //
+      //    .p-info {
+      //
+      //
+      //
+      //      .services {
+      //        font-size: 13px;
+      //        color: rgba(0,0,0,.87);
+      //        margin-bottom: 8px;
+      //      }
+      //
+      //      .phone {
+      //        align-items: center;
+      //        .mat-icon, a {
+      //          color: $text-muted;
+      //        }
+      //        a {
+      //          text-decoration: none;
+      //        }
+      //      }
+      //    }
+      //  }
+      //
+      //  .p-actions {
+      //    background-color: #f8f8f8;
+      //    padding: 12px 0;
+      //
+      //    .social {
+      //      margin: 0 2rem;
+      //    }
+      //
+      //    .actions {
+      //      color: rgba(0,0,0,.54);
+      //      max-width: 564px;
+      //
+      //      button, a {
+      //        font-size: 13px;
+      //
+      //        .mat-icon {
+      //          margin-right: 4px;
+      //          vertical-align: middle;
+      //        }
+      //      }
+      //    }
+      //  }
+      //
+      //  .p-footer {
+      //    width: 100%;
+      //    margin-top: 1rem;
+      //  }
+      //}
+

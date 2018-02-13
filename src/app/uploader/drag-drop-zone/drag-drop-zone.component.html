@@ -1,0 +1,41 @@
+<div class="drop-zone" fxLayout="column" fxLayoutAlign="center stretch"
+     [ngClass]="{'file-over': dragOver}"
+     ngFileDrop
+     [options]="options"
+     (uploadOutput)="onUploadOutput($event)"
+     [uploadInput]="uploadInput">
+
+  <p class="mat-body-2 text-center">
+    Drag a file here or
+    <label class="upload-button">
+      <input type="file" ngFileSelect [options]="options" (uploadOutput)="onUploadOutput($event)" [uploadInput]="uploadInput" multiple>
+      browse
+    </label>
+    to upload.
+  </p>
+
+  <div class="items">
+
+    <div class="upload-items" *ngFor="let f of files; let i = index;">
+      <!--<img class="photo" src="" ilrImgPreview [image]="item?._file" />-->
+      <span class="filename">
+        <span>{{ f.name }} ({{ f.id }}) - {{ f.progress?.data?.percentage }}%</span>
+        <span>uploading with {{ f.progress?.data?.speedHuman }}</span>
+        <span>ETA {{ f.progress?.data?.etaHuman }}</span>
+      </span>
+
+      <div class="progress">
+        <span class="bar" [style.width]="f?.progress?.data?.percentage + '%'"></span>
+      </div>
+    </div>
+
+
+    <div *ngFor="let image of images" class="upload-items" [ngClass]="{'has-items': !!images.length}">
+      <cl-image *ngIf="!!image" public-id="{{image}}">
+        <cl-transformation width="128" height="128" quality="auto" crop="fill" fetch_format="auto">
+        </cl-transformation>
+      </cl-image>
+    </div>
+  </div>
+
+</div>

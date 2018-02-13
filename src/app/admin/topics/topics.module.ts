@@ -1,7 +1,9 @@
 import { NgModule } from '@angular/core';
-import { CovalentDialogsModule } from '@covalent/core';
+import { CovalentDialogsModule } from '@covalent/core/dialogs';
 import { ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from '../../shared/shared.module';
+import { CommonModule } from '../../common/common.module';
+import { UploaderModule } from '../../uploader/uploader.module';
 
 import { TopicsRoutingModule } from './topics-routing.module';
 import { TopicEditComponent } from './topic-edit/topic-edit.component';
@@ -9,7 +11,6 @@ import { TopicListComponent } from './topic-list/topic-list.component';
 
 import { TopicService } from '../../models/topics/topic.service';
 import { TopicResolverService } from './shared/topic-resolver.service';
-import { UploadService } from '../../common/services/upload.service';
 
 import { CloudinaryModule } from '@cloudinary/angular-5.x';
 import { Cloudinary } from 'cloudinary-core';
@@ -19,11 +20,12 @@ export const cloudinaryLib = {
   Cloudinary: Cloudinary
 };
 
-
 @NgModule({
   imports: [
     ReactiveFormsModule,
     SharedModule,
+    CommonModule,
+    UploaderModule,
     CloudinaryModule.forRoot(cloudinaryLib,
       {
           cloud_name: CONFIG.cloudinary.cloud_name,
@@ -38,7 +40,6 @@ export const cloudinaryLib = {
     TopicListComponent
   ],
   providers: [
-    UploadService,
     TopicService,
     TopicResolverService
   ]

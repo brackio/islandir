@@ -47,6 +47,7 @@ export class BusinessService extends DataAccess<Business> {
                 limit: number,
                 query: string,
                 country: string,
+                fields?: string[],
                 services?: string,
                 amenities?: string,
                 territories?: string,
@@ -63,6 +64,7 @@ export class BusinessService extends DataAccess<Business> {
             .set('limit', `${paging.limit}`)
             .set('q', query)
             .set('country', `${country}`)
+            .set('fields', fields.join(','))
             .set('services', `${services || ''}`)
             .set('amenities', `${amenities || ''}`)
             .set('territories', `${territories || ''}`)
@@ -111,8 +113,6 @@ export class BusinessService extends DataAccess<Business> {
         catchError(this.errorHandler.error<Business>(`getBusinessById id=${id}`))
       );
   }
-
-
 
   public findOneBySug(slug: string): Observable<Business> {
     return this.http

@@ -1,5 +1,9 @@
-<div fxFlex="100" fxFlex.gt-sm="90" class="mat-elevation-z1 mat-typography">
-  <mat-table class="table-hover" #table [dataSource]="dataSource"
+<div fxLayout="row"
+     fxLayoutAlign="center start"
+     fxLayoutWrap>
+
+  <div class="table-container mat-typography mat-elevation-z1">
+    <mat-table class="table-hover" #table [dataSource]="dataSource"
              matSort matSortActive="name" matSortDisableClear matSortDirection="asc">
 
     <ng-container cdkColumnDef="name">
@@ -41,7 +45,7 @@
                  [pageSizeOptions]="pageLimitOptions"
                  (page)="onPageChange($event)">
   </mat-paginator>
-
+  </div>
 </div>
 
 <a routerLink="new" mat-fab class="page-fab" color="accent"><mat-icon>add</mat-icon></a>

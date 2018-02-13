@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CovalentMessageModule } from '@covalent/core';
+import { CovalentMessageModule } from '@covalent/core/message';
 
 import { SharedModule } from '../shared/shared.module';
 import { HomeRoutingModule } from './home-routing.module';

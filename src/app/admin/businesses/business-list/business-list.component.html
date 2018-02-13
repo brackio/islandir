@@ -1,31 +1,36 @@
-<div fxFlex="100" fxFlex.gt-sm="90" class="table-container mat-typography" [ngClass.gt-sm]="['mat-elevation-z1']">
-  <mat-table class="table-hover" #table [dataSource]="dataSource"
-             matSort matSortActive="name" matSortDisableClear matSortDirection="asc">
-    <ng-container cdkColumnDef="name">
-      <mat-header-cell *cdkHeaderCellDef mat-sort-header disableClear="true"> Name </mat-header-cell>
-      <mat-cell *cdkCellDef="let row"> {{row.name}} </mat-cell>
-    </ng-container>
+<div fxLayout="row"
+     fxLayoutAlign="center start"
+     fxLayoutWrap>
 
-    <ng-container cdkColumnDef="address.street">
-      <mat-header-cell *cdkHeaderCellDef mat-sort-header disableClear="true"> Street </mat-header-cell>
-      <mat-cell *cdkCellDef="let row">{{row.address.street}} </mat-cell>
-    </ng-container>
+  <div class="table-container mat-typography mat-elevation-z1">
 
-    <ng-container cdkColumnDef="address.city">
-      <mat-header-cell *cdkHeaderCellDef mat-sort-header disableClear="true"> City </mat-header-cell>
-      <mat-cell *cdkCellDef="let row">{{row.address.city}} </mat-cell>
-    </ng-container>
+    <mat-table class="table-hover" #table [dataSource]="dataSource"
+               matSort matSortActive="name" matSortDisableClear matSortDirection="asc">
+      <ng-container cdkColumnDef="name">
+        <mat-header-cell *cdkHeaderCellDef mat-sort-header disableClear="true"> Name </mat-header-cell>
+        <mat-cell *cdkCellDef="let row"> {{row.name}} </mat-cell>
+      </ng-container>
 
-    <ng-container cdkColumnDef="phone">
-      <mat-header-cell *cdkHeaderCellDef mat-sort-header disableClear="true"> Phone </mat-header-cell>
-      <mat-cell *cdkCellDef="let row"> {{row.phone}} </mat-cell>
-    </ng-container>
+      <ng-container cdkColumnDef="address.street">
+        <mat-header-cell *cdkHeaderCellDef mat-sort-header disableClear="true"> Street </mat-header-cell>
+        <mat-cell *cdkCellDef="let row">{{row.address.street}} </mat-cell>
+      </ng-container>
 
-    <mat-header-row *cdkHeaderRowDef="displayedColumns"></mat-header-row>
-    <mat-row *cdkRowDef="let row; columns: displayedColumns;"
-             (click)="onBusinessSelected(row)">
-    </mat-row>
-  </mat-table>
+      <ng-container cdkColumnDef="address.city">
+        <mat-header-cell *cdkHeaderCellDef mat-sort-header disableClear="true"> City </mat-header-cell>
+        <mat-cell *cdkCellDef="let row">{{row.address.city}} </mat-cell>
+      </ng-container>
+
+      <ng-container cdkColumnDef="phone">
+        <mat-header-cell *cdkHeaderCellDef mat-sort-header disableClear="true"> Phone </mat-header-cell>
+        <mat-cell *cdkCellDef="let row"> {{row.phone}} </mat-cell>
+      </ng-container>
+
+      <mat-header-row *cdkHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *cdkRowDef="let row; columns: displayedColumns;"
+               (click)="onBusinessSelected(row)">
+      </mat-row>
+    </mat-table>
 
   <mat-paginator #paginator
                  [length]="dataSource.totalItems"
@@ -34,7 +39,7 @@
                  [pageSizeOptions]="pageLimitOptions"
                  (page)="onPageChange($event)">
   </mat-paginator>
-
+  </div>
 </div>
 
 <a routerLink="new" mat-fab class="page-fab" color="accent"><mat-icon>add</mat-icon></a>

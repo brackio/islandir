@@ -2,77 +2,110 @@
 @import '../../colors';
 
 :host {
-
   .container {
-    background-color: rgba(0, 0, 0, 0.6);
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-attachment:fixed;
-    background-image: linear-gradient(
-        to top,
-        rgba(0, 0, 0, 0),
-        rgba(0, 0, 0, 0.5)), url("../../assets/img/healthy-food.jpg");
 
     .mat-toolbar {
-      background: transparent;
-      .app-logo {
-        mat-icon {
+      background-color: rgb(250,250,250);
+      position: relative;
+      z-index: 3;
+
+      @media (min-width: $gt-sm) {
+        background-color: #fff;
+      }
+
+      .nav-tab {
+        margin-left: 40px;
+        border-bottom: none;
+
+        /deep/ .mat-tab-link {
+          height: 64px;
+        }
+      }
+    }
+
+    .content {
+      padding-top: 24px;
+
+      @media (min-width: $gt-xs) {
+        padding-top: 36px;
+      }
+
+      &.bg-theme {
+        background-color: rgba(0, 0, 0, 0.5);
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+
+        &.no-theme {
+          background-image: linear-gradient(
+              to top,
+              rgba(0, 0, 0, 0),
+              rgba(0, 0, 0, 0.5)), url("../../assets/images/landline-phone.jpg");
+        }
+
+        &.vi-theme {
+          background-image: linear-gradient(
+              to top,
+              rgba(0, 0, 0, 0),
+              rgba(0, 0, 0, 0.5)), url("../../assets/images/plant.jpg");
+        }
+      }
+
+      .hero-logo {
+        height: auto;
+        width: 128px;
+      }
+
+      .search-container {
+        margin-bottom: 1rem;
+
+        /deep/ form .search {
+          .search-wrapper {
+            background: rgba(255, 255, 255, .72);
+          }
+        }
+      }
+
+      .services-container {
+        //margin-bottom: 2rem;
+      }
+
+      .tag-line {
+        color: #fff;
+        font-weight: 300;
+        text-shadow: 1px 1px 3px rgba(0,0,0,0.6);
+        margin-bottom: 24px;
+
+        @media (min-width: $md) {
+          font-size: 26px;
+        }
+      }
+
+      .topic-tag {
+        cursor: pointer;
+        text-transform: capitalize;
+      }
+
+      .fill-space {
+        height: calc(100% - 350px);
+      }
+
+      .promote {
+       padding: 8px 16px;
+        border-radius: 3px;
+        box-sizing: border-box;
+        max-width: 400px;
+        //
+        .img-wrapper {
+          height: 64px;
           width: 64px;
-          height: auto;
         }
-      }
-    }
-
-    .hero-logo {
-      height: auto;
-      width: 128px;
-    }
-
-    .search-container {
-      margin-bottom: 1rem;
-
-      /deep/ form .search {
-        .search-wrapper {
-          background: rgba(255, 255, 255, .72);
-        }
-      }
-    }
-
-    .services-container {
-      margin-bottom: 2rem;
-    }
-
-
-    .tag-line {
-      color: rgba(0,0,0,.87);
-
-      @media (min-width: $sm) {
-        font-size: 22px;
-      }
-    }
-
-    .topic-tag {
-      cursor: pointer;
-      text-transform: capitalize;
-    }
-
-    .promote {
-      //background-color: $primary-text-color;
-      //width: 364px;
-      padding: 8px 16px;
-      border-radius: 3px;
-      box-sizing: border-box;
-      max-width: 400px;
-      //
-      .img-wrapper {
-        height: 64px;
-        width: 64px;
       }
     }
 
     .footer {
       background-color: #fafafa;
-      padding: 8px;
+      padding: 8px 16px;
       border-bottom: 1px solid #e4e4e4;
       color: rgba(0, 0, 0, 0.87);
 
@@ -83,7 +116,7 @@
 
       &.footer-sm {
         border-top: 1px solid #fff;
-        padding: 8px;
+        padding: 6px 16px;
 
         a {
           font-size: 12px;
@@ -95,14 +128,6 @@
           font-size: 13px;
         }
       }
-
-      @media (min-width: $gt-xs){
-        padding: 10px;
-      }
-
-      //@media (min-width: $md) {
-      //  padding: 12px;
-      //}
     }
   }
 
@@ -122,7 +147,7 @@
     position: relative;
     margin: 0;
     height: 350px;
-    //background-image: url('../../assets/img/hero-beach.jpg');
+    //background-image: url('../../assets/images/hero-beach.jpg');
     background-color: $primary-color;
     background-size: cover;
     //background-position: center center;

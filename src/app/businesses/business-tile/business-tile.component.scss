@@ -1,0 +1,71 @@
+@import '../../../colors';
+@import '../../../media-breakpoints';
+
+:host {
+  .item {
+    padding: 16px 24px;
+    border-bottom: 1px solid $divider-color;
+
+    .item-image {
+      border-radius: 5px;
+      display: block;
+
+      img {
+        border-radius: 5px;
+        border: none;
+        max-width: 100%;
+        height: auto;
+        -ms-interpolation-mode: bicubic;
+        display: inline-block;
+        vertical-align: middle;
+      }
+    }
+
+    .item-title {
+      color: rgba(0, 0, 0, .87);
+      font-size: 18px;
+      font-weight: 500;
+      margin-bottom: 4px;
+    }
+
+    .item-service {
+      color: #999;
+      font-size: 14px;
+
+      @media (max-width: $xs) {
+        max-width: 164px;
+      }
+
+      @media (min-width: $gt-xs) and (max-width: $sm) {
+        max-width: 264px;
+      }
+
+      @media (min-width: $gt-sm) and (max-width: $md) {
+        max-width: 364px;
+      }
+
+      @media (min-width: $gt-md) {
+        max-width: 464px;
+      }
+
+    }
+
+    .item-info, .item-info a {
+      color: $text-muted;
+    }
+
+    .item-info .mat-icon {
+      color: #9c9c9c;
+    }
+
+    .item-info.align-center {
+      align-items: center;
+    }
+
+    a {
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+}

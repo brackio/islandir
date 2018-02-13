@@ -19,7 +19,12 @@
 
       <div fxLayout="row" *ngFor="let option of keywords | async | searchOptions">
         <mat-option fxFlex [value]="option">
-          <mat-icon class="align-middle autocomplete-icon">{{option.icon}}</mat-icon> {{ option.text }}
+          <mat-icon *ngIf="option.imgSrc === 'icon'; else imgUrl" class="align-middle autocomplete-icon">{{option.image}}</mat-icon>
+
+          <ng-template #imgUrl>
+            <img [src]="option.image" style="margin-right: 16px;" class="align-middle autocomplete-icon" alt="business logo">
+          </ng-template>
+          {{ option.text }}
         </mat-option>
 
         <button mat-icon-button fxFlexAlign="center" class="pull-right" *ngIf="!option.index" (click)="removeItemFromHistory(option)">

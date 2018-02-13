@@ -1,85 +1,101 @@
 <ilr-navbar-search></ilr-navbar-search>
 
-<div class="container" >
+<div class="container" fxLayout="row" fxLayoutAlign="center start">
 
-  <div class="header">
+  <div class="content" fxFlex fxLayout="row" fxLayoutAlign="space-between start">
 
-    <div class="logo-wrapper" fxLayout="row" fxLayoutGap="1rem">
-      <div class="logo">
-        <cl-image *ngIf="business.photos?.logo?.public_id"
-                  public-id="{{business.photos.logo.public_id}}">
-          <cl-transformation width="108" height="108" radius="5" crop="fill"></cl-transformation>
-        </cl-image>
-      </div>
-      <div fxLayout="column" fxLayoutAlign="space-between stretch">
-        <h3 class="mat-title title">{{business.name}}</h3>
+    <div fxFlex class="details">
+      <mat-card class="header">
+        <img *ngIf="!!business.photos.cover" class="cover-image" fxHide.lt-md mat-card-image sizes="(max-width: 600px) 100vw, 1024px"
+         srcset="{{business.photos.cover.public_id | ilrBusinessImageUrlFormImageId:{fetch_format: 'auto', quality: 'auto', aspect_ratio: '16:9', width: 256, height: 100, crop: 'fill', gravity: 'auto'} }} 256w,
+                 {{business.photos.cover.public_id | ilrBusinessImageUrlFormImageId:{fetch_format: 'auto', quality: 'auto', aspect_ratio: '16:9',  width: 512, height: 232, crop: 'fill', gravity: 'auto'} }} 512w,
+                  {{business.photos.cover.public_id | ilrBusinessImageUrlFormImageId:{fetch_format: 'auto', quality: 'auto', aspect_ratio: '16:9', width: 1024, height: 232, crop: 'fill', gravity: 'auto'} }} 1024w"
+         src="{{business.photos.cover.public_id | ilrBusinessImageUrlFormImageId:{fetch_format: 'auto', quality: 'auto', aspect_ratio: '16:9', width: 512, height: 232, crop: 'fill', gravity: 'auto'} }}"/>
 
-        <div class="services text-caps">
-          {{business.services.join(', ')}}
-        </div>
+        <div class="info-bar" fxLayout="row" fxLayoutAlign="space-between start">
 
-        <div class="phone" fxLayout="row" fxLayoutGap="0.6rem">
-          <mat-icon>phone</mat-icon>
-          <div fxFlex>
-            <a class="mat-body-1" href="tel:+01-{{business.phone}}" rel="nofollow">{{business.phone}}</a>
+          <div class="profile" fxLayout="row" fxLayoutGap="1rem">
+
+            <div class="logo-wrapper" *ngIf="business.photos.logo">
+              <cl-image public-id="{{business.photos.logo.public_id}}">
+                <cl-transformation height="112" width="112" crop="scale" fetch_format="auto">
+                </cl-transformation>
+              </cl-image>
+            </div>
+
+            <div fxLayout="column">
+
+              <div class="title">{{business.name}}</div>
+              <p class="services text-caps">{{business.services.join(', ')}}</p>
+              <div class="contact mat-body-1" *ngIf="business.phone" fxLayout="row">
+                <mat-icon>phone</mat-icon>
+                {{business.phone}}
+              </div>
+            </div>
           </div>
+
+          <ilr-rating-score [rating]="4.3" [count]="21"></ilr-rating-score>
+
         </div>
 
+        <div class="social-bar" fxLayout="row" fxLayoutAlign="space-between center">
+
+          <div class="social" fxHide.lt-md>
+
+          </div>
+
+          <div class="actions" fxFlex fxLayoutAlign="space-evenly center" fxLayoutWrap>
+            <button type="button" class="text-upper action" mat-button><mat-icon>share</mat-icon>share</button>
+            <button type="button" class="text-upper action" mat-button><mat-icon>rate_review</mat-icon>Review</button>
+            <button type="button" class="text-upper action" mat-button><mat-icon>bookmark_border</mat-icon>save</button>
+            <button type="button" class="text-upper action" mat-button><mat-icon>more_horiz</mat-icon>more</button>
+          </div>
+
+        </div>
+
+        <mat-card-footer>
+          <nav class="navigation-bar" mat-tab-nav-bar [ngClass.xs]="['text-center']">
+            <a mat-tab-link class="text-upper"
+              *ngFor="let link of navLinks"
+              [routerLink]="[link.path]"
+              skipLocationChange
+              routerLinkActive #rla="routerLinkActive"
+              [routerLinkActiveOptions]= "link.options"
+              [active]="rla.isActive">
+              {{link.label}}
+            </a>
+          </nav>
+        </mat-card-footer>
+
+      </mat-card>
+
+      <router-outlet></router-outlet>
+    </div>
+
+    <div class="right-col" fxLayout="column" fxHide.lt-md fxLayoutGap="1.5rem">
+      <mat-card class="location-details">
+        <a href="https://www.google.com/maps/place//" *ngIf="staticMapUrl">
+          <img mat-card-image [src]="staticMapUrl">
+        </a>
+        <mat-card-content>
+          <div fxLayout="row" fxLayoutGap="8px">
+            <mat-icon fxFlexAlign="start">location_on</mat-icon>
+            <div fxLayout="column" fxLayoutGap="4px">
+              <div class="mat-body-1" *ngIf="business.address.street">{{business.address?.street}}</div>
+              <div class="mat-body-1" *ngIf="business.address?.city">{{business.address?.city}}</div>
+              <div class="mat-body-1" *ngIf="business.address?.territory && !(business.address?.city === business.address?.territory)">{{business.address?.territory}}</div>
+              <div class="mat-body-1" *ngIf="business.address?.country">{{business.address?.country?.name}}{{(business.address?.zip) ? ', ' + business.address.zip: ''}}</div>
+              <!--<div>{{(business.address?.territory && business.address?.territory !== business.address?.city) ? business.address?.territory + ', ' : ''}}{{business.address?.country.name}}, {{business.address?.zip}}</div>-->
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+      <div class="ads-space">
+        <a mat-raised-button routerLink="edit">Edit</a>
       </div>
     </div>
+
+
   </div>
-
-  <!--<div class="content" fxLayout="row" fxLayoutAlign="center start" fxLayoutGap.gt-sm="2rem">-->
-
-    <!--<div fxLayout="column" fxFlexAlign="start stretch" fxFlex>-->
-      <!--<div class="card p mat-elevation-z1">-->
-
-        <!--<div class="p-body" fxLayout="row" fxLayoutAlign="space-between start">-->
-          <!--<div class="p-info" fxLayout="row" fxLayoutGap="1rem">-->
-
-
-
-
-
-          <!--</div>-->
-
-          <!--<div class="scoring">-->
-
-          <!--</div>-->
-        <!--</div>-->
-
-        <!--<div class="p-actions" fxLayout="row" fxLayoutAlign="center center">-->
-          <!--<div class="actions" fxFlex fxLayout="row" fxLayoutAlign="space-around center" fxLayoutWrap>-->
-            <!--<button type="button" mat-button class="text-upper"><mat-icon>share</mat-icon>share</button>-->
-            <!--<a mat-button class="text-upper"><mat-icon>email</mat-icon>message</a>-->
-            <!--<button type="button" mat-button class="text-upper"><mat-icon>rate_review</mat-icon>review</button>-->
-            <!--<button type="button" mat-button class="text-upper"><mat-icon>bookmark_border</mat-icon>save</button>-->
-          <!--</div>-->
-        <!--</div>-->
-
-        <!--<nav class="p-footer" mat-tab-nav-bar [ngClass.xs]="['text-center']">-->
-          <!--<a mat-tab-link class="text-upper"-->
-             <!--*ngFor="let link of navLinks"-->
-             <!--[routerLink]="[link.path]"-->
-             <!--skipLocationChange-->
-             <!--routerLinkActive #rla="routerLinkActive"-->
-             <!--[routerLinkActiveOptions]= "link.options"-->
-             <!--[active]="rla.isActive">-->
-            <!--{{link.label}}-->
-          <!--</a>-->
-        <!--</nav>-->
-      <!--</div>-->
-
-      <!--<router-outlet></router-outlet>-->
-    <!--</div>-->
-
-    <!--<div class="ads-space" fxHide.lt-md>-->
-      <!--<a mat-raised-button routerLink="edit">Edit</a>-->
-    <!--</div>-->
-
-  <!--</div>-->
-
-
-
-
 </div>

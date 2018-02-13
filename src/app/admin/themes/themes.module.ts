@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CovalentDialogsModule } from '@covalent/core';
+import { CovalentDialogsModule } from '@covalent/core/dialogs';
 import { ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from '../../shared/shared.module';
 

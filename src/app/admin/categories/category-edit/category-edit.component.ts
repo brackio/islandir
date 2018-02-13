@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { TdDialogService } from '@covalent/core';
+import { TdDialogService } from '@covalent/core/dialogs';
 import { Observable } from 'rxjs/Observable';
 
 import { Category } from '../../../models/categories/category';

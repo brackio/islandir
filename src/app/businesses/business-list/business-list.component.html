@@ -1,7 +1,52 @@
 <div class="container">
   <ilr-navbar-search></ilr-navbar-search>
 
-  <!--<div fxLayout="column" fxLayout.gt-sm="row" class="content">-->
+  <div class="content" infiniteScroll [infiniteScrollDistance]="2"
+       [infiniteScrollThrottle]="50"
+       (scrolled)="onScroll()"
+       [scrollWindow]="false" fxLayout="row" fxLayoutAlign="center start">
+
+    <div class="section" fxLayout="column" fxFlex fxFlex.md="63rem" fxFlex.gt-md="80rem">
+
+      <div class="filters">
+      </div>
+
+      <div class="results" fxLayout="row" fxLayoutAlign="space-between start" *ngIf="businesses && businesses.length > 0">
+
+        <div class="data" fxFlex fxLayout="row">
+           <div class="card full-width">
+             <ilr-business-tile *ngFor="let business of businesses" [business]="business"></ilr-business-tile>
+          </div>
+
+        </div>
+
+        <ilr-business-map
+          class="map" *ngIf="!!latitude && !!longitude"
+          fxFlex.md="320px"
+          fxFlex.gt-md="452px"
+          fxHide.lt-md
+          [latitude]="latitude"
+          [longitude]="longitude"
+          [businesses]="businesses">
+        </ilr-business-map>
+
+      </div>
+
+      <div *ngIf="businesses && businesses.length === 0">
+        <mat-card fxFlex.gt-sm>
+          <div fxLayout="column" fxLayoutAlign="center center" class="empty-state mat-typography">
+            <mat-icon>store</mat-icon>
+            <h2>No businesses</h2>
+            <h3 class="text-center">No results found for <span style="font-weight: 500;"><i>{{searchTerm}}</i></span> in {{ country?.name }}</h3>
+          </div>
+        </mat-card>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
 
     <!--<div class="filters">
       <div class="filter-group open">
@@ -33,85 +78,5 @@
       </div>
     </div>-->
 
-    <div class="results" infiniteScroll
-         [infiniteScrollDistance]="2"
-         [infiniteScrollThrottle]="50"
-         (scrolled)="onScroll()"
-         [scrollWindow]="false">
 
-      <h3 class="r-header mat-subheading-2">Showing <span class="highlight">{{totalBusinesses}}</span> results for <span style="font-weight: 500;">{{searchTerm}}</span> in {{ country?.name }}</h3>
-
-      <div class="r-body" fxLayout="column" fxLayoutAlign="start center">
-
-        <div class="data" *ngIf="!!businesses?.length" fxLayout="row" fxLayoutAlign="space-evenly start" fxLayoutWrap>
-          <a class="card" *ngFor="let business of businesses" [routerLink]="['/business', business.slug]">
-            <mat-card>
-              <img mat-card-image
-                   sizes="(min-width: 600px) 320px, 100vw"
-                   srcset="{{business.photos?.cover?.public_id | clResponsiveImage:{fetch_format: 'auto', quality: 'auto', aspect_ratio: '16:9', width: 256, crop: 'scale'} }} 256w,
-                         {{business.photos?.cover?.public_id | clResponsiveImage:{fetch_format: 'auto', quality: 'auto',  aspect_ratio: '16:9', width: 512, crop: 'scale'} }} 512w"
-                   src="{{business.photos?.cover?.public_id | clResponsiveImage:{fetch_format: 'auto', quality: 'auto', aspect_ratio: '16:9', width: 512, crop: 'scale'} }}"/>
-
-              <div fxLayout="row" fxLayoutGap="0.8rem">
-                <mat-card-title fxFlex class="title text-truncate">{{ business.name }}</mat-card-title>
-                <mat-icon class="bookmark">bookmark_border</mat-icon>
-              </div>
-
-              <!--<mat-card-subtitle class="sub-title text-caps text-truncate">-->
-                <!--{{business.services.join(', ')}}-->
-              <!--</mat-card-subtitle>-->
-
-              <mat-card-content>
-                <div [ngSwitch]="dataToShow(business)">
-
-                  <div fxLayout="row" class="row" fxLayoutGap="1rem" *ngSwitchCase="'hours'">
-                    <mat-icon class="row-icon">access_time</mat-icon>
-                    <div class="mat-body-1 row-label" fxFlex>
-                      Currently open
-                    </div>
-                  </div>
-
-                  <div class="row" *ngSwitchCase="'address'">
-                    <div class="mat-body-1 row-label">
-                      <a href="{{business.address | addressToString: 'maps'}}" target="_blank">{{business.address | addressToString}}</a>
-                    </div>
-                  </div>
-
-                  <div fxLayout="row" class="row" fxLayoutGap="1rem" *ngSwitchCase="'phone'">
-                    <mat-icon class="row-icon">phone</mat-icon>
-                    <div class="mat-body-1 row-label" fxFlex>
-                      <a href="tel:+01-{{business.phone}}" rel="nofollow">{{business.phone}}</a>
-                    </div>
-                  </div>
-
-                  <div class="row" *ngSwitchCase="'description'">
-                    <div class="mat-body-1 row-label">
-                      <span>{{business.description}}</span>
-                    </div>
-                  </div>
-
-                  <div class="row" *ngSwitchDefault>
-                    <div class="mat-body-1 row-label">
-                      <span>{{ business.address?.country.name }}</span>
-                    </div>
-                  </div>
-                </div>
-
-              </mat-card-content>
-
-            </mat-card>
-          </a>
-        </div>
-
-        <ng-template #emptyBlock>
-          <div class="empty-block" fxFlex>
-            <mat-icon class="size-64">search</mat-icon>
-            <h2 class="mat-title">No results found</h2>
-          </div>
-        </ng-template>
-      </div>
-    </div>
   <!--</div>-->
-
-</div>
-

@@ -3,9 +3,9 @@ import { Cloudinary } from '@cloudinary/angular-5.x';
 import { CONFIG } from '../../core/config';
 
 @Pipe({
-  name: 'clResponsiveImage'
+  name: 'ilrBusinessImageUrlFormImageId'
 })
-export class ClResponsiveImagePipe implements PipeTransform {
+export class BusinessImageUrlFromImageIdPipe implements PipeTransform {
 
   constructor(private cloudinary: Cloudinary) {}
 

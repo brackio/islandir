@@ -65,6 +65,11 @@
                 display: flex;
                 color: rgba(0, 0, 0, 0.54);
 
+                @media (max-width: $xs) {
+                  max-width: 200px;
+                }
+
+
                 .list-value-line {
                   margin-bottom: 4px;
                 }

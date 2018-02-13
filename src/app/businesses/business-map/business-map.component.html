@@ -1,0 +1,19 @@
+<agm-map
+  [latitude]="latitude"
+  [longitude]="longitude"
+  [zoomControl]="false"
+  [disableDefaultUI]="true"
+  [streetViewControl]="false"
+  [scrollwheel]="false"
+  [fitBounds]="latlngBounds">
+
+  <agm-marker *ngFor="let business of businesses"
+              [latitude]="business.latitude"
+              [longitude]="business.longitude">
+
+    <agm-info-window>
+      <strong>{{business.name}}</strong>
+    </agm-info-window>
+
+  </agm-marker>
+</agm-map>

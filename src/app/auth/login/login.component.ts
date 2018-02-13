@@ -31,10 +31,14 @@ export class LoginComponent implements OnInit {
   public login(form): void {
     this.auth.login(form.email, form.password)
       .subscribe((user: User) => {
+        if (!!user) {
           this.reason = null;
           this.router.navigate(['/']);
           this.alertService.toast(`Logged in as ${user.firstname}`);
-        },
+        } else {
+          this.reason = 'Your email or password is invalid.';
+        }
+      },
       () => {
         this.reason = 'Your email or password is invalid.';
       });

@@ -1,0 +1,15 @@
+<div class="review">
+  <div class="review-score">
+    <star-rating-comp
+      [starType]="'svg'"
+      [rating]="rating"
+      [numOfStars]="5"
+      [readOnly]="true"
+      [showHalfStars]="true"
+      [staticColor]="hasRating ? 'negative' : 'default'">
+    </star-rating-comp>
+  </div>
+  <div class="review-count">
+    {{ hasRating ? '(' + count + ' reviews)' : 'no reviews'}}
+  </div>
+</div>

@@ -25,6 +25,7 @@ import {
   MatStepperModule,
   MatGridListModule,
   MatExpansionModule,
+  MatProgressSpinnerModule,
   MatProgressBarModule,
   MatDatepickerModule,
   MatNativeDateModule
@@ -57,6 +58,7 @@ import {
     MatGridListModule,
     MatExpansionModule,
     MatProgressBarModule,
+    MatProgressSpinnerModule,
     MatDatepickerModule,
     MatNativeDateModule
   ],
@@ -86,6 +88,7 @@ import {
     MatGridListModule,
     MatExpansionModule,
     MatProgressBarModule,
+    MatProgressSpinnerModule,
     MatDatepickerModule,
     MatNativeDateModule
   ]

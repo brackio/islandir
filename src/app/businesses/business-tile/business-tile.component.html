@@ -1,0 +1,63 @@
+<div class="item">
+
+  <div fxLayout="row">
+
+    <a class="item-image" [routerLink]="['/business', business.slug]" fxFlex.xs="100px" fxFlex.gt-xs="140px">
+      <img sizes="(max-width: 600px) 80px, 128px"
+           srcset="{{business.photos?.cover?.public_id | ilrBusinessImageUrlFormImageId:{fetch_format: 'auto', quality: 'auto', width: 80, height: 80, crop: 'fill'} }} 96w,
+                       {{business.photos?.cover?.public_id | ilrBusinessImageUrlFormImageId:{fetch_format: 'auto', quality: 'auto', width: 128, height: 128, crop: 'fill'} }} 128w"
+           src="{{business.photos?.cover?.public_id | ilrBusinessImageUrlFormImageId:{fetch_format: 'auto', quality: 'auto', width: 128, height: 128, crop: 'fill'} }}"/>
+    </a>
+
+    <div fxLayout="column" fxLayoutAlign="start start">
+      <a class="item-title" [routerLink]="['/business', business.slug]">{{business.name}}</a>
+
+      <ilr-read-only-rating-stars [rating]="business.rating" [count]="business.reviews?.length"></ilr-read-only-rating-stars>
+
+      <p class="item-service mat-body-1 text-caps text-truncate">
+        {{business.services.join(', ')}}
+      </p>
+
+      <div [ngSwitch]="dataToShow(business)">
+
+        <div fxLayout="row" class="item-info" fxLayoutGap="8px" *ngSwitchCase="'hours'">
+          <mat-icon class="row-icon">access_time</mat-icon>
+          <div class="mat-body-1 item-info" fxFlex>
+            Currently open
+          </div>
+        </div>
+
+        <div class="row" class="item-info align-center" fxLayoutGap="8px" *ngSwitchCase="'address'">
+          <mat-icon class="row-icon">location_on</mat-icon>
+          <div class="mat-body-1 item-info" fxFlex>
+            <a href="{{business.address | addressToString: 'maps'}}" target="_blank">{{business.address | addressToString}}</a>
+          </div>
+        </div>
+
+        <div fxLayout="row" class="item-info align-center" fxLayoutGap="8px" *ngSwitchCase="'phone'">
+          <mat-icon class="row-icon">phone</mat-icon>
+          <div class="mat-body-1 item-info" fxFlex>
+            <a href="tel:+01-{{business.phone}}" rel="nofollow">{{business.phone}}</a>
+          </div>
+        </div>
+
+        <!--<div class="item-info" *ngSwitchCase="'description'">-->
+          <!--<div class="mat-body-1 item-info">-->
+            <!--<span>{{business.description}}</span>-->
+          <!--</div>-->
+        <!--</div>-->
+
+        <div class="item-info" class="item-info align-center" fxLayoutGap="8px" *ngSwitchDefault>
+          <mat-icon class="row-icon">location_on</mat-icon>
+          <div class="mat-body-1 item-info" fxFlex>
+            <span>{{ business.address?.country.name }}</span>
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+
+  </div>
+</div>
+

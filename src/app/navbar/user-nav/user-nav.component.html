@@ -1,5 +1,5 @@
 <a *ngIf="!auth.isAuthenticated()" mat-button class="text-upper" routerLink="/login">sign in</a>
-<a *ngIf="!auth.isAuthenticated()" mat-raised-button color="accent" class="text-upper" routerLink="/signup">sign up</a>
+<a fxHide.xs *ngIf="!auth.isAuthenticated()" mat-raised-button color="accent" class="text-upper" routerLink="/signup">sign up</a>
 
 <button class="avatar" mat-icon-button [matMenuTriggerFor]="mdUserMenu" *ngIf="auth.isAuthenticated()">
   <ngx-avatar name="{{user.nickname}}" style="display: inline-block;"

@@ -1,23 +1,27 @@
 import { NgModule } from '@angular/core';
+import { SharedModule } from '../shared/shared.module';
 
-import { SingleImageUploadDirective } from './directives/single-image-upload.directive';
+import { ImagePlaceholderDirective } from './directives/image-placeholder.directive';
 import { ImagePreviewDirective } from './directives/image-preview.directive';
-import { ClResponsiveImagePipe } from './pipes/cl-responsive-image.pipe';
+import { BusinessImageUrlFromImageIdPipe } from './pipes/business-image-url-from-image-id.pipe';
 import { AddressToStringPipe } from './pipes/address-to-string.pipe';
 import { BusinessThumbnailPipe } from './pipes/business-thumbnail.pipe';
 
 @NgModule({
+  imports: [
+    SharedModule
+  ],
   declarations: [
-    SingleImageUploadDirective,
+    ImagePlaceholderDirective,
     ImagePreviewDirective,
-    ClResponsiveImagePipe,
+    BusinessImageUrlFromImageIdPipe,
     AddressToStringPipe,
     BusinessThumbnailPipe
   ],
   exports: [
-    SingleImageUploadDirective,
+    ImagePlaceholderDirective,
     ImagePreviewDirective,
-    ClResponsiveImagePipe,
+    BusinessImageUrlFromImageIdPipe,
     AddressToStringPipe,
     BusinessThumbnailPipe
   ]

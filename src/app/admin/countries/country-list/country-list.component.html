@@ -1,43 +1,48 @@
-<div fxFlex="100" fxFlex.gt-sm="90" class="table-container mat-typography" [ngClass.gt-sm]="['mat-elevation-z1']">
-  <mat-table class="table-hover" #table [dataSource]="dataSource"
-            matSort matSortActive="name" matSortDisableClear matSortDirection="asc">
+<div fxLayout="row"
+     fxLayoutAlign="center start"
+     fxLayoutWrap>
 
-    <ng-container cdkColumnDef="name">
-      <mat-header-cell *cdkHeaderCellDef mat-sort-header disableClear="true"> Name </mat-header-cell>
-      <mat-cell *cdkCellDef="let row">
-        <i class="cell-icon flag flag-{{row.code}}"></i>
-        {{row.name}} </mat-cell>
-    </ng-container>
+  <div class="table-container mat-typography mat-elevation-z1">
+    <mat-table class="table-hover" #table [dataSource]="dataSource"
+               matSort matSortActive="name" matSortDisableClear matSortDirection="asc">
 
-    <ng-container cdkColumnDef="code">
-      <mat-header-cell *cdkHeaderCellDef mat-sort-header disableClear="true"> Code </mat-header-cell>
-      <mat-cell *cdkCellDef="let row"> {{row.code}} </mat-cell>
-    </ng-container>
+      <ng-container cdkColumnDef="name">
+        <mat-header-cell *cdkHeaderCellDef mat-sort-header disableClear="true"> Name </mat-header-cell>
+        <mat-cell *cdkCellDef="let row">
+          <i class="cell-icon flag flag-{{row.code}}"></i>
+          {{row.name}} </mat-cell>
+      </ng-container>
 
-    <ng-container cdkColumnDef="territories">
-      <mat-header-cell *cdkHeaderCellDef mat-sort-header disableClear="true"> Territories </mat-header-cell>
-      <mat-cell *cdkCellDef="let row"> {{row.territories }} </mat-cell>
-    </ng-container>
+      <ng-container cdkColumnDef="code">
+        <mat-header-cell *cdkHeaderCellDef mat-sort-header disableClear="true"> Code </mat-header-cell>
+        <mat-cell *cdkCellDef="let row"> {{row.code}} </mat-cell>
+      </ng-container>
 
-    <ng-container cdkColumnDef="zip">
-      <mat-header-cell *cdkHeaderCellDef  mat-sort-header disableClear="true"> Zip </mat-header-cell>
-      <mat-cell *cdkCellDef="let row"> {{row.zip}} </mat-cell>
-    </ng-container>
+      <ng-container cdkColumnDef="territories">
+        <mat-header-cell *cdkHeaderCellDef mat-sort-header disableClear="true"> Territories </mat-header-cell>
+        <mat-cell *cdkCellDef="let row"> {{row.territories }} </mat-cell>
+      </ng-container>
 
-    <mat-header-row *cdkHeaderRowDef="displayedColumns"></mat-header-row>
-    <mat-row *cdkRowDef="let row; columns: displayedColumns;"
-            (click)="onCountrySelected(row)">
-    </mat-row>
-  </mat-table>
+      <ng-container cdkColumnDef="zip">
+        <mat-header-cell *cdkHeaderCellDef  mat-sort-header disableClear="true"> Zip </mat-header-cell>
+        <mat-cell *cdkCellDef="let row"> {{row.zip}} </mat-cell>
+      </ng-container>
 
-  <mat-paginator #paginator
-                 [length]="dataSource.totalItems"
-                 [pageIndex]="pageIndex"
-                 [pageSize]="pageSize"
-                 [pageSizeOptions]="pageLimitOptions"
-                 (page)="onPageChange($event)">
-  </mat-paginator>
+      <mat-header-row *cdkHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *cdkRowDef="let row; columns: displayedColumns;"
+               (click)="onCountrySelected(row)">
+      </mat-row>
+    </mat-table>
 
+    <mat-paginator #paginator
+                   [length]="dataSource.totalItems"
+                   [pageIndex]="pageIndex"
+                   [pageSize]="pageSize"
+                   [pageSizeOptions]="pageLimitOptions"
+                   (page)="onPageChange($event)">
+    </mat-paginator>
+
+  </div>
 </div>
 
 <a routerLink="new" mat-fab class="page-fab" color="accent"><mat-icon>add</mat-icon></a>

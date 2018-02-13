@@ -38,6 +38,7 @@ export let CONFIG = {
     currentToken: 'currentToken',
     currentCountry: 'currentCountry',
     searchHistory: 'searchHistory',
+    clientLocation: 'clientLocation',
     tokenExpiredError: 'TokenExpiredException',
     xInlineCount: 'X-Inline-Count',
     logging: 'Logging'

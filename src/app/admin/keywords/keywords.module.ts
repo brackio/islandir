@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import { CovalentDialogsModule } from '@covalent/core';
+import { CovalentDialogsModule } from '@covalent/core/dialogs';
 import { SharedModule } from '../../shared/shared.module';
 import { KeywordsRoutingModule } from './keywords-routing.module';
 

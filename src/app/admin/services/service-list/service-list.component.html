@@ -1,34 +1,38 @@
-<div fxFlex="100" fxFlex.gt-sm="90" class="table-container mat-typography" [ngClass.gt-sm]="['mat-elevation-z1']">
-  <mat-table class="table-hover" #table [dataSource]="dataSource"
-            matSort matSortActive="name" matSortDisableClear matSortDirection="asc">
-    <ng-container cdkColumnDef="name">
-      <mat-header-cell *cdkHeaderCellDef mat-sort-header disableClear="true"> Name </mat-header-cell>
-      <mat-cell *cdkCellDef="let row"> {{row.name}} </mat-cell>
-    </ng-container>
+<div fxLayout="row"
+     fxLayoutAlign="center start"
+     fxLayoutWrap>
 
-    <ng-container cdkColumnDef="slug">
-      <mat-header-cell *cdkHeaderCellDef mat-sort-header disableClear="true"> Slug </mat-header-cell>
-      <mat-cell *cdkCellDef="let row"> {{row.slug}} </mat-cell>
-    </ng-container>
+  <div class="table-container mat-typography mat-elevation-z1">
+    <mat-table class="table-hover" #table [dataSource]="dataSource"
+              matSort matSortActive="name" matSortDisableClear matSortDirection="asc">
+      <ng-container cdkColumnDef="name">
+        <mat-header-cell *cdkHeaderCellDef mat-sort-header disableClear="true"> Name </mat-header-cell>
+        <mat-cell *cdkCellDef="let row"> {{row.name}} </mat-cell>
+      </ng-container>
 
-    <ng-container cdkColumnDef="category">
-      <mat-header-cell *cdkHeaderCellDef> Category </mat-header-cell>
-      <mat-cell *cdkCellDef="let row"> <mat-icon class="cell-icon" svgIcon="{{row.category?.icon}}"></mat-icon> {{row.category?.name}} </mat-cell>
-    </ng-container>
+      <ng-container cdkColumnDef="slug">
+        <mat-header-cell *cdkHeaderCellDef mat-sort-header disableClear="true"> Slug </mat-header-cell>
+        <mat-cell *cdkCellDef="let row"> {{row.slug}} </mat-cell>
+      </ng-container>
 
-    <mat-header-row *cdkHeaderRowDef="displayedColumns"></mat-header-row>
-    <mat-row *cdkRowDef="let row; columns: displayedColumns;"
-            (click)="onServiceSelected(row)">
-    </mat-row>
-  </mat-table>
+      <ng-container cdkColumnDef="category">
+        <mat-header-cell *cdkHeaderCellDef> Category </mat-header-cell>
+        <mat-cell *cdkCellDef="let row"> <mat-icon class="cell-icon" svgIcon="{{row.category?.icon}}"></mat-icon> {{row.category?.name}} </mat-cell>
+      </ng-container>
 
-  <mat-paginator #paginator
-                [length]="dataSource.totalItems"
-                [pageIndex]="pageIndex"
-                [pageSize]="pageSize"
-                [pageSizeOptions]="pageLimitOptions"
-                (page)="onPageChange($event)">
-  </mat-paginator>
+      <mat-header-row *cdkHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *cdkRowDef="let row; columns: displayedColumns;"
+              (click)="onServiceSelected(row)">
+      </mat-row>
+    </mat-table>
 
+    <mat-paginator #paginator
+                  [length]="dataSource.totalItems"
+                  [pageIndex]="pageIndex"
+                  [pageSize]="pageSize"
+                  [pageSizeOptions]="pageLimitOptions"
+                  (page)="onPageChange($event)">
+    </mat-paginator>
+  </div>
 </div>
 <a routerLink="new" mat-fab class="page-fab" color="accent"><mat-icon>add</mat-icon></a>

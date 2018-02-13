@@ -3,7 +3,6 @@ import { RouterModule } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
 
 import { SharedModule } from '../../shared/shared.module';
-import { DialogsModule } from '../../dialogs/dialogs.module';
 
 import { BusinessesRoutingModule } from './businesses-routing.module';
 import { BusinessListComponent } from './business-list/business-list.component';
@@ -17,7 +16,6 @@ import { BusinessResolverService } from '../../businesses/shared/business-resolv
     RouterModule,
     ReactiveFormsModule,
     SharedModule,
-    DialogsModule,
     BusinessesRoutingModule
   ],
   declarations: [

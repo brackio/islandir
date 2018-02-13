@@ -1,0 +1,11 @@
+@import '../../../media-breakpoints';
+:host {
+
+  agm-map {
+    height: 300px;
+
+    @media (min-width: $gt-md) {
+      height: 374px;
+    }
+  }
+}

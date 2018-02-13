@@ -16,8 +16,8 @@ const authUrl = CONFIG.baseUrls.auth;
 
 @Injectable()
 export class AuthService {
-  // public userProfile: User;
   public redirectUrl: string;
+
   constructor(
     private http: HttpClient,
     private router: Router,
@@ -25,7 +25,6 @@ export class AuthService {
     private cache: Cache,
     private errorHandler: ErrorHandler
   ) {
-
     this.userService.currentUser = this.userService.getStoredUser();
   }
 
@@ -46,9 +45,10 @@ export class AuthService {
           const token = response && response.token;
           if (token) {
             this.setToken(token);
-            this.userService.saveProfile(response.user);
-            this.userService.currentUser = response.user;
-            return this.userService.currentUser;
+            const user: User = response.user;
+            this.userService.saveProfile(user);
+            this.userService.currentUser = user;
+            return user;
           }
         }),
         catchError(this.errorHandler.error<User>(`User Login: email: ${email}`))
@@ -71,9 +71,10 @@ export class AuthService {
             const token = response && response.token;
             if (token) {
               this.setToken(token);
-              this.userService.saveProfile(response.user);
-              this.userService.currentUser = response.user;
-              return this.userService.currentUser;
+              const user: User = response.user;
+              this.userService.saveProfile(user);
+              this.userService.currentUser = user;
+              return user;
             }
           }),
           catchError(this.errorHandler.error<User>(`User Signup: email: ${email}`))
@@ -119,7 +120,8 @@ export class AuthService {
   public authClear(): void {
     console.log('clearing cache');
     this.userService.removeCurrentUser();
-    this.cache.removeItem(CONFIG.vars.currentUser);
-    this.cache.removeItem(CONFIG.vars.currentToken);
+    this.cache.clear();
+    // this.cache.removeItem(CONFIG.vars.currentUser);
+    // this.cache.removeItem(CONFIG.vars.currentToken);
   }
 }

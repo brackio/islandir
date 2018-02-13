@@ -1,7 +1,8 @@
 /* You can add global styles to this file, and also import other style files */
 @import "flags.css";
 @import "colors";
-@import "media-breakpoints.scss";
+@import "media-breakpoints";
+@import "~angular-star-rating/assets/scss/star-rating";
 
 html, body {
   margin: 0;
@@ -12,6 +13,18 @@ html, body {
 .mat-app-background {
   background-color: $body-background;
 }
+
+.app-logo {
+  .mat-icon {
+    height: 64px;
+    width: 72px;
+
+    @media (max-width: $sm) {
+      height: 56px;
+    }
+  }
+}
+
 
 .text-highlight {
   color: #FFE57F;//$accent-color-light;
@@ -146,19 +159,22 @@ a, button {
 }
 
 .table-container {
-  margin-bottom: 4rem;
+  margin: 1rem 0 4rem;
+
+  max-width: 63rem;
+  width: 100%;
 
   @media(max-width: $sm) {
-    margin-bottom: 0;
+    margin: 0;
   }
-}
 
-.mat-table {
+  .mat-table {
 
-  &.table-hover {
+    &.table-hover {
 
-    mat-row:hover {
-      background-color: rgba(0, 0, 0, .04);
+      mat-row:hover {
+        background-color: rgba(0, 0, 0, .04);
+      }
     }
   }
 }
@@ -186,4 +202,13 @@ div.card {
     background: white;
     color: rgba(0, 0, 0, 0.87);
     box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0px 1px 5px 0 rgba(0, 0, 0, 0.12);
+}
+
+.empty-state {
+  color: #9e9e9e;
+  .mat-icon {
+    font-size: 48px;
+    width: 48px;
+    height: 48px;
+  }
 }

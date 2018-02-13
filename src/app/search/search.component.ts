@@ -69,8 +69,7 @@ export class SearchComponent implements OnInit {
     }
     this.updateSearchHistory(option.text);
     if (option.index === 'businesss') {
-      console.log(option);
-      // this.router.navigate(['/business', option.value.toLowerCase()]);
+      this.router.navigate(['/business', option.value.toLowerCase()]);
     } else {
       this.router.navigate(['/business/search', { q: option.text.toLowerCase(), country: this.countryService.country.code }]);
     }

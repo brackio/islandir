@@ -10,16 +10,19 @@
 <!--</mat-toolbar>-->
 
 <div class="admin-container" [class.is-mobile]="isMobileView">
-  <ilr-navbar-admin></ilr-navbar-admin>
 
-  <mat-sidenav-container class="admin-sidenav-container">
+  <mat-sidenav-container class="sidenav-container">
     <mat-sidenav #sidenav
       class="sidenav"
       [fixedInViewport]="isMobileView"
-      [fixedTopGap]="isMobileView? 56 : 0"
       [mode]="isMobileView ? 'over':'side'"
       [opened]="!isMobileView"
       [disableClose]="!isMobileView">
+
+      <div class="banner">
+        <a routerLink="/" class="app-logo"><mat-icon  svgIcon="islandir-light"></mat-icon></a>
+      </div>
+      <mat-divider></mat-divider>
 
 
       <mat-nav-list>
@@ -34,7 +37,11 @@
     </mat-sidenav>
 
     <mat-sidenav-content>
-      <router-outlet></router-outlet>
+      <ilr-navbar-admin></ilr-navbar-admin>
+
+      <div class="sidenav-content">
+        <router-outlet></router-outlet>
+      </div>
     </mat-sidenav-content>
 
   </mat-sidenav-container>

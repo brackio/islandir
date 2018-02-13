@@ -1,6 +1,8 @@
-<mat-toolbar color="primary">
-  <a fxHide.xs routerLink="/" class="app-logo"><mat-icon  svgIcon="islandir-light"></mat-icon></a>
-  <ilr-search class="full-width"></ilr-search>
-  <span fxFlex></span>
-  <ilr-user-nav></ilr-user-nav>
+<mat-toolbar class="mat-elevation-z2" fxLayoutAlign="space-between center">
+
+    <a fxHide.xs routerLink="/" class="app-logo"><mat-icon  svgIcon="islandir-dark"></mat-icon></a>
+    <ilr-search [ngClass.lt-md]="'full-width'"></ilr-search>
+    <ilr-user-nav></ilr-user-nav>
+
+
 </mat-toolbar>

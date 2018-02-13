@@ -22,9 +22,9 @@ export class UserService {
   }
 
   public markVerified(): void {
-    console.log(this.user);
-    if (!this.user.verified)
+    if (!this.user.verified) {
       this.user.verified = true;
+    }
   }
 
   public removeCurrentUser(): void {

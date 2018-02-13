@@ -9,7 +9,6 @@ import { SearchModule } from '../search/search.module';
 import { NavbarAdminComponent } from './navbar-admin/navbar-admin.component';
 import { UserNavComponent } from './user-nav/user-nav.component';
 import { NotificationService } from '../notifications/shared/notification.service';
-import { NavbarBaseComponent } from './navbar-base/navbar-base.component';
 import { NavbarSearchComponent } from './navbar-search/navbar-search.component';
 
 @NgModule({
@@ -23,12 +22,10 @@ import { NavbarSearchComponent } from './navbar-search/navbar-search.component';
   declarations: [
     NavbarAdminComponent,
     UserNavComponent,
-    NavbarBaseComponent,
     NavbarSearchComponent
   ],
   exports: [
     NavbarAdminComponent,
-    NavbarBaseComponent,
     NavbarSearchComponent,
     UserNavComponent
   ],

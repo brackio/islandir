@@ -1,64 +1,67 @@
-<form novalidate [formGroup]="form" (ngSubmit)="save(form.value)" fxFlex fxFlex.gt-sm="40rem">
+<div fxLayout="row"
+     fxLayoutAlign="center start">
+  <form novalidate [formGroup]="form" (ngSubmit)="save(form.value)" fxFlex fxFlex.gt-sm="40rem">
 
-  <mat-card>
-    <div *ngIf="editMode" class="pull-right">
-      <button type="button" mat-icon-button [matMenuTriggerFor]="menu">
-        <mat-icon>more_vert</mat-icon>
-      </button>
-      <mat-menu #menu="matMenu">
-        <button type="button" (click)="delete()" mat-menu-item>
-          <mat-icon>delete</mat-icon>
-          <span>Delete</span>
+    <mat-card>
+      <div *ngIf="editMode" class="pull-right">
+        <button type="button" mat-icon-button [matMenuTriggerFor]="menu">
+          <mat-icon>more_vert</mat-icon>
         </button>
-      </mat-menu>
-    </div>
-
-    <h2 class="mat-h2">Edit Country</h2>
-
-    <mat-card-content>
-      <div fxLayout="column" fxLayoutAlign="start stretch" class="form-content">
-
-        <mat-form-field class="full-width">
-          <input matInput placeholder="Name" formControlName="name" type="text">
-          <mat-error>Name is required.</mat-error>
-        </mat-form-field>
-
-        <mat-form-field>
-          <input matInput placeholder="Code" formControlName="code" type="text">
-          <mat-error>Code is required.</mat-error>
-        </mat-form-field>
-
-        <div formArrayName="territories">
-          <div fxLayout="row" fxLayoutGap="0.5rem" *ngFor="let territory of territories.controls; let i=index;">
-              <mat-form-field class="full-width">
-                <input matInput placeholder="Territory" [formControlName]="i" type="text">
-              </mat-form-field>
-
-              <button type="button" mat-icon-button style="align-self: center;" *ngIf="i>0" (click)="removeTerritory(i)">
-                <mat-icon aria-label="remove territory">close</mat-icon>
-              </button>
-            </div>
-            <div class="text-right"><button type="button" (click)="addTerritory()" mat-button class="text-upper">Add Territory</button></div>
-          </div>
-        <mat-checkbox
-          color="primary"
-          formControlName="hasZipCode">
-          Has Zip Code
-        </mat-checkbox>
-
-        <mat-checkbox
-          color="primary"
-          formControlName="active">
-          Active
-        </mat-checkbox>
+        <mat-menu #menu="matMenu">
+          <button type="button" (click)="delete()" mat-menu-item>
+            <mat-icon>delete</mat-icon>
+            <span>Delete</span>
+          </button>
+        </mat-menu>
       </div>
-    </mat-card-content>
 
-    <mat-card-footer class="form-card-footer">
+      <h2 class="mat-h2">Edit Country</h2>
 
-      <button type="button" mat-button class="text-upper" (click)="cancel()">Cancel</button>
-      <button type="submit" mat-button [disabled]="!form.valid || form.pristine" class="text-upper" color="primary">Save</button>
+      <mat-card-content>
+        <div fxLayout="column" fxLayoutAlign="start stretch" class="form-content">
 
-    </mat-card-footer>
-  </mat-card>
-</form>
+          <mat-form-field class="full-width">
+            <input matInput placeholder="Name" formControlName="name" type="text">
+            <mat-error>Name is required.</mat-error>
+          </mat-form-field>
+
+          <mat-form-field>
+            <input matInput placeholder="Code" formControlName="code" type="text">
+            <mat-error>Code is required.</mat-error>
+          </mat-form-field>
+
+          <div formArrayName="territories">
+            <div fxLayout="row" fxLayoutGap="0.5rem" *ngFor="let territory of territories.controls; let i=index;">
+                <mat-form-field class="full-width">
+                  <input matInput placeholder="Territory" [formControlName]="i" type="text">
+                </mat-form-field>
+
+                <button type="button" mat-icon-button style="align-self: center;" *ngIf="i>0" (click)="removeTerritory(i)">
+                  <mat-icon aria-label="remove territory">close</mat-icon>
+                </button>
+              </div>
+              <div class="text-right"><button type="button" (click)="addTerritory()" mat-button class="text-upper">Add Territory</button></div>
+            </div>
+          <mat-checkbox
+            color="primary"
+            formControlName="hasZipCode">
+            Has Zip Code
+          </mat-checkbox>
+
+          <mat-checkbox
+            color="primary"
+            formControlName="active">
+            Active
+          </mat-checkbox>
+        </div>
+      </mat-card-content>
+
+      <mat-card-footer class="form-card-footer">
+
+        <button type="button" mat-button class="text-upper" (click)="cancel()">Cancel</button>
+        <button type="submit" mat-button [disabled]="!form.valid || form.pristine" class="text-upper" color="primary">Save</button>
+
+      </mat-card-footer>
+    </mat-card>
+  </form>
+</div>

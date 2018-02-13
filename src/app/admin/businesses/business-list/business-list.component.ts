@@ -38,7 +38,7 @@ export class BusinessListComponent implements OnInit {
 
   public onBusinessSelected(row: Business): void {
     // this.router.navigate([row.slug], { relativeTo: this.route });
-    this.router.navigate([`business/${row.slug}/edit`]);
+    this.router.navigate([`business/${row.slug}`]);
   }
 
   public onPageChange(event: PageEvent): void {

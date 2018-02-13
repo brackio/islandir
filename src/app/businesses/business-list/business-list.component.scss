@@ -12,15 +12,32 @@
     right: 0;
     overflow: hidden;
 
-    //.content {
-    //  position: relative;
-    //  z-index: 1;
-    //  box-sizing: border-box;
-    //  -webkit-overflow-scrolling: touch;
-    //  display: block;
-    //  flex: 1;
-      //position: relative;/* need this to position inner content */
-      //overflow-y: auto;
+    .content {
+      flex: 1;
+      overflow: auto;
+
+      .section {
+        @media (min-width: $gt-xs) {
+          margin: 1rem;
+        }
+
+
+        .filters {
+          padding: 1rem;
+          box-sizing: border-box;
+          background-color: $primary-color-light;
+          margin-bottom: 1.5rem;
+
+        }
+
+        .results {
+          .map {
+            margin-left: 2rem;
+          }
+        }
+      }
+
+    }
 
       /*.filters {
         background-color: #fff;
@@ -94,116 +111,88 @@
       }*/
 
 
-      .results {
-        overflow: auto;
-        flex: 1;
-
-        //@media(min-width: $gt-sm) {
-        //  margin-left: 280px;
-        //}
-
-        .r-header {
-          margin: 16px;
-          .highlight {
-            color: $accent-color-dark;
-          }
-        }
-
-        .r-body {
-
-
-          .data {
-            max-width: 80rem;
-            &:after {
-              content: '';
-              flex: auto;
-            }
-
-            //@media (max-width: $sm) {
-            //  padding: 0 16px;
-            //}
-
-            a.card {
-              //min-width: 25%;\
-              //flex-grow: 1;
-              padding: 8px;
-              box-sizing: border-box;
-
-
-              @media (max-width: $xs) {
-                margin: 8px 0;
-              }
-
-              .mat-card {
-                .title {
-                  font-weight: 500;
-                  font-size: 16px;
-                  position: relative;
-                }
-
-                .bookmark {
-                  color: #999;
-                }
-
-                .sub-title {
-                  color: rgba(0, 0, 0, .54);
-                  font-size: 13px;
-                  max-width: 285px;
-
-                  @media (max-width: $xs) {
-                    max-width: 320px;
-                  }
-
-                  //@media (min-width: $gt-sm) and (max-width: $md) {
-                  //  max-width: 300px;
-                  //}
-                }
-
-                .row {
-                  align-items: center;
-                  color: $text-muted;
-                  .row-icon {
-                    opacity: .54;
-                  }
-
-                  .row-label {
-                    color: $text-muted;
-                    line-height: 24px;
-
-                    a {
-                      color: $text-muted;
-
-                      &:hover {
-                        text-decoration: underline;
-                      }
-                    }
-                  }
-
-                }
-              }
-            }
-
-            .empty-block {
-              text-align: center;
-              align-self: center;
-
-              .mat-icon {
-                color: rgba(0, 0, 0, .54);
-              }
-
-              h2 {
-                color: $text-muted;
-              }
-            }
-          }
-
-          .paginator-wrapper {
-            flex: 0 0 auto;
-            z-index: 1;
-            box-shadow: 0 0 8px rgba(0, 0, 0, .4);
-          }
-        }
-      }
+      //.results {
+      //  overflow: auto;
+      //  flex: 1;
+      //
+      //
+      //
+      //  .r-header {
+      //    margin: 16px;
+      //    .highlight {
+      //      color: $accent-color-dark;
+      //    }
+      //  }
+      //
+      //  .r-body {
+      //
+      //
+      //    .data {
+      //      max-width: 80rem;
+      //      &:after {
+      //        content: '';
+      //        flex: auto;
+      //      }
+      //
+      //
+      //      a.card {
+      //        padding: 8px;
+      //        box-sizing: border-box;
+      //
+      //
+      //        @media (max-width: $xs) {
+      //          margin: 8px 0;
+      //        }
+      //
+      //        .mat-card {
+      //          .title {
+      //            font-weight: 500;
+      //            font-size: 16px;
+      //            position: relative;
+      //          }
+      //
+      //          .bookmark {
+      //            color: #999;
+      //          }
+      //
+      //          .sub-title {
+      //            color: rgba(0, 0, 0, .54);
+      //            font-size: 13px;
+      //            max-width: 285px;
+      //
+      //            @media (max-width: $xs) {
+      //              max-width: 320px;
+      //            }
+      //
+      //          }
+      //
+      //          .row {
+      //            align-items: center;
+      //            color: $text-muted;
+      //            .row-icon {
+      //              opacity: .54;
+      //            }
+      //
+      //            .row-label {
+      //              color: $text-muted;
+      //              line-height: 24px;
+      //
+      //              a {
+      //                color: $text-muted;
+      //
+      //                &:hover {
+      //                  text-decoration: underline;
+      //                }
+      //              }
+      //            }
+      //
+      //          }
+      //        }
+      //      }
+      //    }
+      //
+      //  }
+      //}
     }
-  //}
+
 }

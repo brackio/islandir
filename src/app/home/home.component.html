@@ -1,29 +1,42 @@
-<div class="container" fxLayout="column" fxFlexFill [ngStyle]="themeStyles">
+<div class="container" fxLayout="column" fxFlexFill>
 
   <td-message
     *ngIf="auth.isAuthenticated() && !user.verified"
     sublabel="An email containing verification instructions was sent to {{ user.email }}" color="accent" icon="info">
   </td-message>
 
-  <mat-toolbar>
-    <mat-toolbar-row>
-      <a fxHide.gt-sm routerLink="/" class="app-logo"><mat-icon  svgIcon="islandir-dark"></mat-icon></a>
-      <span fxFlex></span>
-      <ilr-user-nav></ilr-user-nav>
-    </mat-toolbar-row>
+  <mat-toolbar class="mat-elevation-z2">
+    <a routerLink="/" class="app-logo"><mat-icon  svgIcon="islandir-dark"></mat-icon></a>
 
-    <!--<mat-toolbar-row fxHide.lt-md fxLayoutAlign="center start">-->
-      <!--<a routerLink="/"><mat-icon class="hero-logo" svgIcon="islandir-dark"></mat-icon></a>-->
-    <!--</mat-toolbar-row>-->
+    <nav class="nav-tab" mat-tab-nav-bar color="primary" fxHide.lt-md>
+      <a mat-tab-link
+         routerLink="/{{country?.code}}"
+         routerLinkActive #rla="routerLinkActive"
+         [active]="rla.isActive"
+         class="text-upper"
+         [routerLinkActiveOptions]="{ exact: true }">
+        home
+      </a>
+
+      <a mat-tab-link
+         routerLink="/business-owners"
+         routerLinkActive #brla="routerLinkActive"
+         [active]="brla.isActive"
+         class="text-upper"
+         [routerLinkActiveOptions]="{ exact: true }">
+        business owners
+      </a>
+    </nav>
+
+    <span fxFlex></span>
+    <ilr-user-nav></ilr-user-nav>
   </mat-toolbar>
 
-  <div fxFlex class="content">
-    <div fxLayout="row" fxLayoutAlign="start stretch">
+  <div fxFlex class="content bg-theme {{country.code}}-theme" [ngStyle]="themeStyles" [ngClass]="{'no-theme': !themeStyles }">
+    <div fxFlex fxLayout="row" fxLayoutAlign="center start">
 
-      <div fxFlex fxLayout="column" fxLayoutAlign="start stretch">
-        <h1 fxHide.lt-md class="mat-headline text-center"><a routerLink="/"><mat-icon class="hero-logo" svgIcon="islandir-dark"></mat-icon></a></h1>
-
-        <h1 class="mat-title text-center text-caps tag-line">find reliable services in {{country.name}}</h1>
+      <div fxLayout="column" fxLayoutAlign="start stretch" style="height: 100%;">
+        <h2 class="mat-headline text-center text-caps tag-line">find reliable services in {{country.name}}</h2>
 
         <div class="search-container" fxLayout="row" fxLayoutAlign="center center">
           <ilr-search fxFlex.xs="95" fxFlex.sm="90" fxFlex.md="712px" fxFlex.gt-md="872px"></ilr-search>
@@ -32,23 +45,26 @@
         <div class="services-container" fxLayout="row" fxLayoutAlign="center start">
           <mat-chip-list>
             <mat-chip class="topic-tag"
-                      selected="false"
+                      color="primary"
+                      selected="true"
                       (click)="tagSelected(tag)"
                       *ngFor="let tag of theme?.topics[0]?.tags">{{tag}}
             </mat-chip>
           </mat-chip-list>
         </div>
 
-        <div class="card mat-elevation-z1 promote" fxLayout="row" fxLayoutGap="1rem" fxFlexAlign="center">
+        <span fxHide.lt-md class="fill-space"></span>
+
+        <div class="card mat-elevation-z1 promote" fxHide.lt-md fxLayout="row" fxLayoutGap="1rem" fxFlexAlign="center">
           <div class="img-wrapper" fxFlexAlign="center">
-            <img src="../../assets/img/market.png">
+            <img src="../../assets/images/market.png">
           </div>
           <div fxFlex>
             <p class="mat-body-1">
               Grow your business today! Bring more customers to your door and turn them into regulars.
             </p>
             <a routerLink="/business-owners"
-               class="text-upper mat-caption text-right"
+               class="text-upper mat-caption"
                style="color: #F50057; font-weight: 500; display: block; margin-top: -4px;">
               get started here
             </a>
@@ -62,8 +78,8 @@
   <div class="footer">
     <div class="categories mat-body-2" fxLayout="row" fxLayoutAlign="space-between center">
       <div>
-        <i class="align-middle flag flag-{{country.code}}"></i>
-        <span class="text-caps" routerLink="/">{{country.name}}</span>
+        <i class="align-middle flag flag-{{country?.code}}" style="margin-right: 4px;"></i>
+        <span class="text-caps">{{country.name}}</span>
       </div>
       <div class="terms-list" fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="0.5rem" fxLayoutGap.gt-xs="1rem">
         <a routerLink="/terms-of-service">Terms</a>
@@ -74,8 +90,8 @@
 
   <div class="footer footer-sm" fxLayout="row" fxLayoutAlign="space-between center">
     <div fxLayout="row" fxLayoutGap="0.5rem" fxLayoutGap.gt-xs="1rem">
-      <a routerLink="business-owners">Business</a>
-      <a routerLink="advertise-with-us">Advertising</a>
+      <a routerLink="/business-owners">Business</a>
+      <a routerLink="/advertise-with-us">Advertising</a>
     </div>
     <div class="mat-caption">© Copyright {{currentYear}}. All rights reserved.&nbsp;&nbsp;&nbsp;<a fxHide.xs class="text-muted" href="https://brackio.com" target="_blank">Built by brackio.com</a></div>
   </div>
@@ -85,7 +101,7 @@
 <mat-card *ngIf="showRedirectPanel" class="country-redirect mat-elevation-z9">
   <mat-card-content>
     <h4 class="mat-subheading-2">Redirect to islandir for {{redirectCountry.name}}</h4>
-    <h4 class="mat-subheading-1 text-muted">We've detected you are located in {{redirectCountry.name}}. Do you want to redirect to islandir.com/{{redirectCountry.code}}?</h4>
+    <h4 class="mat-subheading-1 text-muted">We've detected you are located in {{redirectCountry.name}}. Do you want to redirect to islandir.com/{{redirectCountry?.code}}?</h4>
   </mat-card-content>
   <mat-divider></mat-divider>
   <mat-card-actions align="end">
